@@ -4,7 +4,8 @@ var config = {
   initialPosition: 'fen string or position object',
   showNotation: false // or 'edges' or 'squares',
   orientation: 'white',
-  onChange: changeFunction
+  onChange: changeFunction,
+  offBoard: 'trash', // or 'snapback'
   staticPieces: true // or false
 };
 var board1 = new ChessBoard(config);
@@ -50,17 +51,16 @@ ChessBoard.FENToObj('FEN string');
 
 var init = function() {
 
-  var RUY_LOPEZ = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R/w';
+  var RUY_LOPEZ = '2bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R/w';
 
   var config = {
-
+    showNotation: 'asdf'
   };
   var board1 = new ChessBoard('board1', config);
-  //board1.position('start');
 
 
-  var board2 = new ChessBoard('board2', {});
-  board2.orientation('black');
+  //var board2 = new ChessBoard('board2', {});
+  //board2.orientation('black');
 
   $('#btn1-clear').on('click', board1.clear);
   $('#btn1-start').on('click', board1.start);
@@ -69,11 +69,17 @@ var init = function() {
     board1.position(RUY_LOPEZ);
   });
   $('#btn1-move').on('click', function() {
-    board1.move('a2', 'b4');
+    //board1.move('b1', 'c2');
+    /*
+    board1.move({
+      a2: 'a3',
+      a1: 'a2'
+    });
+    */
+    board1.destroy();
   });
 
-  $('#btn2').on('click', board2.flip);
-
+  //$('#btn2').on('click', board2.flip);
 };
 $(document).ready(init);
 

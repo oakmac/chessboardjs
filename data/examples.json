@@ -1,0 +1,281 @@
+[
+"-----------------------------------------------------",
+{
+  "group": "Basic Usage",
+  "number": 1000,
+  "name": "Initialize Empty Board"
+},
+{
+  "group": "Basic Usage",
+  "number": 1002,
+  "name": "Initialize Board to Start Position"
+},
+{
+  "group": "Basic Usage",
+  "number": 1003,
+  "name": "Initialize Board from FEN"
+},
+{
+  "group": "Basic Usage",
+  "number": 1004,
+  "name": "Initialize Board from Position Object"
+},
+{
+  "group": "Basic Usage",
+  "number": 1005,
+  "name": "Multiple Boards"
+},
+"-----------------------------------------------------",
+{
+  "group": "AJAX",
+  "number": 2000,
+  "name": "Simple AJAX"
+},
+{
+  "group": "AJAX",
+  "number": 2001,
+  "name": "AJAX with local Options"
+},
+{
+  "group": "AJAX",
+  "number": 2002,
+  "name": "Nested Lists with AJAX"
+},
+{
+  "group": "AJAX",
+  "number": 2003,
+  "name": "AJAX with preProcess function"
+},
+{
+  "group": "AJAX",
+  "number": 2004,
+  "name": "AJAX using POST"
+},
+{
+  "group": "AJAX",
+  "number": 2020,
+  "name": "cache AJAX"
+},
+{
+  "group": "AJAX",
+  "number": 2021,
+  "name": "cache AJAX length"
+},
+"-----------------------------------------------------",
+{
+  "group": "Initial Config",
+  "number": 3000,
+  "name": "initialValue"
+},
+{
+  "group": "Initial Config",
+  "number": 3001,
+  "name": "maxTokenGroups"
+},
+{
+  "group": "Initial Config",
+  "number": 3005,
+  "name": "placeholderHTML"
+},
+{
+  "group": "Initial Config",
+  "number": 3012,
+  "name": "showErrors console.log"
+},
+{
+  "group": "Initial Config",
+  "number": 3088,
+  "name": "showErrors alert",
+  "hidden":true
+},
+{
+  "group": "Initial Config",
+  "number": 3031,
+  "name": "showErrors custom"
+},
+{
+  "group": "Initial Config",
+  "number": 3015,
+  "name": "tokenSeparatorHTML string"
+},
+{
+  "group": "Initial Config",
+  "number": 3016,
+  "name": "tokenSeparatorHTML function"
+},
+"-----------------------------------------------------",
+{
+  "group": "List Config",
+  "number": 4055,
+  "name": "ajaxErrorHTML string"
+},
+{
+  "group": "List Config",
+  "number": 4072,
+  "name": "ajaxErrorHTML function"
+},
+{
+  "group": "List Config",
+  "number": 4011,
+  "name": "ajaxLoadingHTML string"
+},
+{
+  "group": "List Config",
+  "number": 4037,
+  "name": "ajaxLoadingHTML function"
+},
+{
+  "group": "List Config",
+  "number": 4014,
+  "name": "Basic allowFreeform"
+},
+{
+  "group": "List Config",
+  "number": 4001,
+  "name": "allowFreeform Multiple Lists"
+},
+{
+  "group": "List Config",
+  "number": 4002,
+  "name": "cacheAjax"
+},
+{
+  "group": "List Config",
+  "number": 4003,
+  "name": "children on List Object"
+},
+{
+  "group": "List Config",
+  "number": 4041,
+  "name": "matchOptions"
+},
+{
+  "group": "List Config",
+  "number": 4007,
+  "name": "noResultsHTML"
+},
+{
+  "group": "List Config",
+  "number": 4033,
+  "name": "optionHTML string"
+},
+{
+  "group": "List Config",
+  "number": 4034,
+  "name": "optionHTML and tokenHTML as functions"
+},
+{
+  "group": "List Config",
+  "number": 4009,
+  "name": "tokenHTML"
+},
+{
+  "group": "List Config",
+  "number": 4013,
+  "name": "options"
+},
+"-----------------------------------------------------",
+{
+  "group": "Option Config",
+  "number": 5022,
+  "name": "children override on Option Object"
+},
+{
+  "group": "Option Config",
+  "number": 5000,
+  "name": "children"
+},
+{
+  "group": "Option Config",
+  "number": 5001,
+  "name": "group"
+},
+{
+  "group": "Option Config",
+  "number": 5002,
+  "name": "optionHTML"
+},
+{
+  "group": "Option Config",
+  "number": 5003,
+  "name": "tokenHTML"
+},
+{
+  "group": "Option Config",
+  "number": 5004,
+  "name": "value"
+},
+"-----------------------------------------------------",
+{
+  "group": "Events",
+  "number": 6000,
+  "name": "onChange - Basic Usage"
+},
+{
+  "group": "Events",
+  "number": 6001,
+  "name": "onChange - Modify Value"
+},
+"-----------------------------------------------------",
+{
+  "group": "Methods",
+  "number": 7000,
+  "name": "addOption"
+},
+{
+  "group": "Methods",
+  "number": 7001,
+  "name": "blur"
+},
+{
+  "group": "Methods",
+  "number": 7002,
+  "name": "clear"
+},
+{
+  "group": "Methods",
+  "number": 7003,
+  "name": "destroy"
+},
+{
+  "group": "Methods",
+  "number": 7004,
+  "name": "focus"
+},
+{
+  "group": "Methods",
+  "number": 7005,
+  "name": "getList"
+},
+{
+  "group": "Methods",
+  "number": 7006,
+  "name": "getLists"
+},
+{
+  "group": "Methods",
+  "number": 7007,
+  "name": "getValue"
+},
+{
+  "group": "Methods",
+  "number": 7008,
+  "name": "removeList"
+},
+{
+  "group": "Methods",
+  "number": 7009,
+  "name": "removeTokenGroup"
+},
+{
+  "group": "Methods",
+  "number": 7011,
+  "name": "setValue"
+},
+{
+  "group": "Methods",
+  "number": 7056,
+  "name": "Simulate User Input"
+},
+"-----------------------------------------------------"
+]

@@ -1,0 +1,1157 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ChessBoardJS &raquo; Documentation</title>
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="css/normalize-2.1.2.min.css" />
+  <link rel="stylesheet" href="css/foundation-3.2.5.min.css" />
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold|Droid+Sans+Mono" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/chessboard.css" />
+</head>
+<body>
+
+<div id="top-nav-bar" class="contain-to-grid">
+<div class="top-bar">
+  <ul>
+    <li class="name"><h1><a href="index.html">ChessBoardJS</a></h1></li>
+  </ul>
+  <ul class="right">
+    <li class="divider"></li>
+    <li><a href="index.html">Home</a></li>
+    <li class="divider"></li>
+    <li><a href="examples.html">Examples</a></li>
+    <li class="divider"></li>
+    <li class="active"><a href="docs.html">Docs</a></li>
+    <li class="divider"></li>
+    <li><a href="download.html">Download</a></li>
+    <li class="divider"></li>
+  </ul>
+</div>
+</div><!-- end #top-nav-bar -->
+
+<div class="row" id="body_container">
+<div class="twelve columns">
+
+<div class="section">
+<h2 id="config_object">Config Object</h2>
+<p>The Config Object initializes the ChessBoard widget.</p>
+<p>You define your <a href="docs#list_object">List Objects</a> - which control which options are available to the user - on the <a href="docs#config_object:lists"><code class="js plain">lists</code></a> property.</p>
+<p>As a shorthand method, you can provide an array of <a href="docs#option_object">Option Objects</a> to the config object and it will be expanded as the default list for the widget. See the <a href="examples#1000">Simple List Example</a>.</p>
+<p>As another shorthand method, you can provide a single string value and AutoComplete assumes it's an AJAX url. See the <a href="examples#2000">Simple AJAX example</a>.</p>
+<table cellspacing="0">
+<thead>
+<tr>
+  <th>Property / Type</th>
+  <th>Required</th>
+  <th>Default</th>
+  <th>Description</th>
+  <th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr id="config_object:initialList">
+  <td>
+    <p><a href="docs#config_object:initialList"><code class="js plain">initialList</code></a></p>
+    <p>String</p>
+  </td>
+  <td class="center">sometimes</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>The <code class='js plain'>initialList</code> property is the first list started when the user clicks on the AutoComplete widget.</p>
+    <p>It's value should be the name of a <a href='docs#list_object'>List Object</a>.</p>
+    <p><code class='js plain'>initialList</code> is required when there are more than one List Objects on <a href='docs#config_object:lists'><code class='js plain'>config.lists</code></a>.</p>
+  </td>
+  <td>
+    <p><a href="examples#1002">Nested Lists 1</a></p>
+    <p><a href="examples#1003">Nested Lists 3</a></p>
+  </td>
+</tr>
+<tr id="config_object:initialValue">
+  <td>
+    <p><a href="docs#config_object:initialValue"><code class="js plain">initialValue</code></a></p>
+    <p>Array of<br /><a href='docs#token_object'>Token Groups</a></p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>If provided, sets the initial value of the AutoComplete widget.</p>
+  </td>
+  <td>
+    <p><a href="examples#3000">initialValue</a></p>
+  </td>
+</tr>
+<tr id="config_object:lists">
+  <td>
+    <p><a href="docs#config_object:lists"><code class="js plain">lists</code></a></p>
+    <p>Object of<br /><a href='docs#list_object'>List Objects</a></p>
+  </td>
+  <td class="center">yes</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>The <code class='js plain'>lists</code> property contains all of the lists used to power the dropdown options.</p>
+    <p><code class='js plain'>lists</code> should be an object where the property values are the names of lists, and the values are <a href='docs#list_object'>List Objects</a>.</p>
+  </td>
+  <td>
+    <p><a href="examples#1002">Nested Lists 1</a></p>
+    <p><a href="examples#1003">Nested Lists 3</a></p>
+  </td>
+</tr>
+<tr id="config_object:maxTokenGroups">
+  <td>
+    <p><a href="docs#config_object:maxTokenGroups"><code class="js plain">maxTokenGroups</code></a></p>
+    <p>Number <small>or</small><br /><code class='js keyword'>false</code></p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><code class='js keyword'>false</code></td>
+  <td>
+    <p>The maximum number of Token Groups allowed in the search bar.</p>
+    <p>Set <code class='js plain'>maxTokenGroups</code> to <code class='js keyword'>false</code> to allow unlimited <a href='docs#token_object'>Token Groups</a>.</p>
+  </td>
+  <td>
+    <p><a href="examples#3001">maxTokenGroups</a></p>
+  </td>
+</tr>
+<tr id="config_object:onChange">
+  <td>
+    <p><a href="docs#config_object:onChange"><code class="js plain">onChange</code></a></p>
+    <p>Function</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>Function to execute when the value of the widget changes.</p>
+    <p>The first argument to the function is the new value of the widget, the second argument is the old value of the widget.</p>
+    <p>If this function returns a valid widget value, then that value becomes the value of the widget.  If not, the original new value becomes the value of the widget.</p>
+  </td>
+  <td>
+    <p><a href="examples#6000">onChange - Basic Usage</a></p>
+    <p><a href="examples#6001">onChange - Modify Value</a></p>
+  </td>
+</tr>
+<tr id="config_object:placeholderHTML">
+  <td>
+    <p><a href="docs#config_object:placeholderHTML"><code class="js plain">placeholderHTML</code></a></p>
+    <p>String</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><code class='js string'>''</code></td>
+  <td>
+    <p>A placeholder to show in the AutoComplete widget when there are no Token Groups.</p>
+  </td>
+  <td>
+    <p><a href="examples#3005">placeholderHTML</a></p>
+  </td>
+</tr>
+<tr id="config_object:showErrors">
+  <td>
+    <p><a href="docs#config_object:showErrors"><code class="js plain">showErrors</code></a></p>
+    <p><code class='js keyword'>false</code> <small>or</small><br />String <small>or</small><br />Function</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p><code class='js plain'>showErrors</code> is an optional parameter to control how AutoComplete reports errors.</p>
+    <p>Every error in AutoComplete has a <a href='docs#errors'>unique code</a> to help diagnose problems and search for solutions.</p>
+    <p>If <code class='js plain'>showErrors</code> is <code class='js keyword'>false</code> then errors will be ignored.</p>
+    <p>If <code class='js plain'>showErrors</code> is <code class='js string'>'console'</code> then errors will be sent to <code class='js plain'>console.log()</code>.</p>
+    <p>If <code class='js plain'>showErrors</code> is <code class='js string'>'alert'</code> then errors will be sent to <code class='js plain'>window.alert()</code>.</p>
+    <p>If <code class='js plain'>showErrors</code> is a function then the first argument is the unique error code, the second argument is an error string, and an optional third argument is a data structure that is relevant to the error.</p>
+  </td>
+  <td>
+    <p><a href="examples#3012">showErrors console.log</a></p>
+    <p><a href="examples#3088">showErrors alert</a></p>
+  </td>
+</tr>
+<tr id="config_object:tokenSeparatorHTML">
+  <td>
+    <p><a href="docs#config_object:tokenSeparatorHTML"><code class="js plain">tokenSeparatorHTML</code></a></p>
+    <p>String <small>or</small><br />Function</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><code class='js string'>':'</code></td>
+  <td>
+    <p>The HTML string to put between <a href='docs#token_object'>Tokens</a> in the search bar.</p>
+    <p>If <code class='js plain'>tokenSeparatorHTML</code> is a function the first argument is the Token Object to the left of the separator, the second argument is the Token Object to the right.</p>
+    <p>The function should return an HTML string.</p>
+  </td>
+  <td>
+    <p><a href="examples#3015">tokenSeparatorHTML string</a></p>
+    <p><a href="examples#3016">tokenSeparatorHTML function</a></p>
+  </td>
+</tr>
+</tbody>
+</table>
+</div><!-- end div.section -->
+
+<hr class="divider" />
+
+<div class="section">
+<h2 id="list_object">List Object</h2>
+<div class="panel etymology">
+  <div class="word">list</div>
+  <div class="part-of-speech">Noun</div>
+  <div class="definition">A number of connected items or names written or printed consecutively, typically one below the other.</div>
+</div>
+<p>List Objects are the heart of the AutoComplete widget. They define the options available to the user when they are typing.</p>
+<p>The options for a List Object can be sourced directly in the JavaScript or externally with AJAX.</p>
+<p>You can define the list workflow using the <a href="docs#list_object:children"><code class='js plain'>children</code></a> property on List Objects.</p>
+<p>As a shorthand method, you can provide an array of <a href="docs#option_object">Option Objects</a> anywhere that expects a full List Object. See the <a href="examples#1002">Nested Lists example</a>.</p>
+<p>As another shorthand method, you can provide a single string value and AutoComplete assumes it's an AJAX url. See the <a href="examples#2002">Nested Lists with AJAX example</a>.</p>
+<table cellspacing="0">
+<thead>
+<tr>
+  <th>Property / Type</th>
+  <th>Required</th>
+  <th>Default</th>
+  <th>Description</th>
+  <th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr id="list_object:ajaxErrorHTML">
+  <td>
+    <p><a href="docs#list_object:ajaxErrorHTML"><code class="js plain">ajaxErrorHTML</code></a></p>
+    <p>String <small>or</small><br />Function</p>
+  </td>
+  <td class="center">no</td>
+  <td><code class='js string'>'AJAX Error'</code></td>
+  <td>
+    <p>An HTML string to display when an AJAX request has failed.</p>
+    <p>If <code class='js plain'>ajaxErrorHTML</code> is a function, the first argument is the type of error that has occurred, the second argument is the text that the user has entered, and the third argument is the current value of the AutoComplete widget.</p>
+    <p>Possible values for the first argument are: <code class='js string'>'timeout'</code>, <code class='js string'>'error'</code>, and <code class='js string'>'parsererror'</code>.  Note: you will never see <code class='js string'>'abort'</code>, as this is handled internally by AutoComplete.</p>
+    <p>The function should return an HTML string.</p>
+  </td>
+  <td>
+    <p><a href="examples#4055">ajaxErrorHTML string</a></p>
+    <p><a href="examples#4072">ajaxErrorHTML function</a></p>
+  </td>
+</tr>
+<tr id="list_object:ajaxLoadingHTML">
+  <td>
+    <p><a href="docs#list_object:ajaxLoadingHTML"><code class="js plain">ajaxLoadingHTML</code></a></p>
+    <p>String <small>or</small><br />Function</p>
+  </td>
+  <td class="center">no</td>
+  <td><code class='js string'>'Searching<br />&amp;hellip;'</code></td>
+  <td>
+    <p>An HTML string to display when searching for options.</p>
+    <p>If <code class='js plain'>ajaxLoadingHTML</code> is a function, the first argument is the text that the user has entered and the second argument is the current value of the AutoComplete widget.</p>
+    <p>The function should return an HTML string.</p>
+  </td>
+  <td>
+    <p><a href="examples#4011">ajaxLoadingHTML string</a></p>
+    <p><a href="examples#4037">ajaxLoadingHTML function</a></p>
+  </td>
+</tr>
+<tr id="list_object:ajaxOpts">
+  <td>
+    <p><a href="docs#list_object:ajaxOpts"><code class="js plain">ajaxOpts</code></a></p>
+    <p>Object <small>or</small><br />Function</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>Internally, AutoComplete uses the jQuery <a href='http://api.jquery.com/jQuery.ajax/' target='_blank'><code class='js plain'>$.ajax()</code></a> method to make AJAX requests.</p>
+    <p>If provided, <code class='js plain'>ajaxOpts</code> will be called with <a href='http://api.jquery.com/jQuery.extend/'><code class='js plain'>$.extend()</code></a> against the default settings.</p>
+    <p>You can override any <code class='js plain'>$.ajax()</code> parameter except: <code class='js plain'>async</code>, <code class='js plain'>complete</code>, <code class='js plain'>error</code>, <code class='js plain'>statusCode</code>, <code class='js plain'>success</code> (ie: parameters that effect control flow)</p>
+    <p>If <code class='js plain'>ajaxOpts</code> is a function the first argument is the text that the user has typed and the second argument is the current value of the AutoComplete widget.</p>
+    <p>The function should return an object to pass to <code class='js plain'>$.ajax()</code>.</p>
+  </td>
+  <td>
+    <p><a href="examples#2004">AJAX using POST</a></p>
+    <p><a href="examples#2003">AJAX with preProcess function</a></p>
+  </td>
+</tr>
+<tr id="list_object:ajaxOpts.preProcess">
+  <td>
+    <p><a href="docs#list_object:ajaxOpts.preProcess"><code class="js plain">ajaxOpts.preProcess</code></a></p>
+    <p>Function</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p><code class='js plain'>preProcess</code> is an optional function that will be called after the AJAX request has finished and before the options are shown.</p>
+    <p>The first argument is the data returned by the server, the second argument is the text that the user has entered, and the third argument is the current value of the AutoComplete widget.</p>
+    <p>The function should return an array of <a href='docs#option_object'>Option Objects</a>.</p>
+    <p><code class='js plain'>preProcess</code> is independent of the jQuery <code class='js plain'>$.ajax()</code> method.</p>
+  </td>
+  <td>
+    <p><a href="examples#2003">AJAX with preProcess function</a></p>
+  </td>
+</tr>
+<tr id="list_object:ajaxOpts.url">
+  <td>
+    <p><a href="docs#list_object:ajaxOpts.url"><code class="js plain">ajaxOpts.url</code></a></p>
+    <p>String <small>or</small><br />Function</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>The url to send an AJAX request to.</p>
+    <p>The string <code class='js string'>'{input}'</code> will be replaced with the text the user has typed.</p>
+    <p>The text will be escaped using <code class='js plain'>encodeURIComponent()</code>.</p>
+    <p>If <code class='js plain'>url</code> is a function, the first argument is the text that the user has typed and the second argument is the current value of the AutoComplete widget.</p>
+    <p>The function should return a url string.</p>
+  </td>
+  <td>
+    <p><a href="examples#2001">AJAX with local Options</a></p>
+  </td>
+</tr>
+<tr id="list_object:allowFreeform">
+  <td>
+    <p><a href="docs#list_object:allowFreeform"><code class="js plain">allowFreeform</code></a></p>
+    <p>Boolean</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><code class='js keyword'>false</code></td>
+  <td>
+    <p>If <code class='js keyword'>true</code>, allows the user to enter free-form text in the search bar.</p>
+    <p>If <code class='js keyword'>false</code>, the user must select an option from the dropdown list.</p>
+    <p>There can still be options when <code class='js plain'>allowFreeform</code> is set to <code class='js keyword'>true</code>, but the user does not have to select one.</p>
+  </td>
+  <td>
+    <p><a href="examples#4014">Basic allowFreeform</a></p>
+    <p><a href="examples#4001">allowFreeform Multiple Lists</a></p>
+  </td>
+</tr>
+<tr id="list_object:cacheAjax">
+  <td>
+    <p><a href="docs#list_object:cacheAjax"><code class="js plain">cacheAjax</code></a></p>
+    <p>Boolean</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><code class='js keyword'>false</code></td>
+  <td>
+    <p>If <code class='js keyword'>true</code>, AutoComplete will cache the results of AJAX calls to localStorage using the url as the key.</p>
+    <p>If <code class='js keyword'>false</code>, it will not cache and send a new AJAX request every time.</p>
+    <p>Only HTTP GET requests are cached.</p>
+    <p>If the browser does not support localStorage it will only cache results for the duration of the page.</p>
+    <p>If you need to support browsers that do not have localStorage I recommend using a <a href='https://developer.mozilla.org/en-US/docs/DOM/Storage#localStorage'>polyfill</a>.</p>
+  </td>
+  <td>
+    <p><a href="examples#2020">cache AJAX</a></p>
+  </td>
+</tr>
+<tr id="list_object:cacheAjaxSeconds">
+  <td>
+    <p><a href="docs#list_object:cacheAjaxSeconds"><code class="js plain">cacheAjaxSeconds</code></a></p>
+    <p>Number <small>or</small><br /><code class='js keyword'>false</code></p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><code class='js number'>1209600</code><br />(2 weeks)</td>
+  <td>
+    <p>Length of time in seconds to keep results in the cache.</p>
+    <p>Set <code class='js plain'>cacheAjaxSeconds</code> to <code class='js keyword'>false</code> to cache results indefinitely.</p>
+    <p><code class='js plain'>cacheAjaxSeconds</code> has no effect if <a href='docs#list_object:cacheAjax'><code class='js plain'>cacheAjax</code></a> is <code class='js keyword'>false</code>.</p>
+  </td>
+  <td>
+    <p><a href="examples#2021">cache AJAX length</a></p>
+  </td>
+</tr>
+<tr id="list_object:children">
+  <td>
+    <p><a href="docs#list_object:children"><code class="js plain">children</code></a></p>
+    <p>String</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p><code class='js plain'>children</code> should be the name of a <a href='docs#list_object'>List Object</a> defined on <a href='docs#config_object:lists'><code class='js plain'>config.lists</code></a>.</p>
+    <p>When any option from the list is selected from the dropdown, <code class='js plain'>children</code> is the name of the next list to show in the dropdown.</p>
+    <p>If there is a <a href='docs#option_object:children'><code class='js plain'>children</code></a> property on the Option Object selected it will supersede this <code class='js plain'>children</code> property.</p>
+  </td>
+  <td>
+    <p><a href="examples#4003">children on List Object</a></p>
+    <p><a href="examples#1007">Nested Lists 2</a></p>
+    <p><a href="examples#5022">children override on Option Object</a></p>
+  </td>
+</tr>
+<tr id="list_object:highlightMatches">
+  <td>
+    <p><a href="docs#list_object:highlightMatches"><code class="js plain">highlightMatches</code></a></p>
+    <p>Boolean</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><code class='js keyword'>true</code></td>
+  <td>
+    <p>If <code class='js keyword'>true</code>, AutoComplete will highlight letter matches between what the user has typed and which options have matched.</p>
+    <p>This option programmatically changes the <code class='js plain'>optionHTML</code> value by adding <code class='html'>&lt;strong&gt;</code> tags around matching characters.</p>
+    <p>It tries to not replace letters that are inside HTML tags or special HTML characters, but if you have complicated or invalid HTML markup in your <code class='js plain'>optionHTML</code> it may not highlight correctly.</p>
+    <p><code class='js plain'>highlightMatches</code> is independent of the matching algorithm used.</p>
+  </td>
+  <td>
+  </td>
+</tr>
+<tr id="list_object:matchOptions">
+  <td>
+    <p><a href="docs#list_object:matchOptions"><code class="js plain">matchOptions</code></a></p>
+    <p>Function</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p><code class='js plain'>matchOptions</code> is an optional function you can include to determine which options get shown in the dropdown when the user is typing.</p>
+    <p>The first argument to the function is the text that the user has entered, the second argument are the Option Objects matched by the default algorithm, the third argument is an array of all Option Objects for the current list, and the fourth argument is the current value of the AutoComplete widget.</p>
+    <p>The function should return an array of Option Objects.</p>
+    <p>You can return an array of <em>any</em> Option Objects from this function.  They do not have to come from the existing Option Objects in the list.</p>
+    <p>This function gets executed with every 'keydown' event on the input element so it's in your best interest to make this function as fast as possible.</p>
+  </td>
+  <td>
+    <p><a href="examples#4041">matchOptions</a></p>
+  </td>
+</tr>
+<tr id="list_object:noResultsHTML">
+  <td>
+    <p><a href="docs#list_object:noResultsHTML"><code class="js plain">noResultsHTML</code></a></p>
+    <p>String <small>or</small><br />Function</p>
+  </td>
+  <td class="center">no</td>
+  <td><code class='js string'>'No results found.'</code></td>
+  <td>
+    <p>An HTML string to display when there are no options to show.</p>
+    <p>If <code class='js plain'>noResultsHTML</code> is a function, the first argument is the text that the user has entered and the second argument is the current value of the AutoComplete widget.</p>
+    <p>The function should return an HTML string.</p>
+    <p><code class='js plain'>noResultsHTML</code> will never be shown when <a href='docs#list_object:allowFreeform'><code class='js plain'>allowFreeform</code></a> is <code class='js keyword'>true</code>.</p>
+  </td>
+  <td>
+  </td>
+</tr>
+<tr id="list_object:optionHTML">
+  <td>
+    <p><a href="docs#list_object:optionHTML"><code class="js plain">optionHTML</code></a></p>
+    <p>String <small>or</small><br />Function</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>If <code class='js plain'>optionHTML</code> is a string, option <a href='docs#option_object:value'><code class='js plain'>value</code></a> properties inside curly braces will be replaced with HTML-escaped values.</p>
+    <p>If <code class='js plain'>optionHTML</code> is a function the first argument is the option.</p>
+    <p>The function should return an HTML string.</p>
+    <p>If there is an <a href='docs#option_object:optionHTML'><code class='js plain'>optionHTML</code></a> property on the Option Object selected it will supersede this <code class='js plain'>optionHTML</code> property.</p>
+  </td>
+  <td>
+    <p><a href="examples#4033">optionHTML string</a></p>
+    <p><a href="examples#4034">optionHTML and tokenHTML as functions</a></p>
+  </td>
+</tr>
+<tr id="list_object:tokenHTML">
+  <td>
+    <p><a href="docs#list_object:tokenHTML"><code class="js plain">tokenHTML</code></a></p>
+    <p>String <small>or</small><br />Function</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>If <code class='js plain'>tokenHTML</code> is a string, option <a href='docs#option_object:value'><code class='js plain'>value</code></a> properties inside curly braces will be replaced with HTML-escaped values.</p>
+    <p>If <code class='js plain'>tokenHTML</code> is a function the first argument is the option.</p>
+    <p>The function should return an HTML string.</p>
+    <p>If there is a <a href='docs#option_object:tokenHTML'><code class='js plain'>tokenHTML</code></a> property on the option selected it will supersede this <code class='js plain'>tokenHTML</code> property.</p>
+  </td>
+  <td>
+    <p><a href="examples#4034">optionHTML and tokenHTML as functions</a></p>
+  </td>
+</tr>
+<tr id="list_object:options">
+  <td>
+    <p><a href="docs#list_object:options"><code class="js plain">options</code></a></p>
+    <p>Array of <a href='docs#option_object'>Option Objects</a></p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><code class='js plain'>[]</code></td>
+  <td>
+    <p><code class='js plain'>options</code> is an array of <a href='docs#option_object'>Option Objects</a> that determine which options to show in the dropdown for this list.</p>
+  </td>
+  <td>
+  </td>
+</tr>
+</tbody>
+</table>
+</div><!-- end div.section -->
+
+<hr class="divider" />
+
+<div class="section">
+<h2 id="option_object">Option Object</h2>
+<div class="panel etymology">
+  <div class="word">option</div>
+  <div class="part-of-speech">Noun</div>
+  <div class="definition">A thing that is or may be chosen.</div>
+</div>
+<p>Option Objects are the meat of the AutoComplete widget. They are the options displayed to the user as they type.</p>
+<p>Option Objects can hold any arbitrary value; they are not limited to what the user sees on the screen.</p>
+<p>An Option Object becomes a <a href="docs#token_object">Token Object</a> when the user selects it from the dropdown list.</p>
+<p>You can define the list workflow using the <a href="docs#option_object:children"><code class='js plain'>children</code></a> property on Option Objects.</p>
+<p>As a shorthand method, you can use a string as an Option Object. See the <a href="examples#4014">allowFreeform example</a>.</p>
+<table cellspacing="0">
+<thead>
+<tr>
+  <th>Property / Type</th>
+  <th>Required</th>
+  <th>Default</th>
+  <th>Description</th>
+  <th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr id="option_object:children">
+  <td>
+    <p><a href="docs#option_object:children"><code class="js plain">children</code></a></p>
+    <p>String <small>or</small><br /><code class='js keyword'>false</code></p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p><code class='js plain'>children</code> should be the name of a <a href='docs#list_object'>List Object</a> defined on <a href='docs#config_object:lists'><code class='js plain'>config.lists</code></a>.</p>
+    <p>When any option from the list is selected from the dropdown, <code class='js plain'>children</code> is the name of the next list to show in the dropdown.</p>
+    <p>If <code class='js plain'>children</code> is <code class='js keyword'>false</code>, the list workflow stops when the option is selected.</p>
+    <p>This <code class='js plain'>children</code> property will supersede a <a href='docs#list_object:children'><code class='js plain'>children</code></a> property on the parent List Object.</p>
+  </td>
+  <td>
+    <p><a href="examples#1002">Nested Lists 1</a></p>
+    <p><a href="examples#1007">Nested Lists 2</a></p>
+    <p><a href="examples#5022">children override on Option Object</a></p>
+  </td>
+</tr>
+<tr id="option_object:optionHTML">
+  <td>
+    <p><a href="docs#option_object:optionHTML"><code class="js plain">optionHTML</code></a></p>
+    <p>String</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>An HTML string to show inside the dropdown.</p>
+    <p>This <code class='js plain'>optionHTML</code> property will supersede an <a href='docs#list_object:optionHTML'><code class='js plain'>optionHTML</code></a> property on the parent list.</p>
+    <p>If there is no <code class='js plain'>optionHTML</code> on the option and there is no <code class='js plain'>optionHTML</code> on the parent list and <a href='docs#option_object:value'><code class='js plain'>value</code></a> is a string, then <code class='js plain'>optionHTML</code> gets an HTML-escaped <code class='js plain'>value</code>.</p>
+  </td>
+  <td>
+  </td>
+</tr>
+<tr id="option_object:tokenHTML">
+  <td>
+    <p><a href="docs#option_object:tokenHTML"><code class="js plain">tokenHTML</code></a></p>
+    <p>String</p>
+  </td>
+  <td class="center">no</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p>An HTML string to show inside the search bar.</p>
+    <p>This <code class='js plain'>tokenHTML</code> property will supersede a <a href='docs#list_object:tokenHTML'><code class='js plain'>tokenHTML</code></a> property on the parent list.</p>
+    <p>If there is no <code class='js plain'>tokenHTML</code> on the option and there is no <code class='js plain'>tokenHTML</code> on the parent list, then <code class='js plain'>tokenHTML</code> gets the value of <a href='docs#option_object:optionHTML'><code class='js plain'>optionHTML</code></a>.</p>
+  </td>
+  <td>
+  </td>
+</tr>
+<tr id="option_object:value">
+  <td>
+    <p><a href="docs#option_object:value"><code class="js plain">value</code></a></p>
+    <p>String <small>or</small><br />Number <small>or</small><br />Array <small>or</small><br />Object</p>
+  </td>
+  <td class="center">yes</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p><code class='js plain'>value</code> is what gets saved in the <a href='docs#token_object'>Token Object</a> when the user selects the option from the dropdown list.</p>
+    <p><code class='js plain'>value</code> can be anything that is safe to call <code class='js plain'>JSON.stringify()</code> on.</p>
+  </td>
+  <td>
+  </td>
+</tr>
+</tbody>
+</table>
+</div><!-- end div.section -->
+
+<hr class="divider" />
+
+<div class="section">
+<h2 id="token_object">Token Object</h2>
+<div class="panel etymology">
+  <div class="word">token</div>
+  <div class="part-of-speech">Noun</div>
+  <div class="definition">A thing serving as a visible or tangible representation of something abstract.</div>
+</div>
+<p>Token Objects are what is stored on the search bar when a user selects an option from the dropdown menu.</p>
+<p>A Token Group is an array of Token Objects.</p>
+<p>The value of the search bar is an array of Token Groups.</p>
+<p>Token Objects are not explicitly defined in the AutoComplete config; they are created from an Option Object using the <a href="docs#option_object:value"><code class="js plain">option.value</code></a> and <a href="docs#option_object:tokenHTML"><code class="js plain">option.tokenHTML</code></a> properties.</p>
+<p>You can use a string as shorthand for a Token Object when using the <a href="docs#methods:setValue"><code class="js plain">setValue</code></a> method.</p>
+<table cellspacing="0">
+<thead>
+<tr>
+  <th>Property / Type</th>
+  <th>Required</th>
+  <th>Default</th>
+  <th>Description</th>
+  <th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr id="token_object:tokenHTML">
+  <td>
+    <p><a href="docs#token_object:tokenHTML"><code class="js plain">tokenHTML</code></a></p>
+    <p>String</p>
+  </td>
+  <td class="center">yes</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p><code class='js plain'>tokenHTML</code> is the HTML displayed in the search bar for the token.</p>
+    <p>It comes from the <a href='docs#option_object:tokenHTML'><code class='js plain'>option.tokenHTML</code></a> property.</p>
+  </td>
+  <td>
+    <p><a href="examples#4034">optionHTML and tokenHTML as functions</a></p>
+  </td>
+</tr>
+<tr id="token_object:value">
+  <td>
+    <p><a href="docs#token_object:value"><code class="js plain">value</code></a></p>
+    <p>String <small>or</small><br />Number <small>or</small><br />Array <small>or</small><br />Object</p>
+  </td>
+  <td class="center">yes</td>
+  <td class="center"><small>n/a</small></td>
+  <td>
+    <p><code class='js plain'>value</code> is any <code class='js plain'>JSON.stringify()</code>-able data structure.</p>
+    <p>It comes from the <a href='docs#option_object:value'><code class='js plain'>option.value</code></a> property.</p>
+  </td>
+  <td>
+    <p><a href="examples#7007">getValue</a></p>
+  </td>
+</tr>
+</tbody>
+</table>
+</div><!-- end div.section -->
+
+<hr class="divider" />
+
+<div class="section">
+<h2 id="methods">Methods</h2>
+<p>Each AutoComplete object has methods you can use to interact with the widget.</p>
+<table cellspacing="0">
+<thead>
+<tr>
+  <th>Method</th>
+  <th>Args</th>
+  <th>Description</th>
+  <th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr id="methods:addOption">
+  <td><a href="docs#methods:addOption"><code class="js plain">addOption(name, option)</code></a></td>
+  <td>
+    <p><code class="js plain">name</code> - name of the list to add the option to</p>
+    <p><code class="js plain">option</code> - <a href='docs#option_object'>Option Object</a> to add to the list</p>
+  </td>
+  <td>
+    <p>Add an option to a <a href='docs#list_object'>List Object</a>.</p>
+    <p>Returns <code class='js keyword'>true</code> if adding the option was successful.</p>
+    <p>Returns <code class='js keyword'>false</code> otherwise.</p>
+  </td>
+  <td>
+    <p><a href="examples#7000">addOption</a></p>
+  </td>
+</tr>
+<tr id="methods:blur">
+  <td><a href="docs#methods:blur"><code class="js plain">blur()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Remove focus from the widget.</p>
+  </td>
+  <td>
+    <p><a href="examples#7001">blur</a></p>
+    <p><a href="examples#7056">Simulate User Input</a></p>
+  </td>
+</tr>
+<tr id="methods:clear">
+  <td><a href="docs#methods:clear"><code class="js plain">clear()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Clear the value of the widget.</p>
+    <p>Has the same effect as calling <code class='js plain'>setValue([])</code></p>
+  </td>
+  <td>
+    <p><a href="examples#7002">clear</a></p>
+  </td>
+</tr>
+<tr id="methods:destroy">
+  <td><a href="docs#methods:destroy"><code class="js plain">destroy()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Remove the widget from the DOM.</p>
+  </td>
+  <td>
+    <p><a href="examples#7003">destroy</a></p>
+  </td>
+</tr>
+<tr id="methods:focus">
+  <td><a href="docs#methods:focus"><code class="js plain">focus()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Puts the input focus on the widget.</p>
+  </td>
+  <td>
+    <p><a href="examples#7004">focus</a></p>
+  </td>
+</tr>
+<tr id="methods:getList">
+  <td><a href="docs#methods:getList"><code class="js plain">getList(name)</code></a></td>
+  <td>
+    <p><code class="js plain">name</code> - name of the list to get</p>
+  </td>
+  <td>
+    <p>Returns the <a href='docs#list_object'>List Object</a> if it exists.</p>
+    <p>Returns <code class='js keyword'>false</code> if the list does not exist.</p>
+  </td>
+  <td>
+    <p><a href="examples#7005">getList</a></p>
+  </td>
+</tr>
+<tr id="methods:getLists">
+  <td><a href="docs#methods:getLists"><code class="js plain">getLists()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Returns an object of all the <a href='docs#list_object'>List Objects</a>.</p>
+  </td>
+  <td>
+    <p><a href="examples#7006">getLists</a></p>
+  </td>
+</tr>
+<tr id="methods:getValue">
+  <td><a href="docs#methods:getValue"><code class="js plain">getValue()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Returns the current value of the widget.</p>
+    <p>Returns an empty array if the widget has no Token Groups.</p>
+  </td>
+  <td>
+    <p><a href="examples#7007">getValue</a></p>
+  </td>
+</tr>
+<tr id="methods:list">
+  <td><a href="docs#methods:list"><code class="js plain">list(name)</code></a></td>
+  <td>
+    <p><code class="js plain">name</code> - name of the list to get</p>
+  </td>
+  <td>
+    <p>Alias of <a href='docs#methods:getList'><code class='js plain'>getList(name)</code></a></p>
+  </td>
+  <td>
+  </td>
+</tr>
+<tr>
+  <td><a href="docs#methods:list"><code class="js plain">list(name, list)</code></a></td>
+  <td>
+    <p><code class="js plain">name</code> - name of the list to add or update</p>
+    <p><code class="js plain">list</code> - <a href='docs#list_object'>List Object</a></p>
+  </td>
+  <td>
+    <p>Alias of <a href='docs#methods:setList'><code class='js plain'>setList(name, list)</code></a></p>
+  </td>
+  <td>
+  </td>
+</tr>
+<tr id="methods:pressDown">
+  <td><a href="docs#methods:pressDown"><code class="js plain">pressDown()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Simulates the user pressing the "Down Arrow" key on the input field.</p>
+    <p>Has no effect if the input field does not have focus.</p>
+  </td>
+  <td>
+    <p><a href="examples#7056">Simulate User Input</a></p>
+  </td>
+</tr>
+<tr id="methods:pressEnter">
+  <td><a href="docs#methods:pressEnter"><code class="js plain">pressEnter()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Simulates the user pressing the "Enter" key on the input field.</p>
+    <p>Has no effect if the input field does not have focus.</p>
+  </td>
+  <td>
+    <p><a href="examples#7056">Simulate User Input</a></p>
+  </td>
+</tr>
+<tr id="methods:pressUp">
+  <td><a href="docs#methods:pressUp"><code class="js plain">pressUp()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Simulates the user pressing the "Up Arrow" key on the input field.</p>
+    <p>Has no effect if the input field does not have focus.</p>
+  </td>
+  <td>
+    <p><a href="examples#7056">Simulate User Input</a></p>
+  </td>
+</tr>
+<tr id="methods:removeList">
+  <td><a href="docs#methods:removeList"><code class="js plain">removeList(name)</code></a></td>
+  <td>
+    <p><code class="js plain">name</code> - name of the list to remove</p>
+  </td>
+  <td>
+    <p>Returns <code class='js keyword'>true</code> if the list was removed.</p>
+    <p>Returns <code class='js keyword'>false</code> if not.</p>
+    <p>You cannot remove the <a href='docs#config_object:initialList'><code class='js plain'>initialList</code></a>.</p>
+  </td>
+  <td>
+    <p><a href="examples#7008">removeList</a></p>
+  </td>
+</tr>
+<tr id="methods:removeTokenGroup">
+  <td><a href="docs#methods:removeTokenGroup"><code class="js plain">removeTokenGroup(index)</code></a></td>
+  <td>
+    <p><code class="js plain">index</code> - zero-based index of the <a href='docs#token_object'>Token Group</a> to remove</p>
+  </td>
+  <td>
+    <p>Remove a <a href='docs#token_object'>Token Group</a> by array index.</p>
+    <p>Returns the updated value of the widget if successful.</p>
+    <p>Returns <code class='js keyword'>false</code> otherwise.</p>
+  </td>
+  <td>
+    <p><a href="examples#7009">removeTokenGroup</a></p>
+  </td>
+</tr>
+<tr id="methods:setInput">
+  <td><a href="docs#methods:setInput"><code class="js plain">setInput(input)</code></a></td>
+  <td>
+    <p><code class="js plain">input</code> - text to set the input element to</p>
+  </td>
+  <td>
+    <p>Puts text into the input element as if the user had typed it.</p>
+    <p>Returns <code class='js keyword'>true</code> and updates the widget if updating the input was successful.</p>
+    <p>Returns <code class='js keyword'>false</code> otherwise.</p>
+  </td>
+  <td>
+    <p><a href="examples#7056">Simulate User Input</a></p>
+  </td>
+</tr>
+<tr id="methods:setList">
+  <td><a href="docs#methods:setList"><code class="js plain">setList(name, list)</code></a></td>
+  <td>
+    <p><code class="js plain">name</code> - name of the list to add or update</p>
+    <p><code class="js plain">list</code> - <a href='docs#list_object'>List Object</a></p>
+  </td>
+  <td>
+    <p>Adds a new list or updates an existing list.</p>
+    <p>Returns <code class='js keyword'>true</code> if adding the list was successful.</p>
+    <p>Returns <code class='js keyword'>false</code> otherwise.</p>
+  </td>
+  <td>
+  </td>
+</tr>
+<tr id="methods:setValue">
+  <td><a href="docs#methods:setValue"><code class="js plain">setValue(value)</code></a></td>
+  <td>
+    <p><code class="js plain">value</code> - array of <a href='docs#token_object'>Token Groups</a></p>
+  </td>
+  <td>
+    <p>Returns <code class='js keyword'>true</code> and updates the widget if <code class='js plain'>value</code> is valid.</p>
+    <p>Returns <code class='js keyword'>false</code> otherwise.</p>
+  </td>
+  <td>
+    <p><a href="examples#7011">setValue</a></p>
+  </td>
+</tr>
+<tr id="methods:val">
+  <td><a href="docs#methods:val"><code class="js plain">val()</code></a></td>
+  <td><small>none</small></td>
+  <td>
+    <p>Alias of <a href='docs#methods:getValue'><code class='js plain'>getValue()</code></a></p>
+  </td>
+  <td>
+  </td>
+</tr>
+<tr>
+  <td><a href="docs#methods:val"><code class="js plain">val(value)</code></a></td>
+  <td>
+    <p><code class="js plain">value</code> - array of <a href='docs#token_object'>Token Groups</a></p>
+  </td>
+  <td>
+    <p>Alias of <a href='docs#methods:setValue'><code class='js plain'>setValue(value)</code></a></p>
+  </td>
+  <td>
+  </td>
+</tr>
+</tbody>
+</table>
+</div><!-- end div.section -->
+
+<hr class="divider" />
+
+<div class="section">
+<h2 id="errors">Errors</h2>
+<!--
+<div class="panel etymology">
+  <div class="word">error</div>
+  <div class="part-of-speech">Noun</div>
+  <div class="definition">A mistake.</div>
+</div>
+-->
+<p>AutoComplete has an error system designed to inform you when you use the API incorrectly.</p>
+<p>Every alert has a unique code associated with it and you can control how the errors are presented with the <a href="docs#config_object:showErrors">showErrors</a> config option.</p>
+<table cellspacing="0">
+<thead>
+<tr>
+  <th style="width: 75px">Error ID</th>
+  <th style="width: 45%">Error Text</th>
+  <th>More Information</th>
+</tr>
+</thead>
+<tbody>
+<tr id="errors:1002">
+  <td class="center"><a href="docs#errors:1002">1002</a></td>
+  <td>Element with id &quot;&lt;id&gt;&quot; does not exist in the DOM.</td>
+  <td>
+    <p>AutoComplete could not find your element with <code class='js plain'>document.getElementById</code>.</p>
+    <p>Please note that if you pass a string as the first argument to the AutoComplete() constructor it should be the value of a DOM id, not a CSS selector (ie: <code class='js string'>"search_bar"</code>, not <code class='js string'>"#search_bar"</code>).</p>
+  </td>
+</tr>
+<tr id="errors:1003">
+  <td class="center"><a href="docs#errors:1003">1003</a></td>
+  <td>JSON does not exist. Please include a JSON polyfill.</td>
+  <td>
+    <p>AutoComplete requires a JSON implementation. Please include a <a href='http://bestiejs.github.com/json3/'>polyfill</a> for older browsers.</p>
+  </td>
+</tr>
+<tr id="errors:1004">
+  <td class="center"><a href="docs#errors:1004">1004</a></td>
+  <td>Unable to find a valid version of jQuery. Please include jQuery 1.4.2 or higher on the page.</td>
+  <td>
+    <p>AutoComplete requires <a href='http://jquery.com/'>jQuery</a> version 1.4.2 or higher.</p>
+  </td>
+</tr>
+<tr id="errors:1005">
+  <td class="center"><a href="docs#errors:1005">1005</a></td>
+  <td>You must include at least one List Object on lists.</td>
+  <td>
+    <p>The <a href='docs#config_object:lists'><code class='js plain'>lists</code></a> config is mandatory and must include at least one <a href='docs#list_object'>List Object</a>.</p>
+  </td>
+</tr>
+<tr id="errors:1037">
+  <td class="center"><a href="docs#errors:1037">1037</a></td>
+  <td>The first argument to AutoComplete() cannot be an empty string.</td>
+  <td>
+    <p>The first argument to the AutoComplete() constructor should be the id of a DOM element or a reference to a single DOM element.</p>
+  </td>
+</tr>
+<tr id="errors:1044">
+  <td class="center"><a href="docs#errors:1044">1044</a></td>
+  <td>The first argument to AutoComplete() must be an ID or a single DOM node.</td>
+  <td>
+    <p>The first argument to the AutoComplete() constructor should be the id of a DOM element or a reference to a single DOM element.</p>
+  </td>
+</tr>
+<tr id="errors:1273">
+  <td class="center"><a href="docs#errors:1273">1273</a></td>
+  <td>You cannot include properties that effect control flow on ajaxOpts: &quot;async&quot;, &quot;complete&quot;, &quot;error&quot;, &quot;statusCode&quot;, &quot;success&quot;</td>
+  <td>
+    <p>You are not allowed to override certain AJAX properties.</p>
+    <p>See <a href='docs#list_object:ajaxOpts'>ajaxOpts</a>.</p>
+  </td>
+</tr>
+<tr id="errors:1328">
+  <td class="center"><a href="docs#errors:1328">1328</a></td>
+  <td>Error in removeList method. List &quot;&lt;listName&gt;&quot; does not exist.</td>
+  <td>
+    <p>The list name you provided to the <a href='docs#methods:removeList'><code class='js plain'>removeList</code></a> method is not defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>.</p>
+  </td>
+</tr>
+<tr id="errors:1424">
+  <td class="center"><a href="docs#errors:1424">1424</a></td>
+  <td>Error in removeList method. You cannot remove the initialList &quot;&lt;listName&gt;&quot;</td>
+  <td>
+    <p>You are not allowed to remove the <a href='docs#config_object:initialList'><code class='js plain'>initialList</code></a>.</p>
+  </td>
+</tr>
+<tr id="errors:2231">
+  <td class="center"><a href="docs#errors:2231">2231</a></td>
+  <td>The first argument to the removeList method must be a non-empty string.</td>
+  <td>
+    <p>The first argument to <a href='docs#methods:removeList'><code class='js plain'>removeList</code></a> should be the name of a <a href='docs#list_object'>List Object</a> that is defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>.</p>
+  </td>
+</tr>
+<tr id="errors:2535">
+  <td class="center"><a href="docs#errors:2535">2535</a></td>
+  <td>The list object for list &quot;&lt;listName&gt;&quot; is invalid.</td>
+  <td>
+    <p>The structure of your <a href='docs#list_object'>List Object</a> is invalid.</p>
+  </td>
+</tr>
+<tr id="errors:2642">
+  <td class="center"><a href="docs#errors:2642">2642</a></td>
+  <td>You cannot use an empty string for a list name.</td>
+  <td>
+    <p>It is valid to use an empty string for an object property name in JavaScript, but this is not allowed by AutoComplete.</p>
+  </td>
+</tr>
+<tr id="errors:2728">
+  <td class="center"><a href="docs#errors:2728">2728</a></td>
+  <td>initialList &quot;&lt;listName&gt;&quot; does not exist on the lists object.</td>
+  <td>
+    <p>The list you specified on <a href='docs#config_object:initialList'><code class='js plain'>initialList</code></a> is not defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>.</p>
+  </td>
+</tr>
+<tr id="errors:2732">
+  <td class="center"><a href="docs#errors:2732">2732</a></td>
+  <td>The list object passed to the setList method is not valid.</td>
+  <td>
+    <p>The structure of your <a href='docs#list_object'>List Object</a> is invalid.</p>
+  </td>
+</tr>
+<tr id="errors:2789">
+  <td class="center"><a href="docs#errors:2789">2789</a></td>
+  <td>The first argument to the getList method must be a non-empty string.</td>
+  <td>
+    <p>The first argument to <a href='docs#methods:getList'><code class='js plain'>getList</code></a> should be the name of a <a href='docs#list_object'>List Object</a> that is defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>.</p>
+  </td>
+</tr>
+<tr id="errors:3193">
+  <td class="center"><a href="docs#errors:3193">3193</a></td>
+  <td>Could not find a valid value for optionHTML. Resorted to using value property &quot;&lt;propertyName&gt;&quot;</td>
+  <td>
+    <p>AutoComplete could not find a valid <code class='js plain'>optionHTML</code> on either the <a href='docs#option_object:optionHTML'>Option Object</a> or the <a href='docs#list_object:optionHTML'>List Object</a> so it resorted to using the first string <a href='docs#option_object:value'><code class='js plain'>option.value</code></a> property it could find.</p>
+  </td>
+</tr>
+<tr id="errors:3776">
+  <td class="center"><a href="docs#errors:3776">3776</a></td>
+  <td>Invalid Value returned from your custom onChange function.</td>
+  <td>
+    <p>If you specify an <a href='docs#config_object:onChange'><code class='js plain'>onChange</code></a> function, it must return an array of <a href='docs#token_object'>Token Groups</a>.</p>
+  </td>
+</tr>
+<tr id="errors:3843">
+  <td class="center"><a href="docs#errors:3843">3843</a></td>
+  <td>optionHTML function did not return a string.</td>
+  <td>
+    <p>If you provide a function for <a href='docs#list_object:optionHTML'><code class='js plain'>optionHTML</code></a> it must return an HTML string.</p>
+  </td>
+</tr>
+<tr id="errors:4823">
+  <td class="center"><a href="docs#errors:4823">4823</a></td>
+  <td>Error in removeTokenGroup method. Token group index &quot;&lt;tokenGroupIndex&gt;&quot; does not exist.</td>
+  <td>
+    <p>You tried to remove a <a href='docs#token_object'>Token Group</a> array index which doesn't exist.</p>
+  </td>
+</tr>
+<tr id="errors:4922">
+  <td class="center"><a href="docs#errors:4922">4922</a></td>
+  <td>The first argument to the setInput method must be a string.</td>
+  <td>
+    <p>The argument passed to <a href='docs#methods:setInput'><code class='js plain'>setInput</code></a> must be a string.</p>
+  </td>
+</tr>
+<tr id="errors:5732">
+  <td class="center"><a href="docs#errors:5732">5732</a></td>
+  <td>Error in addOption method. List &quot;&lt;listName&gt;&quot; does not exist.</td>
+  <td>
+    <p>The list name you provided to the <a href='docs#methods:addOption'><code class='js plain'>addOption</code></a> method is not defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>.</p>
+  </td>
+</tr>
+<tr id="errors:5783">
+  <td class="center"><a href="docs#errors:5783">5783</a></td>
+  <td>Unable to create HTML string for optionHTML.</td>
+  <td>
+    <p>This is an internal AutoComplete error that you should never see.</p>
+    <p>If you see this error please open a <a href='https://github.com/oakmac/autocompletejs/issues'>GitHub issue</a>.</p>
+  </td>
+</tr>
+<tr id="errors:5938">
+  <td class="center"><a href="docs#errors:5938">5938</a></td>
+  <td>Wrong number of arguments passed to list method.</td>
+  <td>
+    <p>The <a href='docs#methods:list'><code class='js plain'>list</code></a> method takes either 1 or 2 arguments.</p>
+  </td>
+</tr>
+<tr id="errors:6447">
+  <td class="center"><a href="docs#errors:6447">6447</a></td>
+  <td>Invalid value pass to initialValue.</td>
+  <td>
+    <p>The value passed to <a href='docs#config_object:initialValue'><code class='js plain'>initialValue</code></a> must be an array of <a href='docs#token_object'>Token Groups</a>.</p>
+  </td>
+</tr>
+<tr id="errors:6823">
+  <td class="center"><a href="docs#errors:6823">6823</a></td>
+  <td>Invalid value passed to the setValue method.</td>
+  <td>
+    <p>The value passed to the <a href='docs#methods:setValue'><code class='js plain'>setValue</code></a> method must be an array of <a href='docs#token_object'>Token Groups</a>.</p>
+  </td>
+</tr>
+<tr id="errors:7283">
+  <td class="center"><a href="docs#errors:7283">7283</a></td>
+  <td>The first argument to the setList method must be a non-empty string.</td>
+  <td>
+    <p>The first argument to <a href='docs#methods:setList'><code class='js plain'>setList</code></a> should be the name of a <a href='docs#list_object'>List Object</a> that is defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>.</p>
+  </td>
+</tr>
+<tr id="errors:7887">
+  <td class="center"><a href="docs#errors:7887">7887</a></td>
+  <td>Invalid option passed to addOption method.</td>
+  <td>
+    <p>You must pass a valid <a href='docs#option_object'>Option Object</a> to the <a href='docs#methods:addOption'><code class='js plain'>addOption</code></a> method.</p>
+  </td>
+</tr>
+<tr id="errors:7998">
+  <td class="center"><a href="docs#errors:7998">7998</a></td>
+  <td>Your tokenSeparatorHTML function did not return a string.</td>
+  <td>
+    <p>If you provide a function to <a href='docs#config_object:tokenSeparatorHTML'>tokenSeparatorHTML</a>, it must return a string.</p>
+  </td>
+</tr>
+<tr id="errors:8292">
+  <td class="center"><a href="docs#errors:8292">8292</a></td>
+  <td>Could not find optionID &quot;&lt;optionId&gt;&quot;.</td>
+  <td>
+    <p>This is an internal AutoComplete error that you should never see.</p>
+    <p>If you see this error please open a <a href='https://github.com/oakmac/autocompletejs/issues'>GitHub issue</a>.</p>
+  </td>
+</tr>
+<tr id="errors:8366">
+  <td class="center"><a href="docs#errors:8366">8366</a></td>
+  <td>The first argument to the addOption method must be a non-empty string.</td>
+  <td>
+    <p>The list name you provided to the <a href='docs#methods:addOption'><code class='js plain'>addOption</code></a> method is not defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>.</p>
+  </td>
+</tr>
+<tr id="errors:8721">
+  <td class="center"><a href="docs#errors:8721">8721</a></td>
+  <td>AJAX url must be a string. Did you forget to include one on ajaxOpts?</td>
+  <td>
+    <p>If you provide a custom function on <a href='docs#list_object:ajaxOpts.url'><code class='js plain'>ajaxOpts.url</code></a>, it must return a valid URL string.</p>
+  </td>
+</tr>
+<tr id="errors:9992">
+  <td class="center"><a href="docs#errors:9992">9992</a></td>
+  <td>Wrong number of arguments passed to val method.</td>
+  <td>
+    <p>The <a href='docs#methods:val'><code class='js plain'>val</code></a> method takes either 0 or 1 arguments.</p>
+  </td>
+</tr>
+</tbody>
+</table>
+</div><!-- end div.section -->
+
+</div><!-- end div.twelve.columns -->
+</div><!-- end div#body_container -->
+
+<div id="footer">
+<div class="row">
+  <div class="six columns" id="left_footer">
+    <p>ChessBoard is released under the <a href="https://github.com/oakmac/chessboardjs/blob/master/LICENSE">MIT License</a></p>
+    <p><a href="https://github.com/oakmac/chessboardjs">GitHub</a></p>
+  </div>
+  <div class="six columns" id="right_footer">
+    <a href="index.html">Home</a>
+    <a href="examples.html">Examples</a>
+    <a href="docs.html">Docs</a>
+    <a href="download.html">Download</a>
+  </div>
+</div>
+</div><!-- end div#footer -->
+
+<script src="js/jquery-1.10.1.min.js"></script>
+<script src="js/jquery.color.min.js"></script>
+<script src="js/docs.js"></script>
+</body>
+</html>

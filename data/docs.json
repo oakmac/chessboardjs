@@ -1,0 +1,840 @@
+{
+"Config Object":[
+"------------------------------------------------------------------------------",
+{
+  "name":"initialList",
+  "type":"String",
+  "req":"sometimes",
+  "default":false,
+  "desc":[
+    "The <code class='js plain'>initialList</code> property is the first list started when the user clicks on the AutoComplete widget.",
+    "It's value should be the name of a <a href='docs#list_object'>List Object</a>.",
+    "<code class='js plain'>initialList</code> is required when there are more than one List Objects on <a href='docs#config_object:lists'><code class='js plain'>config.lists</code></a>."
+  ],
+  "examples":[1002,1003]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"initialValue",
+  "type":"Array of<br /><a href='docs#token_object'>Token Groups</a>",
+  "req":false,
+  "default":false,
+  "desc":[
+    "If provided, sets the initial value of the AutoComplete widget."
+  ],
+  "examples":[3000]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"lists",
+  "type":"Object of<br /><a href='docs#list_object'>List Objects</a>",
+  "req":true,
+  "default":false,
+  "desc":[
+    "The <code class='js plain'>lists</code> property contains all of the lists used to power the dropdown options.",
+    "<code class='js plain'>lists</code> should be an object where the property values are the names of lists, and the values are <a href='docs#list_object'>List Objects</a>."
+  ],
+  "examples":[1002,1003]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"maxTokenGroups",
+  "type":["Number","<code class='js keyword'>false</code>"],
+  "req":false,
+  "default":"<code class='js keyword'>false</code>",
+  "desc":[
+    "The maximum number of Token Groups allowed in the search bar.",
+    "Set <code class='js plain'>maxTokenGroups</code> to <code class='js keyword'>false</code> to allow unlimited <a href='docs#token_object'>Token Groups</a>."
+  ],
+  "examples":[3001]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"onChange",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "Function to execute when the value of the widget changes.",
+    "The first argument to the function is the new value of the widget, the second argument is the old value of the widget.",
+    "If this function returns a valid widget value, then that value becomes the value of the widget.  If not, the original new value becomes the value of the widget."
+  ],
+  "examples":[6000,6001]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"placeholderHTML",
+  "type":"String",
+  "req":false,
+  "default":"<code class='js string'>''</code>",
+  "desc":[
+    "A placeholder to show in the AutoComplete widget when there are no Token Groups."
+  ],
+  "examples":3005
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"showErrors",
+  "type":["<code class='js keyword'>false</code>","String","Function"],
+  "req":false,
+  "default":false,
+  "desc":[
+    "<code class='js plain'>showErrors</code> is an optional parameter to control how AutoComplete reports errors.",
+    "Every error in AutoComplete has a <a href='docs#errors'>unique code</a> to help diagnose problems and search for solutions.",
+    "If <code class='js plain'>showErrors</code> is <code class='js keyword'>false</code> then errors will be ignored.",
+    "If <code class='js plain'>showErrors</code> is <code class='js string'>'console'</code> then errors will be sent to <code class='js plain'>console.log()</code>.",
+    "If <code class='js plain'>showErrors</code> is <code class='js string'>'alert'</code> then errors will be sent to <code class='js plain'>window.alert()</code>.",
+    "If <code class='js plain'>showErrors</code> is a function then the first argument is the unique error code, the second argument is an error string, and an optional third argument is a data structure that is relevant to the error."
+  ],
+  "examples":[3012,3088]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"tokenSeparatorHTML",
+  "type":["String","Function"],
+  "req":false,
+  "default":"<code class='js string'>':'</code>",
+  "desc":[
+    "The HTML string to put between <a href='docs#token_object'>Tokens</a> in the search bar.",
+    "If <code class='js plain'>tokenSeparatorHTML</code> is a function the first argument is the Token Object to the left of the separator, the second argument is the Token Object to the right.",
+    "The function should return an HTML string."
+  ],
+  "examples":[3015,3016]
+},
+"------------------------------------------------------------------------------"
+],
+
+
+
+
+
+
+
+
+
+
+
+
+
+"List Object":[
+"------------------------------------------------------------------------------",
+{
+  "name":"ajaxErrorHTML",
+  "type":["String", "Function"],
+  "req":false,
+  "default":"<code class='js string'>'AJAX Error'</code>",
+  "leftAlignDefault":true,
+  "desc":[
+    "An HTML string to display when an AJAX request has failed.",
+    "If <code class='js plain'>ajaxErrorHTML</code> is a function, the first argument is the type of error that has occurred, the second argument is the text that the user has entered, and the third argument is the current value of the AutoComplete widget.",
+    "Possible values for the first argument are: <code class='js string'>'timeout'</code>, <code class='js string'>'error'</code>, and <code class='js string'>'parsererror'</code>.  Note: you will never see <code class='js string'>'abort'</code>, as this is handled internally by AutoComplete.",
+    "The function should return an HTML string."
+  ],
+  "examples":[4055,4072]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"ajaxLoadingHTML",
+  "type":["String", "Function"],
+  "req":false,
+  "default":"<code class='js string'>'Searching<br />&amp;hellip;'</code>",
+  "leftAlignDefault":true,
+  "desc":[
+    "An HTML string to display when searching for options.",
+    "If <code class='js plain'>ajaxLoadingHTML</code> is a function, the first argument is the text that the user has entered and the second argument is the current value of the AutoComplete widget.",
+    "The function should return an HTML string."
+  ],
+  "examples":[4011,4037]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"ajaxOpts",
+  "type":["Object","Function"],
+  "req":false,
+  "default":false,
+  "desc":[
+    "Internally, AutoComplete uses the jQuery <a href='http://api.jquery.com/jQuery.ajax/' target='_blank'><code class='js plain'>$.ajax()</code></a> method to make AJAX requests.",
+    "If provided, <code class='js plain'>ajaxOpts</code> will be called with <a href='http://api.jquery.com/jQuery.extend/'><code class='js plain'>$.extend()</code></a> against the default settings.",
+    "You can override any <code class='js plain'>$.ajax()</code> parameter except: <code class='js plain'>async</code>, <code class='js plain'>complete</code>, <code class='js plain'>error</code>, <code class='js plain'>statusCode</code>, <code class='js plain'>success</code> (ie: parameters that effect control flow)",
+    "If <code class='js plain'>ajaxOpts</code> is a function the first argument is the text that the user has typed and the second argument is the current value of the AutoComplete widget.",
+    "The function should return an object to pass to <code class='js plain'>$.ajax()</code>."
+  ],
+  "examples":[2004,2003]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"ajaxOpts.preProcess",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "<code class='js plain'>preProcess</code> is an optional function that will be called after the AJAX request has finished and before the options are shown.",
+    "The first argument is the data returned by the server, the second argument is the text that the user has entered, and the third argument is the current value of the AutoComplete widget.",
+    "The function should return an array of <a href='docs#option_object'>Option Objects</a>.",
+    "<code class='js plain'>preProcess</code> is independent of the jQuery <code class='js plain'>$.ajax()</code> method."
+  ],
+  "examples":2003
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"ajaxOpts.url",
+  "type":["String","Function"],
+  "req":false,
+  "default":false,
+  "desc":[
+    "The url to send an AJAX request to.",
+    "The string <code class='js string'>'{input}'</code> will be replaced with the text the user has typed.",
+    "The text will be escaped using <code class='js plain'>encodeURIComponent()</code>.",
+    "If <code class='js plain'>url</code> is a function, the first argument is the text that the user has typed and the second argument is the current value of the AutoComplete widget.",
+    "The function should return a url string."
+  ],
+  "examples":2001
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"allowFreeform",
+  "type":"Boolean",
+  "req":false,
+  "default":"<code class='js keyword'>false</code>",
+  "desc":[
+    "If <code class='js keyword'>true</code>, allows the user to enter free-form text in the search bar.",
+    "If <code class='js keyword'>false</code>, the user must select an option from the dropdown list.",
+    "There can still be options when <code class='js plain'>allowFreeform</code> is set to <code class='js keyword'>true</code>, but the user does not have to select one."
+  ],
+  "examples":[4014, 4001]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"cacheAjax",
+  "type":"Boolean",
+  "req":false,
+  "default":"<code class='js keyword'>false</code>",
+  "desc":[
+    "If <code class='js keyword'>true</code>, AutoComplete will cache the results of AJAX calls to localStorage using the url as the key.",
+    "If <code class='js keyword'>false</code>, it will not cache and send a new AJAX request every time.",
+    "Only HTTP GET requests are cached.",
+    "If the browser does not support localStorage it will only cache results for the duration of the page.",
+    "If you need to support browsers that do not have localStorage I recommend using a <a href='https://developer.mozilla.org/en-US/docs/DOM/Storage#localStorage'>polyfill</a>."
+  ],
+  "examples":2020
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"cacheAjaxSeconds",
+  "type":["Number","<code class='js keyword'>false</code>"],
+  "req":false,
+  "default":"<code class='js number'>1209600</code><br />(2 weeks)",
+  "desc":[
+    "Length of time in seconds to keep results in the cache.",
+    "Set <code class='js plain'>cacheAjaxSeconds</code> to <code class='js keyword'>false</code> to cache results indefinitely.",
+    "<code class='js plain'>cacheAjaxSeconds</code> has no effect if <a href='docs#list_object:cacheAjax'><code class='js plain'>cacheAjax</code></a> is <code class='js keyword'>false</code>."
+  ],
+  "examples":2021
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"children",
+  "type":"String",
+  "req":false,
+  "default":false,
+  "desc":[
+    "<code class='js plain'>children</code> should be the name of a <a href='docs#list_object'>List Object</a> defined on <a href='docs#config_object:lists'><code class='js plain'>config.lists</code></a>.",
+    "When any option from the list is selected from the dropdown, <code class='js plain'>children</code> is the name of the next list to show in the dropdown.",
+    "If there is a <a href='docs#option_object:children'><code class='js plain'>children</code></a> property on the Option Object selected it will supersede this <code class='js plain'>children</code> property."
+  ],
+  "examples":[4003,1007,5022]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"highlightMatches",
+  "type":"Boolean",
+  "req":false,
+  "default":"<code class='js keyword'>true</code>",
+  "desc":[
+    "If <code class='js keyword'>true</code>, AutoComplete will highlight letter matches between what the user has typed and which options have matched.",
+    "This option programmatically changes the <code class='js plain'>optionHTML</code> value by adding <code class='html'>&lt;strong&gt;</code> tags around matching characters.",
+    "It tries to not replace letters that are inside HTML tags or special HTML characters, but if you have complicated or invalid HTML markup in your <code class='js plain'>optionHTML</code> it may not highlight correctly.",
+    "<code class='js plain'>highlightMatches</code> is independent of the matching algorithm used."
+  ]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"matchOptions",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "<code class='js plain'>matchOptions</code> is an optional function you can include to determine which options get shown in the dropdown when the user is typing.",
+    "The first argument to the function is the text that the user has entered, the second argument are the Option Objects matched by the default algorithm, the third argument is an array of all Option Objects for the current list, and the fourth argument is the current value of the AutoComplete widget.",
+    "The function should return an array of Option Objects.",
+    "You can return an array of <em>any</em> Option Objects from this function.  They do not have to come from the existing Option Objects in the list.",
+    "This function gets executed with every 'keydown' event on the input element so it's in your best interest to make this function as fast as possible."
+  ],
+  "examples":[4041]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"noResultsHTML",
+  "type":["String","Function"],
+  "req":false,
+  "default":"<code class='js string'>'No results found.'</code>",
+  "leftAlignDefault":true,
+  "desc":[
+    "An HTML string to display when there are no options to show.",
+    "If <code class='js plain'>noResultsHTML</code> is a function, the first argument is the text that the user has entered and the second argument is the current value of the AutoComplete widget.",
+    "The function should return an HTML string.",
+    "<code class='js plain'>noResultsHTML</code> will never be shown when <a href='docs#list_object:allowFreeform'><code class='js plain'>allowFreeform</code></a> is <code class='js keyword'>true</code>."
+  ]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"optionHTML",
+  "type":["String","Function"],
+  "req":false,
+  "default":false,
+  "desc":[
+    "If <code class='js plain'>optionHTML</code> is a string, option <a href='docs#option_object:value'><code class='js plain'>value</code></a> properties inside curly braces will be replaced with HTML-escaped values.",
+    "If <code class='js plain'>optionHTML</code> is a function the first argument is the option.",
+    "The function should return an HTML string.",
+    "If there is an <a href='docs#option_object:optionHTML'><code class='js plain'>optionHTML</code></a> property on the Option Object selected it will supersede this <code class='js plain'>optionHTML</code> property."
+  ],
+  "examples":[4033,4034]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"tokenHTML",
+  "type":["String","Function"],
+  "req":false,
+  "default":false,
+  "desc":[
+    "If <code class='js plain'>tokenHTML</code> is a string, option <a href='docs#option_object:value'><code class='js plain'>value</code></a> properties inside curly braces will be replaced with HTML-escaped values.",
+    "If <code class='js plain'>tokenHTML</code> is a function the first argument is the option.",
+    "The function should return an HTML string.",
+    "If there is a <a href='docs#option_object:tokenHTML'><code class='js plain'>tokenHTML</code></a> property on the option selected it will supersede this <code class='js plain'>tokenHTML</code> property."
+  ],
+  "examples":[4034]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"options",
+  "type":"Array of <a href='docs#option_object'>Option Objects</a>",
+  "req":false,
+  "default":"<code class='js plain'>[]</code>",
+  "desc":[
+    "<code class='js plain'>options</code> is an array of <a href='docs#option_object'>Option Objects</a> that determine which options to show in the dropdown for this list."
+  ]
+}
+],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"Option Object":[
+"------------------------------------------------------------------------------",
+{
+  "name":"children",
+  "type":["String","<code class='js keyword'>false</code>"],
+  "req":false,
+  "default":false,
+  "desc":[
+    "<code class='js plain'>children</code> should be the name of a <a href='docs#list_object'>List Object</a> defined on <a href='docs#config_object:lists'><code class='js plain'>config.lists</code></a>.",
+    "When any option from the list is selected from the dropdown, <code class='js plain'>children</code> is the name of the next list to show in the dropdown.",
+    "If <code class='js plain'>children</code> is <code class='js keyword'>false</code>, the list workflow stops when the option is selected.",
+    "This <code class='js plain'>children</code> property will supersede a <a href='docs#list_object:children'><code class='js plain'>children</code></a> property on the parent List Object."
+  ],
+  "examples":[1002,1007,5022]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"optionHTML",
+  "type":"String",
+  "req":false,
+  "default":false,
+  "desc":[
+    "An HTML string to show inside the dropdown.",
+    "This <code class='js plain'>optionHTML</code> property will supersede an <a href='docs#list_object:optionHTML'><code class='js plain'>optionHTML</code></a> property on the parent list.",
+    "If there is no <code class='js plain'>optionHTML</code> on the option and there is no <code class='js plain'>optionHTML</code> on the parent list and <a href='docs#option_object:value'><code class='js plain'>value</code></a> is a string, then <code class='js plain'>optionHTML</code> gets an HTML-escaped <code class='js plain'>value</code>."
+  ]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"tokenHTML",
+  "type":"String",
+  "req":false,
+  "default":false,
+  "desc":[
+    "An HTML string to show inside the search bar.",
+    "This <code class='js plain'>tokenHTML</code> property will supersede a <a href='docs#list_object:tokenHTML'><code class='js plain'>tokenHTML</code></a> property on the parent list.",
+    "If there is no <code class='js plain'>tokenHTML</code> on the option and there is no <code class='js plain'>tokenHTML</code> on the parent list, then <code class='js plain'>tokenHTML</code> gets the value of <a href='docs#option_object:optionHTML'><code class='js plain'>optionHTML</code></a>."
+  ]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"useOnce",
+  "type":"Boolean",
+  "req":false,
+  "default":false,
+  "desc":[
+    "If <code class='js keyword'>true</code>, the option will be removed from the list when selected.",
+    "If <code class='js keyword'>false</code>, the option will remain in the list.",
+    "This <code class='js plain'>tokenHTML</code> property will supersede a <a href='docs#list_object:tokenHTML'><code class='js plain'>tokenHTML</code></a> property on the parent list.",
+    "If there is no <code class='js plain'>tokenHTML</code> on the option and there is no <code class='js plain'>tokenHTML</code> on the parent list, then <code class='js plain'>tokenHTML</code> gets the value of <a href='docs#option_object:optionHTML'><code class='js plain'>optionHTML</code></a>."
+  ]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"value",
+  "type":["String","Number","Array","Object"],
+  "req":true,
+  "default":false,
+  "desc":[
+    "<code class='js plain'>value</code> is what gets saved in the <a href='docs#token_object'>Token Object</a> when the user selects the option from the dropdown list.",
+    "<code class='js plain'>value</code> can be anything that is safe to call <code class='js plain'>JSON.stringify()</code> on."
+  ]
+},
+"------------------------------------------------------------------------------"
+],
+
+
+
+
+
+
+
+
+"Token Object":[
+"------------------------------------------------------------------------------",
+{
+  "name":"tokenHTML",
+  "type":"String",
+  "req":true,
+  "default":false,
+  "desc":[
+    "<code class='js plain'>tokenHTML</code> is the HTML displayed in the search bar for the token.",
+    "It comes from the <a href='docs#option_object:tokenHTML'><code class='js plain'>option.tokenHTML</code></a> property."
+  ],
+  "examples":[4034]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"value",
+  "type":["String","Number","Array","Object"],
+  "req":true,
+  "default":false,
+  "desc":[
+    "<code class='js plain'>value</code> is any <code class='js plain'>JSON.stringify()</code>-able data structure.",
+    "It comes from the <a href='docs#option_object:value'><code class='js plain'>option.value</code></a> property."
+  ],
+  "examples":[7007]
+},
+"------------------------------------------------------------------------------"
+],
+
+
+
+
+
+
+
+
+
+
+
+
+"Methods":[
+"------------------------------------------------------------------------------",
+{
+  "name":"addOption(name, option)",
+  "args":[
+    ["name", "name of the list to add the option to"],
+    ["option", "<a href='docs#option_object'>Option Object</a> to add to the list"]
+  ],
+  "desc":[
+    "Add an option to a <a href='docs#list_object'>List Object</a>.",
+    "Returns <code class='js keyword'>true</code> if adding the option was successful.",
+    "Returns <code class='js keyword'>false</code> otherwise."
+  ],
+  "examples":7000
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"blur()",
+  "desc":"Remove focus from the widget.",
+  "examples":[7001,7056]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"clear()",
+  "desc":[
+    "Clear the value of the widget.",
+    "Has the same effect as calling <code class='js plain'>setValue([])</code>"
+  ],
+  "examples":7002
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"destroy()",
+  "desc":"Remove the widget from the DOM.",
+  "examples":7003
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"focus()",
+  "desc":"Puts the input focus on the widget.",
+  "examples":7004
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"getList(name)",
+  "args":[
+    ["name", "name of the list to get"]
+  ],
+  "desc":[
+    "Returns the <a href='docs#list_object'>List Object</a> if it exists.",
+    "Returns <code class='js keyword'>false</code> if the list does not exist."
+  ],
+  "examples":7005
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"getLists()",
+  "desc":"Returns an object of all the <a href='docs#list_object'>List Objects</a>.",
+  "examples":7006
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"getValue()",
+  "desc":[
+    "Returns the current value of the widget.",
+    "Returns an empty array if the widget has no Token Groups."
+  ],
+  "examples":7007
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"list(name)",
+  "args":[
+    ["name", "name of the list to get"]
+  ],
+  "desc":"Alias of <a href='docs#methods:getList'><code class='js plain'>getList(name)</code></a>"
+},
+"------------------------------------------------------------------------------",
+{
+  "noId":true,
+  "name":"list(name, list)",
+  "args":[
+    ["name", "name of the list to add or update"],
+    ["list", "<a href='docs#list_object'>List Object</a>"]
+  ],
+  "desc":"Alias of <a href='docs#methods:setList'><code class='js plain'>setList(name, list)</code></a>"
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"pressDown()",
+  "desc":[
+    "Simulates the user pressing the \"Down Arrow\" key on the input field.",
+    "Has no effect if the input field does not have focus."
+  ],
+  "examples":7056
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"pressEnter()",
+  "desc":[
+    "Simulates the user pressing the \"Enter\" key on the input field.",
+    "Has no effect if the input field does not have focus."
+  ],
+  "examples":7056
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"pressUp()",
+  "desc":[
+    "Simulates the user pressing the \"Up Arrow\" key on the input field.",
+    "Has no effect if the input field does not have focus."
+  ],
+  "examples":7056
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"removeList(name)",
+  "args":[
+    ["name", "name of the list to remove"]
+  ],
+  "desc":[
+    "Returns <code class='js keyword'>true</code> if the list was removed.",
+    "Returns <code class='js keyword'>false</code> if not.",
+    "You cannot remove the <a href='docs#config_object:initialList'><code class='js plain'>initialList</code></a>."
+  ],
+  "examples":7008
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"removeTokenGroup(index)",
+  "args":[
+    ["index", "zero-based index of the <a href='docs#token_object'>Token Group</a> to remove"]
+  ],
+  "desc":[
+    "Remove a <a href='docs#token_object'>Token Group</a> by array index.",
+    "Returns the updated value of the widget if successful.",
+    "Returns <code class='js keyword'>false</code> otherwise."
+  ],
+  "examples":7009
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"setInput(input)",
+  "args":[
+    ["input", "text to set the input element to"]
+  ],
+  "desc":[
+    "Puts text into the input element as if the user had typed it.",
+    "Returns <code class='js keyword'>true</code> and updates the widget if updating the input was successful.",
+    "Returns <code class='js keyword'>false</code> otherwise."
+  ],
+  "examples":7056
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"setList(name, list)",
+  "args":[
+    ["name", "name of the list to add or update"],
+    ["list", "<a href='docs#list_object'>List Object</a>"]
+  ],
+  "desc":[
+    "Adds a new list or updates an existing list.",
+    "Returns <code class='js keyword'>true</code> if adding the list was successful.",
+    "Returns <code class='js keyword'>false</code> otherwise."
+  ],
+  "examples":7010
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"setValue(value)",
+  "args":[
+    ["value", "array of <a href='docs#token_object'>Token Groups</a>"]
+  ],
+  "desc":[
+    "Returns <code class='js keyword'>true</code> and updates the widget if <code class='js plain'>value</code> is valid.",
+    "Returns <code class='js keyword'>false</code> otherwise."
+  ],
+  "examples":7011
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"val()",
+  "desc":"Alias of <a href='docs#methods:getValue'><code class='js plain'>getValue()</code></a>"
+},
+"------------------------------------------------------------------------------",
+{
+  "noId":true,
+  "name":"val(value)",
+  "args":[
+    ["value", "array of <a href='docs#token_object'>Token Groups</a>"]
+  ],
+  "desc":"Alias of <a href='docs#methods:setValue'><code class='js plain'>setValue(value)</code></a>"
+},
+"------------------------------------------------------------------------------"
+],
+
+
+
+
+
+
+
+
+
+
+"Errors":[
+{
+  "id":1002,
+  "desc":"Element with id \"<id>\" does not exist in the DOM.",
+  "fix":[
+    "AutoComplete could not find your element with <code class='js plain'>document.getElementById</code>.",
+    "Please note that if you pass a string as the first argument to the AutoComplete() constructor it should be the value of a DOM id, not a CSS selector (ie: <code class='js string'>\"search_bar\"</code>, not <code class='js string'>\"#search_bar\"</code>)."
+  ]
+},
+{
+  "id":1003,
+  "desc":"JSON does not exist. Please include a JSON polyfill.",
+  "fix":"AutoComplete requires a JSON implementation. Please include a <a href='http://bestiejs.github.com/json3/'>polyfill</a> for older browsers."
+},
+{
+  "id":1004,
+  "desc":"Unable to find a valid version of jQuery. Please include jQuery 1.4.2 or higher on the page.",
+  "fix":"AutoComplete requires <a href='http://jquery.com/'>jQuery</a> version 1.4.2 or higher."
+},
+{
+  "id":1005,
+  "desc":"You must include at least one List Object on lists.",
+  "fix":"The <a href='docs#config_object:lists'><code class='js plain'>lists</code></a> config is mandatory and must include at least one <a href='docs#list_object'>List Object</a>."
+},
+{
+  "id":1037,
+  "desc":"The first argument to AutoComplete() cannot be an empty string.",
+  "fix":"The first argument to the AutoComplete() constructor should be the id of a DOM element or a reference to a single DOM element."
+},
+{
+  "id":1044,
+  "desc":"The first argument to AutoComplete() must be an ID or a single DOM node.",
+  "fix":"The first argument to the AutoComplete() constructor should be the id of a DOM element or a reference to a single DOM element."
+},
+{
+  "id":1273,
+  "desc":"You cannot include properties that effect control flow on ajaxOpts: \"async\", \"complete\", \"error\", \"statusCode\", \"success\"",
+  "fix":[
+    "You are not allowed to override certain AJAX properties.",
+    "See <a href='docs#list_object:ajaxOpts'>ajaxOpts</a>."
+  ]
+},
+{
+  "id":1328,
+  "desc":"Error in removeList method. List \"<listName>\" does not exist.",
+  "fix":"The list name you provided to the <a href='docs#methods:removeList'><code class='js plain'>removeList</code></a> method is not defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>."
+},
+{
+  "id":1424,
+  "desc":"Error in removeList method. You cannot remove the initialList \"<listName>\"",
+  "fix":"You are not allowed to remove the <a href='docs#config_object:initialList'><code class='js plain'>initialList</code></a>."
+},
+{
+  "id":2231,
+  "desc":"The first argument to the removeList method must be a non-empty string.",
+  "fix":"The first argument to <a href='docs#methods:removeList'><code class='js plain'>removeList</code></a> should be the name of a <a href='docs#list_object'>List Object</a> that is defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>."
+},
+{
+  "id":2535,
+  "desc":"The list object for list \"<listName>\" is invalid.",
+  "fix":"The structure of your <a href='docs#list_object'>List Object</a> is invalid."
+},
+{
+  "id":2642,
+  "desc":"You cannot use an empty string for a list name.",
+  "fix":"It is valid to use an empty string for an object property name in JavaScript, but this is not allowed by AutoComplete."
+},
+{
+  "id":2728,
+  "desc":"initialList \"<listName>\" does not exist on the lists object.",
+  "fix":"The list you specified on <a href='docs#config_object:initialList'><code class='js plain'>initialList</code></a> is not defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>."
+},
+{
+  "id":2732,
+  "desc":"The list object passed to the setList method is not valid.",
+  "fix":"The structure of your <a href='docs#list_object'>List Object</a> is invalid."
+},
+{
+  "id":2789,
+  "desc":"The first argument to the getList method must be a non-empty string.",
+  "fix":"The first argument to <a href='docs#methods:getList'><code class='js plain'>getList</code></a> should be the name of a <a href='docs#list_object'>List Object</a> that is defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>."
+},
+{
+  "id":3193,
+  "desc":"Could not find a valid value for optionHTML. Resorted to using value property \"<propertyName>\"",
+  "fix":"AutoComplete could not find a valid <code class='js plain'>optionHTML</code> on either the <a href='docs#option_object:optionHTML'>Option Object</a> or the <a href='docs#list_object:optionHTML'>List Object</a> so it resorted to using the first string <a href='docs#option_object:value'><code class='js plain'>option.value</code></a> property it could find."
+},
+{
+  "id":3776,
+  "desc":"Invalid Value returned from your custom onChange function.",
+  "fix":"If you specify an <a href='docs#config_object:onChange'><code class='js plain'>onChange</code></a> function, it must return an array of <a href='docs#token_object'>Token Groups</a>."
+},
+{
+  "id":3843,
+  "desc":"optionHTML function did not return a string.",
+  "fix":"If you provide a function for <a href='docs#list_object:optionHTML'><code class='js plain'>optionHTML</code></a> it must return an HTML string."
+},
+{
+  "id":4823,
+  "desc":"Error in removeTokenGroup method. Token group index \"<tokenGroupIndex>\" does not exist.",
+  "fix":"You tried to remove a <a href='docs#token_object'>Token Group</a> array index which doesn't exist."
+},
+{
+  "id":4922,
+  "desc":"The first argument to the setInput method must be a string.",
+  "fix":"The argument passed to <a href='docs#methods:setInput'><code class='js plain'>setInput</code></a> must be a string."
+},
+{
+  "id":5732,
+  "desc":"Error in addOption method. List \"<listName>\" does not exist.",
+  "fix":"The list name you provided to the <a href='docs#methods:addOption'><code class='js plain'>addOption</code></a> method is not defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>."
+},
+{
+  "id":5783,
+  "desc":"Unable to create HTML string for optionHTML.",
+  "fix":[
+    "This is an internal AutoComplete error that you should never see.",
+    "If you see this error please open a <a href='https://github.com/oakmac/autocompletejs/issues'>GitHub issue</a>."
+  ]
+},
+{
+  "id":5938,
+  "desc":"Wrong number of arguments passed to list method.",
+  "fix":"The <a href='docs#methods:list'><code class='js plain'>list</code></a> method takes either 1 or 2 arguments."
+},
+{
+  "id":6447,
+  "desc":"Invalid value pass to initialValue.",
+  "fix":"The value passed to <a href='docs#config_object:initialValue'><code class='js plain'>initialValue</code></a> must be an array of <a href='docs#token_object'>Token Groups</a>."
+},
+{
+  "id":6823,
+  "desc":"Invalid value passed to the setValue method.",
+  "fix":"The value passed to the <a href='docs#methods:setValue'><code class='js plain'>setValue</code></a> method must be an array of <a href='docs#token_object'>Token Groups</a>."
+},
+{
+  "id":7283,
+  "desc":"The first argument to the setList method must be a non-empty string.",
+  "fix":"The first argument to <a href='docs#methods:setList'><code class='js plain'>setList</code></a> should be the name of a <a href='docs#list_object'>List Object</a> that is defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>."
+},
+{
+  "id":7887,
+  "desc":"Invalid option passed to addOption method.",
+  "fix":"You must pass a valid <a href='docs#option_object'>Option Object</a> to the <a href='docs#methods:addOption'><code class='js plain'>addOption</code></a> method."
+},
+{
+  "id":7998,
+  "desc":"Your tokenSeparatorHTML function did not return a string.",
+  "fix":"If you provide a function to <a href='docs#config_object:tokenSeparatorHTML'>tokenSeparatorHTML</a>, it must return a string."
+},
+{
+  "id":8292,
+  "desc":"Could not find optionID \"<optionId>\".",
+  "fix":[
+    "This is an internal AutoComplete error that you should never see.",
+    "If you see this error please open a <a href='https://github.com/oakmac/autocompletejs/issues'>GitHub issue</a>."
+  ]
+},
+{
+  "id":8366,
+  "desc":"The first argument to the addOption method must be a non-empty string.",
+  "fix":"The list name you provided to the <a href='docs#methods:addOption'><code class='js plain'>addOption</code></a> method is not defined on <a href='docs#config_object:lists'><code class='js plain'>lists</code></a>."
+},
+{
+  "id":8721,
+  "desc":"AJAX url must be a string. Did you forget to include one on ajaxOpts?",
+  "fix":"If you provide a custom function on <a href='docs#list_object:ajaxOpts.url'><code class='js plain'>ajaxOpts.url</code></a>, it must return a valid URL string."
+},
+{
+  "id":9992,
+  "desc":"Wrong number of arguments passed to val method.",
+  "fix":"The <a href='docs#methods:val'><code class='js plain'>val</code></a> method takes either 0 or 1 arguments."
+}
+]
+
+}
