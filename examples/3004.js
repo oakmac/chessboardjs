@@ -2,8 +2,13 @@ var board = new ChessBoard('board', 'start');
 
 $('#startPositionBtn').on('click', board.start);
 
-$('#clearBoardBtn').on('click', board.clear);
+$('#move1Btn').on('click', function() {
+  board.move('e2', 'e4');
+});
 
-$('#clearBoardInstantBtn').on('click', function() {
-  board.clear(false);
+$('#move2Btn').on('click', function() {
+  board.move({
+    e2: 'e4',
+    e7: 'e5'
+  });
 });

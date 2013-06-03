@@ -65,11 +65,17 @@ var widget = {};
 // Stateful
 //------------------------------------------------------------------------------
 
-var ANIMATION_HAPPENING = false;
-var CURRENT_ORIENTATION = 'white';
-var CURRENT_POSITION = {};
-var CURRENT_SQUARE_SIZE;
-var SQUARE_ELS_IDS = {};
+var ANIMATION_HAPPENING = false,
+  CURRENT_ORIENTATION = 'white',
+  CURRENT_POSITION = {},
+  SQUARE_SIZE,
+  DRAGGING_A_PIECE = false,
+  DRAGGED_PIECE,
+  DRAGGED_PIECE_SOURCE_SQUARE,
+  DRAGGED_PIECE_EL,
+  HIGHLIGHTED_SQUARE = false,
+  SQUARE_ELS_IDS = {},
+  SQUARE_ELS_OFFSETS;
 
 //------------------------------------------------------------------------------
 // JS Util Functions
@@ -557,7 +563,8 @@ var buildBoard = function(orientation) {
 
       html += '<div class="' + CSS.square + ' ' + CSS[squareColor] + '" ' +
         'style="width: ' + squareSize + 'px; height: ' + squareSize + 'px" ' +
-        'id="' + SQUARE_ELS_IDS[square] + '">';
+        'id="' + SQUARE_ELS_IDS[square] + '" ' +
+        'data-square="' + square + '">';
 
       if (cfg.notation === true) {
         // alpha notation
@@ -590,16 +597,21 @@ var buildBoard = function(orientation) {
   return html;
 };
 
-var buildPiece = function(code, hidden, id) {
-  var html = '<img src="img/pieces/wikipedia/' + code + '.png" ';
+// TODO: integrate this with themeing
+var createPieceImgSrc = function(piece) {
+  return 'img/pieces/wikipedia/' + piece + '.png';
+};
+
+var buildPiece = function(piece, hidden, id) {
+  var html = '<img src="' + createPieceImgSrc(piece) + '" ';
   if (id && typeof id === 'string') {
     html += 'id="' + id + '" ';
   }
   html += 'alt="" ' +
   'class="' + CSS.piece + '" ' +
-  'data-piece="' + code + '" ' +
-  'style="width: ' + CURRENT_SQUARE_SIZE + 'px; ' +
-  'height: ' + CURRENT_SQUARE_SIZE + 'px; ';
+  'data-piece="' + piece + '" ' +
+  'style="width: ' + SQUARE_SIZE + 'px; ' +
+  'height: ' + SQUARE_SIZE + 'px; ';
   if (hidden === true) {
     html += 'display:none';
   }
@@ -821,6 +833,23 @@ var calculateAnimations = function(pos1, pos2) {
   return animations;
 };
 
+var calculatePositionFromMoves = function(position, moves) {
+  position = deepCopy(position);
+
+  for (var i in moves) {
+    if (moves.hasOwnProperty(i) !== true) continue;
+
+    // skip if the position doesn't have a piece on the source square
+    if (position.hasOwnProperty(i) !== true) continue;
+
+    var piece = position[i];
+    delete position[i];
+    position[moves[i]] = piece;
+  }
+
+  return position;
+};
+
 /*
 var getPositionFromDom = function() {
   var position = {};
@@ -865,6 +894,134 @@ var animateToPosition = function(pos1, pos2) {
   doAnimations(animations);
 };
 
+var isXYOnSquare = function(x, y) {
+  for (var i in SQUARE_ELS_OFFSETS) {
+    if (SQUARE_ELS_OFFSETS.hasOwnProperty(i) !== true) continue;
+
+    var s = SQUARE_ELS_OFFSETS[i];
+    if (x >= s.left && x < s.left + SQUARE_SIZE &&
+        y >= s.top && y < s.top + SQUARE_SIZE) {
+      return i;
+    }
+  }
+
+  return false;
+};
+
+var captureSquareOffsets = function() {
+  SQUARE_ELS_OFFSETS = {};
+
+  for (var i in SQUARE_ELS_IDS) {
+    if (SQUARE_ELS_IDS.hasOwnProperty(i) !== true) continue;
+
+    SQUARE_ELS_OFFSETS[i] = $('#' + SQUARE_ELS_IDS[i]).offset();
+  }
+};
+
+var removeSquareHighlights = function() {
+  boardEl.find('div.' + CSS.square).removeClass([CSS.highlight1, CSS.highlight2]);
+  HIGHLIGHTED_SQUARE = false;
+};
+
+var dropPieceOffBoard = function() {
+  removeSquareHighlights();
+
+  // snap back to the board
+  if (1) {
+    // get source square position
+    var sourceSquarePosition = $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_SOURCE_SQUARE])
+      .offset();
+
+    // animation complete
+    var complete = function() {
+      drawBoard();
+      DRAGGED_PIECE_EL.remove();
+    };
+
+    // animate the piece to the target square
+    var opts = {
+      duration: 50,
+      complete: complete
+    };
+    DRAGGED_PIECE_EL.animate(sourceSquarePosition, opts);
+  }
+
+  // trash the piece
+  if (0) {
+    // update position
+    // TODO: update position through function here
+    delete CURRENT_POSITION[DRAGGED_PIECE_SOURCE_SQUARE];
+
+    // redraw board
+    drawBoard();
+
+    // fade the dragged piece
+    DRAGGED_PIECE_EL.fadeOut('fast', function() {
+      DRAGGED_PIECE_EL.remove();
+    });
+  }
+
+  // set state
+  DRAGGING_A_PIECE = false;
+};
+
+var dropPiece = function(square) {
+  removeSquareHighlights();
+
+  // update position
+  // TODO: update position through function here
+  delete CURRENT_POSITION[DRAGGED_PIECE_SOURCE_SQUARE];
+  CURRENT_POSITION[square] = DRAGGED_PIECE;
+
+  // get target square information
+  var targetSquareEl = $('#' + SQUARE_ELS_IDS[square]);
+  var targetSquarePosition = targetSquareEl.offset();
+
+  // animation complete
+  var complete = function() {
+    drawBoard();
+    DRAGGED_PIECE_EL.remove();
+  };
+
+  // animate the piece to the target square
+  var opts = {
+    duration: 25,
+    complete: complete
+  };
+  DRAGGED_PIECE_EL.animate(targetSquarePosition, opts);
+
+  // set state
+  DRAGGING_A_PIECE = false;
+};
+
+// TODO: just keep the dragged piece always in the DOM and update it's CSS
+//       as necessary
+var beginDraggingPiece = function(square, piece, x, y) {
+  // set state
+  DRAGGING_A_PIECE = true;
+  DRAGGED_PIECE = piece;
+  DRAGGED_PIECE_SOURCE_SQUARE = square;
+  captureSquareOffsets();
+
+  // create the dragged piece
+  var draggedPieceId = createId();
+  $('body').append(buildPiece(piece, true, draggedPieceId));
+  DRAGGED_PIECE_EL = $('#' + draggedPieceId);
+  DRAGGED_PIECE_EL.css({
+    display: '',
+    position: 'absolute',
+    left: x - (SQUARE_SIZE / 2),
+    top: y - (SQUARE_SIZE / 2)
+  });
+
+  // hide the piece on the square
+  $('#' + SQUARE_ELS_IDS[square] + ' img.' + CSS.piece).css('display', 'none');
+
+  // highlight the initial square
+  $('#' + SQUARE_ELS_IDS[square]).addClass(CSS.highlight1);
+  HIGHLIGHTED_SQUARE = square;
+};
+
 //------------------------------------------------------------------------------
 // Public Methods
 //------------------------------------------------------------------------------
@@ -894,6 +1051,9 @@ widget.flip = function() {
 };
 
 // move piece(s)
+// TODO: support N arguments
+//       support format of 'e2-e4' string
+//       validate moves format
 widget.move = function(start, end) {
   if (arguments.length === 0) {
     // TODO: throw error
@@ -906,9 +1066,11 @@ widget.move = function(start, end) {
     start = tmp;
   }
 
-  // TODO: validate start object here
+  // TODO: validate the moves object here
 
-  movePieces(start);
+  var pos2 = calculatePositionFromMoves(CURRENT_POSITION, start);
+
+  widget.position(pos2);
 };
 
 widget.position = function(position, useAnimation) {
@@ -985,39 +1147,92 @@ widget.start = function(useAnimation) {
 };
 
 //------------------------------------------------------------------------------
+// Browser Events
+//------------------------------------------------------------------------------
+
+var stopDefault = function(e) {
+  e.preventDefault();
+}
+
+var mousedownSquare = function(e) {
+  var square = $(this).attr('data-square');
+
+  // no piece on this square
+  if (validSquare(square) !== true ||
+      CURRENT_POSITION.hasOwnProperty(square) !== true) {
+    return;
+  }
+
+  beginDraggingPiece(square, CURRENT_POSITION[square], e.pageX, e.pageY);
+};
+
+var mousemoveBody = function(e) {
+  // do nothing if we are not dragging a piece
+  if (DRAGGING_A_PIECE !== true || ! DRAGGED_PIECE_EL) return;
+
+  // update the dragged piece
+  DRAGGED_PIECE_EL.css({
+    left: e.pageX - (SQUARE_SIZE / 2),
+    top: e.pageY - (SQUARE_SIZE / 2)
+  })
+
+  // are we on a square?
+  var square = isXYOnSquare(e.pageX, e.pageY);
+
+  // off the board, remove highlight2
+  if (square === false && HIGHLIGHTED_SQUARE) {
+    $('#' + SQUARE_ELS_IDS[HIGHLIGHTED_SQUARE]).removeClass(CSS.highlight2);
+    HIGHLIGHTED_SQUARE = false;
+    return;
+  }
+
+  // new square, remove highlight from the old one and set to the new one
+  if (square && HIGHLIGHTED_SQUARE !== square) {
+    $('#' + SQUARE_ELS_IDS[HIGHLIGHTED_SQUARE]).removeClass(CSS.highlight2);
+    $('#' + SQUARE_ELS_IDS[square]).addClass(CSS.highlight2);
+    HIGHLIGHTED_SQUARE = square;
+  }
+};
+
+var mouseupBody = function(e) {
+  // do nothing if we are not dragging a piece
+  if (DRAGGING_A_PIECE !== true || ! DRAGGED_PIECE_EL) return;
+
+  // are we on a square?
+  var square = isXYOnSquare(e.pageX, e.pageY);
+  
+  // not on the board
+  if (square === false) {
+    dropPieceOffBoard();
+  }
+  // on a square
+  else {
+    dropPiece(square);
+  }
+};
+
+//------------------------------------------------------------------------------
 // Initialization
 //------------------------------------------------------------------------------
 
+// NOTE: using delegate and bind here instead of $.on to
+// maintain compatibility with older jquery versions
 var addEvents = function() {
+  // prevent browser "image drag"
+  $('body').delegate('img.' + CSS.piece, 'mousedown mousemove', stopDefault);
 
-  // TODO: prevent dragging of images on the board
+  // draggable pieces
+  boardEl.delegate('div.' + CSS.square, 'mousedown', mousedownSquare);
+  $('body').bind('mousemove', mousemoveBody);
+  $('body').bind('mouseup', mouseupBody);
 
-  /*
-  // NOTE: using delegate and bind here instead of $.on to
-  // maintain compatibility with older jquery versions
-  containerEl.bind('click', clickContainerElement);
-  containerEl.delegate('input.autocomplete-input', 'keydown', keydownInput);
-  containerEl.delegate('input.autocomplete-input', 'change keyup',
-    updateInputWidth);
-  containerEl.delegate('input.autocomplete-input', 'focus', focusInput);
-  containerEl.delegate('input.autocomplete-input', 'blur', blurInput);
-  containerEl.delegate('li.' + CSS.option, 'click', clickOption);
-  containerEl.delegate('li.' + CSS.option, 'mouseover', mouseoverOption);
-  containerEl.delegate('div.' + CSS.tokenGroup, 'click', clickTokenGroup);
-  containerEl.delegate(
-    'div.' + CSS.tokenGroup + ' span.' + CSS.removeTokenGroup,
-    'click', clickRemoveTokenGroup);
 
-  // catch all clicks on the page
-  $('html').bind('click touchstart', clickPage);
-
-  // catch global keydown
-  $(window).bind('keydown', keydownWindow);
-  */
+  // prevent IE image dragging
+  document.ondragstart = function () { return false; };
 };
 
 var initDom = function() {
-  CURRENT_SQUARE_SIZE = calculateSquareSize();
+  SQUARE_SIZE = calculateSquareSize();
 
   // build the board
   containerEl.html(buildWidget());
