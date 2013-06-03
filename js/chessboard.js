@@ -35,8 +35,6 @@ var START_POSITION = {
   a7: 'bP', b7: 'bP', c7: 'bP', d7: 'bP', e7: 'bP', f7: 'bP', g7: 'bP', h7: 'bP'
 };
 
-//var START_POSITION_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/w';
-
 var CSS = {
   alpha: 'alpha-d2270',
   black: 'black-3c85d',
@@ -479,11 +477,11 @@ var expandConfig = function() {
 //------------------------------------------------------------------------------
 
 // calculates square size based on the width of the container
+// got a little CSS black magic here, so let me explain:
+// get the width of the container element (could be anything), reduce by 1 for
+// fudget factor, and then keep reducing until we find an exact mod 8 for 
+// our square size
 var calculateSquareSize = function() {
-  // got a little CSS black magic here, so let me explain:
-  // div#board_container is fluid and will change with the page - this is what we want
-  // get that width, then reduce by 1 for a fudge factor, and then keep reducing until
-  // we find an exact mod 8 for our square size
 
   var containerWidth = parseInt(containerEl.css('width'), 10);
 
@@ -630,8 +628,7 @@ var setPositionInstant = function(position) {
   for (var i in position) {
     if (position.hasOwnProperty(i) !== true) continue;
 
-    var squareId = SQUARE_ELS_IDS[i];
-    $('#' + squareId).append(buildPiece(position[i]));
+    $('#' + SQUARE_ELS_IDS[i]).append(buildPiece(position[i]));
   }
 };
 
@@ -644,53 +641,48 @@ var drawBoard = function() {
 // Animations
 //------------------------------------------------------------------------------
 
-var animateMove = function(src, dest, completeFn) {
-  // get information about the source piece
-  var sourcePieceCode = CURRENT_POSITION[src];
-  var sourcePieceEl = $('#' + SQUARE_ELS_IDS[src] + ' img.' + CSS.piece);
-  var sourcePiecePosition = sourcePieceEl.offset();
+var animateMove = function(srcSquare, destSquare, piece, completeFn) {
+  // get information about the source and destination squares
+  var srcSquareEl = $('#' + SQUARE_ELS_IDS[srcSquare]);
+  var srcSquarePosition = srcSquareEl.offset();
+  var destSquareEl = $('#' + SQUARE_ELS_IDS[destSquare]);
+  var destSquarePosition = destSquareEl.offset();
 
-  // add an absolutely positioned piece for animation
+  // create the animated piece and absolutely position it
+  // over the source square
   var animatedPieceId = createId();
-  boardEl.append(buildPiece(sourcePieceCode, true, animatedPieceId));
+  $('body').append(buildPiece(piece, true, animatedPieceId));
   var animatedPieceEl = $('#' + animatedPieceId);
   animatedPieceEl.css({
     display: '',
     position: 'absolute',
-    top: sourcePiecePosition.top,
-    left: sourcePiecePosition.left
+    top: srcSquarePosition.top,
+    left: srcSquarePosition.left
   });
 
-  // remove the existing piece
-  sourcePieceEl.remove();
+  // remove original piece from source square
+  srcSquareEl.find('img.' + CSS.piece).remove();
 
-  // get information about the destination square
-  var destinationSquareEl = $('#' + SQUARE_ELS_IDS[dest]);
-  var destinationSquarePosition = destinationSquareEl.offset();
-
-  // animation complete
+  // on complete
   var complete = function() {
-    // remove any pieces on the target square
-    destinationSquareEl.find('img.' + CSS.piece).remove();
+    // add the "real" piece to the destination square
+    destSquareEl.append(buildPiece(piece));
 
-    // add the destination piece to the square
-    destinationSquareEl.append(buildPiece(sourcePieceCode));
-
-    // remove the animation shim
+    // remove the animated piece
     animatedPieceEl.remove();
 
-    // run the complete function
+    // run complete function
     if (typeof completeFn === 'function') {
-      completeFn(); 
+      completeFn();
     }
   };
 
-  // animate the piece to the new square
+  // animate the piece to the destination square
   var opts = {
     duration: 'fast',
     complete: complete
   };
-  animatedPieceEl.animate(destinationSquarePosition, opts);
+  animatedPieceEl.animate(destSquarePosition, opts);
 };
 
 var isSquareEmpty = function(square) {
@@ -698,49 +690,35 @@ var isSquareEmpty = function(square) {
     CURRENT_POSITION[square] === '');
 };
 
-var animateAdd = function(square, piece) {
-  if (isSquareEmpty(square) !== true) {
-
-  }
-};
-
 var doAnimations = function(a) {
+  ANIMATION_HAPPENING = true;
+
   var numFinished = 0;
   var onFinish = function() {
     numFinished++;
     if (numFinished === a.length) {
-      CURRENT_POSITION = getPositionFromDom();
+      drawBoard();
+      ANIMATION_HAPPENING = false;
     }
   };
 
   for (var i = 0; i < a.length; i++) {
     // clear a piece
     if (a[i].type === 'clear') {
-      $('#' + SQUARE_ELS_IDS[a[i].square] + ' img.' + CSS.piece).fadeOut('fast', function() {
-        $(this).remove();
-      });
+      $('#' + SQUARE_ELS_IDS[a[i].square] + ' img.' + CSS.piece).fadeOut('fast', onFinish);
     }
 
     // add a piece
     if (a[i].type === 'add') {
-
-      $('#' + SQUARE_ELS_IDS[a[i].square] + ' img.' + CSS.piece).fadeOut('fast', function() {
-        $(this).remove();
-      });
-
-      var square = a[i].square;
-      $('#' + SQUARE_ELS_IDS[square]).append(buildPiece(a[i].piece, true))
-        .find('img.' + CSS.piece).fadeIn('fast');
+      $('#' + SQUARE_ELS_IDS[a[i].square])
+        .append(buildPiece(a[i].piece, true))
+        .find('img.' + CSS.piece)
+        .fadeIn('fast', onFinish);
     }
 
     // move a piece
     if (a[i].type === 'move') {
-      // do nothing if source and destination are the same
-      // or if the source square is empty
-      if (a[i].source === a[i].destination ||
-          isSquareEmpty(a[i].source) === true) continue;
-
-      animateMove(a[i].source, a[i].destination, onFinish);
+      animateMove(a[i].source, a[i].destination, a[i].piece, onFinish);
     }
   }
 };
@@ -805,7 +783,8 @@ var calculateAnimations = function(pos1, pos2) {
       animations.push({
         type: 'move',
         source: closestPiece,
-        destination: i
+        destination: i,
+        piece: pos2[i]
       });
 
       delete pos1[closestPiece];
@@ -813,13 +792,36 @@ var calculateAnimations = function(pos1, pos2) {
     }
   }
 
-  // TODO: clear pieces
+  // add pieces to pos2
+  for (var i in pos2) {
+    if (pos2.hasOwnProperty(i) !== true) continue;
 
-  // TODO: add pieces
+    animations.push({
+      type: 'add',
+      square: i,
+      piece: pos2[i]
+    })
+
+    delete pos2[i];
+  }
+
+  // clear pieces from pos1
+  for (var i in pos1) {
+    if (pos1.hasOwnProperty(i) !== true) continue;
+
+    animations.push({
+      type: 'clear',
+      square: i,
+      piece: pos1[i]
+    });
+
+    delete pos1[i];
+  }
 
   return animations;
 };
 
+/*
 var getPositionFromDom = function() {
   var position = {};
   for (var i in SQUARE_ELS_IDS) {
@@ -832,6 +834,7 @@ var getPositionFromDom = function() {
   }
   return position;
 };
+*/
 
 var movePieces = function(movements) {
   var animations = [];
@@ -851,40 +854,14 @@ var movePieces = function(movements) {
   }
 
   doAnimations(animations);
-
-  /*
-  var animations = [
-    {
-      type: 'clear',
-      square: 'a1'
-    },
-    {
-      type: 'clear',
-      square: 'b2'
-    },
-    {
-      type: 'add',
-      square: 'a4',
-      piece: 'bR'
-    },
-    {
-      type: 'move',
-      source: 'e2',
-      destination: 'e4'
-    },
-    {
-      type: 'move',
-      source: 'f2',
-      destination: 'e3'
-    }    
-  ];
-
-  doAnimations(animations);
-  */
 };
 
-var animateToPosition = function(newPosition) {
-  var animations = calculateAnimations(CURRENT_POSITION, newPosition);
+var setCurrentPosition = function(position) {
+  CURRENT_POSITION = deepCopy(position);
+};
+
+var animateToPosition = function(pos1, pos2) {
+  var animations = calculateAnimations(pos1, pos2);
   doAnimations(animations);
 };
 
@@ -894,14 +871,14 @@ var animateToPosition = function(newPosition) {
 
 // clear the board
 widget.clear = function(useAnimation) {
-  CURRENT_POSITION = {};
-  
   if (useAnimation === false) {
     clearBoardInstant();
   }
   else {
     clearBoardFade();
   }
+
+  setCurrentPosition({});
 };
 
 // remove the widget from the page
@@ -964,15 +941,19 @@ widget.position = function(position, useAnimation) {
   if (validPositionObject(position) !== true) {
 
     // TODO: throw error
-    
+
     return;
   }
 
   if (useAnimation === true) {
-    animateToPosition(position);
+    // start the animation (it won't finish for a while)
+    animateToPosition(CURRENT_POSITION, position);
+
+    // butset the position instantly
+    setCurrentPosition(position);
   }
   else {
-    CURRENT_POSITION = position;
+    setCurrentPosition(position);
     drawBoard();
   }
 };
