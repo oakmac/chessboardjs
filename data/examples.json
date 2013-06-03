@@ -45,58 +45,38 @@
 {
   "group": "Methods",
   "number": 3000,
-  "name": "Get Position as FEN"
+  "name": "Get Position"
 },
 {
   "group": "Methods",
   "number": 3001,
-  "name": "Get Position as Object"
+  "name": "Set Position"
 },
 {
   "group": "Methods",
   "number": 3002,
-  "name": "Set Position 2"
+  "name": "Set Position Instantly"
 },
 {
   "group": "Methods",
   "number": 3003,
-  "name": "Set Position 3"
+  "name": "Clear Board"
 },
 {
   "group": "Methods",
   "number": 3004,
-  "name": "Get Orientation"
+  "name": "Move Pieces"
 },
 {
   "group": "Methods",
   "number": 3005,
-  "name": "Set Orientation"
-},
-{
-  "group": "Methods",
-  "number": 3006,
-  "name": "Flip Orientation"
-},
-{
-  "group": "Methods",
-  "number": 3007,
-  "name": "Clear Board Instant"
-},
-{
-  "group": "Methods",
-  "number": 3008,
-  "name": "Clear Board Fade"
+  "name": "Orientation"
 },
 "-----------------------------------------------------",
 {
   "group": "Events",
   "number": 4000,
   "name": "Position Change"
-},
-{
-  "group": "Events",
-  "number": 4001,
-  "name": "onChange - Modify Value"
 },
 "-----------------------------------------------------",
 {

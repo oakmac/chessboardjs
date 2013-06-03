@@ -614,7 +614,7 @@ var buildPiece = function(code, hidden, id) {
 // DOM Manipulation
 //------------------------------------------------------------------------------
 
-var clearBoardAnim = function() {
+var clearBoardFade = function() {
   boardEl.find('img.' + CSS.piece).fadeOut('fast', function() {
     $(this).remove();
   });
@@ -900,7 +900,7 @@ widget.clear = function(useAnimation) {
     clearBoardInstant();
   }
   else {
-    clearBoardAnim();
+    clearBoardFade();
   }
 };
 
@@ -934,7 +934,7 @@ widget.move = function(start, end) {
   movePieces(start);
 };
 
-widget.position = function(position) {
+widget.position = function(position, useAnimation) {
   // no arguments, return the current position
   if (arguments.length === 0) {
     return CURRENT_POSITION;
@@ -945,24 +945,33 @@ widget.position = function(position) {
     return objToFEN(CURRENT_POSITION);
   }
 
-  // set the start position
+  // default for useAnimations is true
+  if (useAnimation !== false) {
+    useAnimation = true;
+  }
+
+  // start position
   if (position === 'start') {
-    CURRENT_POSITION = START_POSITION;
-    drawBoard();
+    position = deepCopy(START_POSITION);
   }
 
-  // FEN string
+  // convert FEN to position object
   if (validFEN(position) === true) {
-    /*
-    CURRENT_POSITION = FENToObj(position);
-    drawBoard();
-    */
-
-    animateToPosition(FENToObj(position));
+    position = FENToObj(position);
   }
 
-  // position object
-  if (validPositionObject(position) === true) {
+  // validate position object
+  if (validPositionObject(position) !== true) {
+
+    // TODO: throw error
+    
+    return;
+  }
+
+  if (useAnimation === true) {
+    animateToPosition(position);
+  }
+  else {
     CURRENT_POSITION = position;
     drawBoard();
   }
@@ -991,7 +1000,7 @@ widget.orientation = function(whiteOrBlackOrFlip) {
 
 // set the starting position
 widget.start = function(useAnimation) {
-  widget.position('start');
+  widget.position('start', useAnimation);
 };
 
 //------------------------------------------------------------------------------
