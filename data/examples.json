@@ -7,213 +7,95 @@
 },
 {
   "group": "Basic Usage",
-  "number": 1002,
+  "number": 1001,
   "name": "Initialize Board to Start Position"
 },
 {
   "group": "Basic Usage",
-  "number": 1003,
+  "number": 1002,
   "name": "Initialize Board from FEN"
 },
 {
   "group": "Basic Usage",
-  "number": 1004,
-  "name": "Initialize Board from Position Object"
+  "number": 1003,
+  "name": "Initialize Board from Object"
 },
 {
   "group": "Basic Usage",
-  "number": 1005,
+  "number": 1004,
   "name": "Multiple Boards"
 },
 "-----------------------------------------------------",
 {
-  "group": "AJAX",
+  "group": "Config",
   "number": 2000,
-  "name": "Simple AJAX"
+  "name": "Position"
 },
 {
-  "group": "AJAX",
+  "group": "Config",
   "number": 2001,
-  "name": "AJAX with local Options"
+  "name": "Orientation"
 },
 {
-  "group": "AJAX",
+  "group": "Config",
   "number": 2002,
-  "name": "Nested Lists with AJAX"
-},
-{
-  "group": "AJAX",
-  "number": 2003,
-  "name": "AJAX with preProcess function"
-},
-{
-  "group": "AJAX",
-  "number": 2004,
-  "name": "AJAX using POST"
-},
-{
-  "group": "AJAX",
-  "number": 2020,
-  "name": "cache AJAX"
-},
-{
-  "group": "AJAX",
-  "number": 2021,
-  "name": "cache AJAX length"
+  "name": "Notation"
 },
 "-----------------------------------------------------",
 {
-  "group": "Initial Config",
+  "group": "Methods",
   "number": 3000,
-  "name": "initialValue"
+  "name": "Get Position as FEN"
 },
 {
-  "group": "Initial Config",
+  "group": "Methods",
   "number": 3001,
-  "name": "maxTokenGroups"
+  "name": "Get Position as Object"
 },
 {
-  "group": "Initial Config",
+  "group": "Methods",
+  "number": 3002,
+  "name": "Set Position 2"
+},
+{
+  "group": "Methods",
+  "number": 3003,
+  "name": "Set Position 3"
+},
+{
+  "group": "Methods",
+  "number": 3004,
+  "name": "Get Orientation"
+},
+{
+  "group": "Methods",
   "number": 3005,
-  "name": "placeholderHTML"
+  "name": "Set Orientation"
 },
 {
-  "group": "Initial Config",
-  "number": 3012,
-  "name": "showErrors console.log"
+  "group": "Methods",
+  "number": 3006,
+  "name": "Flip Orientation"
 },
 {
-  "group": "Initial Config",
-  "number": 3088,
-  "name": "showErrors alert",
-  "hidden":true
+  "group": "Methods",
+  "number": 3007,
+  "name": "Clear Board Instant"
 },
 {
-  "group": "Initial Config",
-  "number": 3031,
-  "name": "showErrors custom"
-},
-{
-  "group": "Initial Config",
-  "number": 3015,
-  "name": "tokenSeparatorHTML string"
-},
-{
-  "group": "Initial Config",
-  "number": 3016,
-  "name": "tokenSeparatorHTML function"
+  "group": "Methods",
+  "number": 3008,
+  "name": "Clear Board Fade"
 },
 "-----------------------------------------------------",
 {
-  "group": "List Config",
-  "number": 4055,
-  "name": "ajaxErrorHTML string"
+  "group": "Events",
+  "number": 4000,
+  "name": "Position Change"
 },
 {
-  "group": "List Config",
-  "number": 4072,
-  "name": "ajaxErrorHTML function"
-},
-{
-  "group": "List Config",
-  "number": 4011,
-  "name": "ajaxLoadingHTML string"
-},
-{
-  "group": "List Config",
-  "number": 4037,
-  "name": "ajaxLoadingHTML function"
-},
-{
-  "group": "List Config",
-  "number": 4014,
-  "name": "Basic allowFreeform"
-},
-{
-  "group": "List Config",
+  "group": "Events",
   "number": 4001,
-  "name": "allowFreeform Multiple Lists"
-},
-{
-  "group": "List Config",
-  "number": 4002,
-  "name": "cacheAjax"
-},
-{
-  "group": "List Config",
-  "number": 4003,
-  "name": "children on List Object"
-},
-{
-  "group": "List Config",
-  "number": 4041,
-  "name": "matchOptions"
-},
-{
-  "group": "List Config",
-  "number": 4007,
-  "name": "noResultsHTML"
-},
-{
-  "group": "List Config",
-  "number": 4033,
-  "name": "optionHTML string"
-},
-{
-  "group": "List Config",
-  "number": 4034,
-  "name": "optionHTML and tokenHTML as functions"
-},
-{
-  "group": "List Config",
-  "number": 4009,
-  "name": "tokenHTML"
-},
-{
-  "group": "List Config",
-  "number": 4013,
-  "name": "options"
-},
-"-----------------------------------------------------",
-{
-  "group": "Option Config",
-  "number": 5022,
-  "name": "children override on Option Object"
-},
-{
-  "group": "Option Config",
-  "number": 5000,
-  "name": "children"
-},
-{
-  "group": "Option Config",
-  "number": 5001,
-  "name": "group"
-},
-{
-  "group": "Option Config",
-  "number": 5002,
-  "name": "optionHTML"
-},
-{
-  "group": "Option Config",
-  "number": 5003,
-  "name": "tokenHTML"
-},
-{
-  "group": "Option Config",
-  "number": 5004,
-  "name": "value"
-},
-"-----------------------------------------------------",
-{
-  "group": "Events",
-  "number": 6000,
-  "name": "onChange - Basic Usage"
-},
-{
-  "group": "Events",
-  "number": 6001,
   "name": "onChange - Modify Value"
 },
 "-----------------------------------------------------",

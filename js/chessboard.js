@@ -35,7 +35,7 @@ var START_POSITION = {
   a7: 'bP', b7: 'bP', c7: 'bP', d7: 'bP', e7: 'bP', f7: 'bP', g7: 'bP', h7: 'bP'
 };
 
-var START_POSITION_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/w';
+//var START_POSITION_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/w';
 
 var CSS = {
   alpha: 'alpha-d2270',
@@ -258,6 +258,18 @@ var objToFEN = function(obj) {
 // Validation
 //------------------------------------------------------------------------------
 
+var validSquare = function(square) {
+  if (typeof square !== 'string') return false;
+
+  return (square.search(/^[a-h][1-8]$/) !== -1);
+};
+
+var validPieceCode = function(code) {
+  if (typeof code !== 'string') return false;
+
+  return (code.search(/^[bw][KQRNBP]$/) !== -1);
+};
+
 var validFEN = function(fen) {
   if (typeof fen !== 'string') return false;
 
@@ -277,10 +289,15 @@ var validFEN = function(fen) {
 };
 
 var validPositionObject = function(pos) {
+  if (isObject(pos) !== true) return false;
 
-  // TODO: write me
+  for (var i in pos) {
+    if (pos.hasOwnProperty(i) !== true) continue;
 
-  return false;
+    if (validSquare(i) !== true || validPieceCode(pos[i]) !== true) {
+      return false;
+    }
+  }
 
   return true;
 };
@@ -393,11 +410,20 @@ var createSquareIds = function() {
 //------------------------------------------------------------------------------
 
 var expandConfig = function() {
+  cfg = cfg || {};
+
+  if (typeof cfg === 'string' || validPositionObject(cfg) === true) {
+    cfg = {
+      position: cfg
+    };
+  }
 
   // default for orientation is white
-  if (cfg.orientation !== 'black') {
+  if (cfg.hasOwnProperty('orientation') !== true || 
+      cfg.orientation !== 'black') {
     cfg.orientation = 'white';
   }
+  CURRENT_ORIENTATION = cfg.orientation;
 
   // default for showNotation is true
   if (cfg.showNotation !== false) {
@@ -418,6 +444,31 @@ var expandConfig = function() {
   if (cfg.hasOwnProperty('onChange') === true &&
       typeof cfg.onChange !== 'function') {
     // TODO: show error
+  }
+
+  // default for notation is true
+  if (cfg.hasOwnProperty('notation') !== true ||
+      cfg.notation !== false) {
+    cfg.notation = true;
+  }
+
+  // make sure position is valid
+  if (cfg.hasOwnProperty('position') === true) {
+    if (cfg.position === 'start') {
+      CURRENT_POSITION = deepCopy(START_POSITION);
+    }
+
+    else if (validFEN(cfg.position) === true) {
+      CURRENT_POSITION = FENToObj(cfg.position);
+    }
+
+    else if (validPositionObject(cfg.position) === true) {
+      CURRENT_POSITION = deepCopy(cfg.position);
+    }
+
+    else {
+      // TODO: throw error
+    }
   }
 
   return true;
@@ -461,9 +512,8 @@ var buildWidget = function() {
   var boardWidth = (squareSize * 8);
 
   var html = '<div class="' + CSS.chessboard + '">' +
-  '<div class="' + CSS.board + '" style="width: ' + boardWidth + 'px">' + 
-  buildBoard() + '</div>' +
-  '</div>'; // end .chessboard
+  '<div class="' + CSS.board + '" style="width: ' + boardWidth + 'px"></div>' + 
+  '</div>';
 
   return html;
 };
@@ -511,7 +561,7 @@ var buildBoard = function(orientation) {
         'style="width: ' + squareSize + 'px; height: ' + squareSize + 'px" ' +
         'id="' + SQUARE_ELS_IDS[square] + '">';
 
-      if (cfg.showNotation === true) {
+      if (cfg.notation === true) {
         // alpha notation
         if ((orientation === 'white' && row === 1) || (orientation === 'black' && row === 8)) {
           html += '<div class="' + CSS.notation + ' ' + CSS.alpha + '">' + alpha[j] + '</div>';
@@ -890,6 +940,11 @@ widget.position = function(position) {
     return CURRENT_POSITION;
   }
 
+  // get position as FEN
+  if (typeof position === 'string' && position.toLowerCase() === 'fen') {
+    return objToFEN(CURRENT_POSITION);
+  }
+
   // set the start position
   if (position === 'start') {
     CURRENT_POSITION = START_POSITION;
@@ -979,6 +1034,9 @@ var initDom = function() {
 
   // grab elements in memory
   boardEl = containerEl.find('div.' + CSS.board);
+
+  // load the initial position
+  drawBoard();
 
   /*
   for (var i in SQUARE_ELS_IDS) {

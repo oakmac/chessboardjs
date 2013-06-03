@@ -24,9 +24,9 @@ $examples = ChessBoard::getExamples();
 </div><!-- end div.row -->
 
 <script src="js/json3.min.js"></script>
-<script src="js/jquery-1.8.2.min.js"></script>
+<script src="js/jquery-1.10.1.min.js"></script>
 <script src="js/prettify.js"></script>
-<script src="js/autocomplete.js"></script>
+<script src="js/chessboard.js"></script>
 <script>
 // yo dawg, i heard you like code...
 var examples = {};

@@ -49,7 +49,7 @@ if ($URI[0] === 'examples' && $URI[1] === '') {
 
 // single example
 if ($URI[0] === 'examples' && $URI[1] !== '') {
-  $example = AC::getExample($URI[1]);
+  $example = ChessBoard::getExample($URI[1]);
   if ($example !== false) {
     require(APP_PATH.'pages/single_example.php');
     die;

@@ -1,9 +1,6 @@
 /*
 var config = {
   piecesDraggable: true,
-  initialPosition: 'fen string or position object',
-  showNotation: false // or 'edges' or 'squares',
-  orientation: 'white',
   onChange: changeFunction,
   offBoard: 'trash', // or 'snapback'
   staticPieces: true // or false
