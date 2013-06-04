@@ -21,7 +21,6 @@ ChessBoard.validFEN('FEN string'); // true or false
 ChessBoard.objToFEN({});
 ChessBoard.FENToObj('FEN string');
 
-// highlight squares when dragging?
 // programmatically highlight squares?
 // flash highlight?
 // only allow legal moves? how hard will this be to implement? --> project for a different repo

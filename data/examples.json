@@ -41,6 +41,11 @@
   "number": 2002,
   "name": "Notation"
 },
+{
+  "group": "Config",
+  "number": 2003,
+  "name": "Draggable"
+},
 "-----------------------------------------------------",
 {
   "group": "Methods",
@@ -79,65 +84,6 @@
   "name": "Position Change"
 },
 "-----------------------------------------------------",
-{
-  "group": "Methods",
-  "number": 7000,
-  "name": "addOption"
-},
-{
-  "group": "Methods",
-  "number": 7001,
-  "name": "blur"
-},
-{
-  "group": "Methods",
-  "number": 7002,
-  "name": "clear"
-},
-{
-  "group": "Methods",
-  "number": 7003,
-  "name": "destroy"
-},
-{
-  "group": "Methods",
-  "number": 7004,
-  "name": "focus"
-},
-{
-  "group": "Methods",
-  "number": 7005,
-  "name": "getList"
-},
-{
-  "group": "Methods",
-  "number": 7006,
-  "name": "getLists"
-},
-{
-  "group": "Methods",
-  "number": 7007,
-  "name": "getValue"
-},
-{
-  "group": "Methods",
-  "number": 7008,
-  "name": "removeList"
-},
-{
-  "group": "Methods",
-  "number": 7009,
-  "name": "removeTokenGroup"
-},
-{
-  "group": "Methods",
-  "number": 7011,
-  "name": "setValue"
-},
-{
-  "group": "Methods",
-  "number": 7056,
-  "name": "Simulate User Input"
-},
+
 "-----------------------------------------------------"
 ]
