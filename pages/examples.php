@@ -4,11 +4,6 @@ $active_nav_tab = 'Examples';
 include(APP_PATH . 'pages/header.php');
 $examples = ChessBoard::getExamples();
 $examplesGroups = ChessBoard::getExampleGroups();
-
-//print_r($examples);
-//print_r($examplesGroups);
-//die;
-
 ?>
 
 <div class="row">
@@ -42,7 +37,9 @@ var examples = {};
 foreach ($examples as $ex) {
   echo "\n";
   echo 'examples["'.$ex['number'].'"] = {'."\n";
-  //echo '  group: '.json_encode($ex['group']).",\n";
+  if (array_key_exists('Description', $ex) === true) {
+    echo '  desc: '.json_encode($ex['Description']).",\n";
+  }
   echo '  html: '.json_encode($ex['HTML']).",\n";
   echo '  name: '.json_encode($ex['Name']).",\n";
   echo '  jsStr: '.json_encode(htmlspecialchars($ex['JS'])).",\n";

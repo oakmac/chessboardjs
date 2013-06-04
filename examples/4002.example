@@ -1,0 +1,28 @@
+=== Name
+onDragStart Prevent Drag
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+<input type="button" id="flipOrientationBtn" value="Flip Orientation" />
+
+=== JS
+// only allow pieces to be dragged when the board is oriented
+// in their direction
+var onDragStart = function(square, piece, position, orientation) {
+  if ((orientation === 'white' && piece.search(/^w/) === -1) ||
+      (orientation === 'black' && piece.search(/^b/) === -1)) {
+    return false;
+  }
+};
+
+var cfg = {
+  draggable: true,
+  position: 'start',
+  onDragStart: onDragStart
+};
+var board = new ChessBoard('board', cfg);
+
+$('#flipOrientationBtn').on('click', board.flip);

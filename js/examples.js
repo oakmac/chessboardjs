@@ -4,12 +4,8 @@ var config = {
   staticPieces: true // or false
 };
 
-board1.move(start, end); // moves a piece from start to end
-board1.move({ // move multiple pieces at the same time
-  'a1': 'b2',
-  'c5': 'c6',
-  'wP': 'b5'  // moves a new "white pawn" to "b5"
-});
+board1.move('e2-e4');
+board1.move(['e2-e4', 'd2-d4']);
 
 board1.destroy(); // remove the board and elements from the DOM
 
@@ -30,6 +26,10 @@ board.highlight('clear');
 board.config(); // return current config
 board.config('onChange', fn);
 board.config('draggable', true);
+board.config({
+  'draggable': false,
+  'orientation': 'black'
+});
 
 // need to add events to hook into the drag and drop system
 // should be able to prevent illegal moves, highlight legal squares, etc

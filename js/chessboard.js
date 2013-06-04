@@ -11,7 +11,156 @@
 // start anonymous scope
 ;(function() {
 
-var FENToObj, objToFEN;
+var COLUMNS = 'abcdefgh'.split('');
+
+var validSquare = function(square) {
+  if (typeof square !== 'string') return false;
+  return (square.search(/^[a-h][1-8]$/) !== -1);
+};
+
+var validPieceCode = function(code) {
+  if (typeof code !== 'string') return false;
+  return (code.search(/^[bw][KQRNBP]$/) !== -1);
+};
+
+var validFEN = function(fen) {
+  if (typeof fen !== 'string') return false;
+
+  // FEN should be 9 sections separated by slashes
+  var chunks = fen.split('/');
+  if (chunks.length !== 9) return false;
+
+  // check the piece sections
+  for (var i = 0; i < 8; i++) {
+    // TODO: write me
+  }
+
+  // last section should be either 'w' or 'b'
+  if (chunks[8] !== 'w' && chunks[8] !== 'b') return false;
+
+  return true;
+};
+
+var validPositionObject = function(pos) {
+  if (typeof pos !== 'object') return false;
+
+  for (var i in pos) {
+    if (pos.hasOwnProperty(i) !== true) continue;
+
+    if (validSquare(i) !== true || validPieceCode(pos[i]) !== true) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+// convert FEN piece code to bP, wK, etc
+var FENToPieceCode = function(piece) {
+  // black piece
+  if (piece.toLowerCase() === piece) {
+    return 'b' + piece.toUpperCase();
+  }
+
+  // white piece
+  return 'w' + piece.toUpperCase();
+};
+
+// convert bP, wK, etc code to FEN structure
+var pieceCodeToFEN = function(piece) {
+  var tmp = piece.split('');
+
+  // white piece
+  if (tmp[0] === 'w') {
+    return tmp[1].toUpperCase();
+  }
+
+  // black piece
+  return tmp[1].toLowerCase();
+};
+
+// convert FEN string to position object
+// returns false if the FEN string is invalid
+var FENToObj = function(fen) {
+  if (validFEN(fen) !== true) {
+    return false;
+  }
+
+  var rows = fen.split('/');
+  var position = {};
+
+  var currentRow = 8;
+  for (var i = 0; i < 8; i++) {
+    var row = rows[i].split('');
+    var colIndex = 0;
+
+    // loop through each character in the FEN section
+    for (var j = 0; j < row.length; j++) {
+      // number / empty squares
+      // TODO: check this with regex instead
+      var emptySquares = parseInt(row[j], 10);
+      if (emptySquares > 0) {
+        colIndex += emptySquares;
+      }
+
+      // piece
+      else {
+        var square = COLUMNS[colIndex] + currentRow;
+        position[square] = FENToPieceCode(row[j]);
+        colIndex++;
+      }
+    }
+
+    currentRow--;
+  }
+
+  return position;
+};
+
+// position object to FEN string
+// returns false if the obj is not a valid position object
+var objToFEN = function(obj) {
+  if (validPositionObject(obj) !== true) {
+    return false;
+  }
+
+  var fen = '';
+
+  var currentRow = 8;
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 8; j++) {
+      var square = COLUMNS[j] + currentRow;
+
+      // piece exists
+      if (obj.hasOwnProperty(square) === true) {
+        fen += pieceCodeToFEN(obj[square]);
+      }
+
+      // empty space
+      else {
+        fen += '1';
+      }
+    }
+
+    if (i !== 7) {
+      fen += '/';
+    }
+
+    currentRow--;
+  }
+
+  // squeeze the numbers together
+  // haha, I love this solution...
+  fen = fen.replace(/11111111/g, '8');
+  fen = fen.replace(/1111111/g, '7');
+  fen = fen.replace(/111111/g, '6');
+  fen = fen.replace(/11111/g, '5');
+  fen = fen.replace(/1111/g, '4');
+  fen = fen.replace(/111/g, '3');
+  fen = fen.replace(/11/g, '2');
+
+  return fen;
+};
 
 window['ChessBoard'] = window['ChessBoard'] || function(containerElOrId, cfg) {
 'use strict';
@@ -22,8 +171,6 @@ cfg = cfg || {};
 // Constants
 //------------------------------------------------------------------------------
 var MINIMUM_JQUERY_VERSION = '1.4.2';
-
-var COLUMNS = 'abcdefgh'.split('');
 
 // TODO: use start FEN and just convert to position object on load
 
@@ -163,160 +310,12 @@ var compareSemVer = function(version, minimum) {
 // Chess Util Functions
 //------------------------------------------------------------------------------
 
-// convert FEN piece code to bP, wK, etc
-var FENToPieceCode = function(piece) {
-  // black piece
-  if (piece.toLowerCase() === piece) {
-    return 'b' + piece.toUpperCase();
-  }
-
-  // white piece
-  return 'w' + piece.toUpperCase();
-};
-
-// convert bP, wK, etc code to FEN structure
-var pieceCodeToFEN = function(piece) {
-  var tmp = piece.split('');
-
-  // white piece
-  if (tmp[0] === 'w') {
-    return tmp[1].toUpperCase();
-  }
-
-  // black piece
-  return tmp[1].toLowerCase();
-};
-
-// convert FEN string to position object
-// returns false if the FEN string is invalid
-FENToObj = function(fen) {
-  if (validFEN(fen) !== true) {
-    return false;
-  }
-
-  var rows = fen.split('/');
-  var position = {};
-
-  var currentRow = 8;
-  for (var i = 0; i < 8; i++) {
-    var row = rows[i].split('');
-    var colIndex = 0;
-
-    // loop through each character in the FEN section
-    for (var j = 0; j < row.length; j++) {
-      // number / empty squares
-      // TODO: check this with regex instead
-      var emptySquares = parseInt(row[j], 10);
-      if (emptySquares > 0) {
-        colIndex += emptySquares;
-      }
-
-      // piece
-      else {
-        var square = COLUMNS[colIndex] + currentRow;
-        position[square] = FENToPieceCode(row[j]);
-        colIndex++;
-      }
-    }
-
-    currentRow--;
-  }
-
-  return position;
-};
-
-// position object to FEN string
-// returns false if the obj is not a valid position object
-objToFEN = function(obj) {
-  if (validPositionObject(obj) !== true) {
-    return false;
-  }
-
-  var fen = '';
-
-  var currentRow = 8;
-  for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 8; j++) {
-      var square = COLUMNS[j] + currentRow;
-
-      // piece exists
-      if (obj.hasOwnProperty(square) === true) {
-        fen += pieceCodeToFEN(obj[square]);
-      }
-
-      // empty space
-      else {
-        fen += '1';
-      }
-    }
-
-    if (i !== 7) {
-      fen += '/';
-    }
-
-    currentRow--;
-  }
-
-  // squeeze the numbers together
-  // haha, I love this solution...
-  fen = fen.replace(/11111111/g, '8');
-  fen = fen.replace(/1111111/g, '7');
-  fen = fen.replace(/111111/g, '6');
-  fen = fen.replace(/11111/g, '5');
-  fen = fen.replace(/1111/g, '4');
-  fen = fen.replace(/111/g, '3');
-  fen = fen.replace(/11/g, '2');
-
-  return fen;
-};
 
 //------------------------------------------------------------------------------
 // Validation
 //------------------------------------------------------------------------------
 
-var validSquare = function(square) {
-  if (typeof square !== 'string') return false;
 
-  return (square.search(/^[a-h][1-8]$/) !== -1);
-};
-
-var validPieceCode = function(code) {
-  if (typeof code !== 'string') return false;
-
-  return (code.search(/^[bw][KQRNBP]$/) !== -1);
-};
-
-var validFEN = function(fen) {
-  if (typeof fen !== 'string') return false;
-
-  // FEN should be 9 sections separated by slashes
-  var chunks = fen.split('/');
-  if (chunks.length !== 9) return false;
-
-  // check the piece sections
-  for (var i = 0; i < 8; i++) {
-    // TODO: write me
-  }
-
-  // last section should be either 'w' or 'b'
-  if (chunks[8] !== 'w' && chunks[8] !== 'b') return false;
-
-  return true;
-};
-
-var validPositionObject = function(pos) {
-  if (isObject(pos) !== true) return false;
-
-  for (var i in pos) {
-    if (pos.hasOwnProperty(i) !== true) continue;
-
-    if (validSquare(i) !== true || validPieceCode(pos[i]) !== true) {
-      return false;
-    }
-  }
-
-  return true;
-};
 
 /*
 var error = function(code, msg, obj) {
@@ -978,6 +977,14 @@ var dropPiece = function(square) {
 // TODO: just keep the dragged piece always in the DOM and update it's CSS
 //       as necessary
 var beginDraggingPiece = function(square, piece, x, y) {
+  // run their custom onDragStart function
+  // their custom onDragStart function can cancel drag start
+  if (typeof cfg.onDragStart === 'function' &&
+      cfg.onDragStart(square, piece, 
+        deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION) === false) {
+    return;
+  }
+
   // set state
   DRAGGING_A_PIECE = true;
   DRAGGED_PIECE = piece;
