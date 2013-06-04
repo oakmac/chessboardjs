@@ -1018,6 +1018,16 @@ widget.clear = function(useAnimation) {
   setCurrentPosition({});
 };
 
+// get or set config properties
+widget.config = function(arg1, arg2) {
+  // get the current config
+  if (arguments.length === 0) {
+    return deepCopy(cfg);
+  }
+
+  // TODO: write me
+};
+
 // remove the widget from the page
 widget.destroy = function() {
   
@@ -1028,6 +1038,12 @@ widget.destroy = function() {
 // flip orientation
 widget.flip = function() {
   widget.orientation('flip');
+};
+
+widget.highlight = function() {
+  
+  // TODO: write me
+
 };
 
 // move piece(s)

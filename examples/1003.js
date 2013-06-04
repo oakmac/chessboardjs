@@ -1,6 +1,6 @@
 var position = {
-  e6: 'wK',
-  d6: 'wP',
-  d8: 'bK'
+  d6: 'bK',
+  d4: 'wP',
+  e4: 'wK'
 };
 var board = new ChessBoard('board', position);
