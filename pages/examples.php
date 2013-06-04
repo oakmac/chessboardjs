@@ -3,13 +3,19 @@ $page_title = 'Examples';
 $active_nav_tab = 'Examples';
 include(APP_PATH . 'pages/header.php');
 $examples = ChessBoard::getExamples();
+$examplesGroups = ChessBoard::getExampleGroups();
+
+//print_r($examples);
+//print_r($examplesGroups);
+//die;
+
 ?>
 
 <div class="row">
 
 <div class="three columns">
 <div id="examples_list_container">
-<?php echo buildExampleList($examples); ?>
+<?php echo buildExamplesList($examplesGroups, $examples); ?>
 </div><!-- end #examples_list -->
 </div><!-- end .three.columns -->
 
@@ -17,8 +23,10 @@ $examples = ChessBoard::getExamples();
   <h2 id="example_name"></h2>
   <p><a href="#" id="example_single_page_link" target="_blank">View example in new window.</a></p>
   <div id="example_html_container"></div>
-  <h4>Code</h4>
+  <h4>JavaScript</h4>
   <div id="example_js_container"></div>
+  <h4>HTML</h4>
+  <div id="example_show_html_container"></div>  
 </div>
 
 </div><!-- end div.row -->
@@ -32,25 +40,30 @@ $examples = ChessBoard::getExamples();
 var examples = {};
 <?php
 foreach ($examples as $ex) {
-
-  // temporary
-  if ($ex['js'] === '') continue;
-  if (array_key_exists('hidden', $ex) === true &&
-      $ex['hidden'] === true) continue;
-
   echo "\n";
   echo 'examples["'.$ex['number'].'"] = {'."\n";
-  echo '  group: '.json_encode($ex['group']).",\n";
-  echo '  html: '.json_encode($ex['html']).",\n";
-  echo '  name: '.json_encode($ex['name']).",\n";
-  echo '  jsStr: '.json_encode(htmlspecialchars($ex['js'])).",\n";
+  //echo '  group: '.json_encode($ex['group']).",\n";
+  echo '  html: '.json_encode($ex['HTML']).",\n";
+  echo '  name: '.json_encode($ex['Name']).",\n";
+  echo '  jsStr: '.json_encode(htmlspecialchars($ex['JS'])).",\n";
   echo '  jsFn: function() {'."\n";
-  echo $ex['js']."\n";
+  echo $ex['JS']."\n";
   echo '  }'."\n";
   echo '};'."\n\n";
 }
 ?>
 // end examples{}
+
+var htmlEscape = function(str) {
+  return (str + '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/\//g, '&#x2F;')
+    .replace(/`/g, '&#x60;');
+};
 
 var highlightGroupHeader = function(groupIndex) {
   $('div#examples_list_container h4').removeClass('active');
@@ -74,6 +87,7 @@ var showExample = function(number) {
   $('#example_single_page_link').attr('href', 'examples/' + number);
   $('#example_html_container').html(examples[number].html);
   $('#example_js_container').html('<pre class="prettyprint">' + examples[number].jsStr + '</pre>');
+  $('#example_show_html_container').html('<pre class="prettyprint">' + htmlEscape(examples[number].html) + '</pre>');
   examples[number].jsFn();
   prettyPrint();
 };
@@ -120,31 +134,20 @@ include(APP_PATH.'pages/footer.php');
 //------------------------------------------------------------------------------
 // Functions
 //------------------------------------------------------------------------------
-function buildExampleList($examples) {
+function buildExamplesList($exampleGroups, $examples) {
   $html = '';
-  $currentGroup = false;
-  $currentGroupIndex = 0;
-  foreach ($examples as $ex) {
 
-    // temporary
-    if ($ex['js'] === '') continue;
-    if (array_key_exists('hidden', $ex) === true &&
-        $ex['hidden'] === true) continue;
-
-    if ($ex['group'] !== $currentGroup) {
-      if ($currentGroup !== false) {
-        $html .= '</ul>'."\n";
-      }
-      $currentGroup = $ex['group'];
-      $currentGroupIndex++;
-      $html .= '<h4 id="group_header_'.$currentGroupIndex.'">'.$currentGroup.'</h4>'."\n";
-      $html .= '<ul id="group_container_'.$currentGroupIndex.'" style="display:none">'."\n";
+  $groupIndex = 1;
+  foreach ($exampleGroups as $group) {
+    $html .= '<h4 id="group_header_'.$groupIndex.'">'.$group['group'].'</h4>'."\n";
+    $html .= '<ul id="group_container_'.$groupIndex.'" style="display:none">'."\n";
+    foreach ($group['examples'] as $number) {
+      $html .= '  <li id="example_'.$number.'">'.$examples[$number]['Name'].'</li>'."\n";
     }
+    $html .= '</ul>'."\n";
 
-    $html .= '  <li id="example_'.$ex['number'].'">'.$ex['name'].'</li>'."\n";
+    $groupIndex++;
   }
-
-  $html .= '</ul>'."\n";
 
   return $html;
 }

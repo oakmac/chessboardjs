@@ -1,0 +1,22 @@
+=== Name
+Clear Board
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+<input type="button" id="startPositionBtn" value="Start Position" />
+<input type="button" id="clearBoardBtn" value="Clear Board" />
+<input type="button" id="clearBoardInstantBtn" value="Clear Board Instant" />
+
+=== JS
+var board = new ChessBoard('board', 'start');
+
+$('#startPositionBtn').on('click', board.start);
+
+$('#clearBoardBtn').on('click', board.clear);
+
+$('#clearBoardInstantBtn').on('click', function() {
+  board.clear(false);
+});

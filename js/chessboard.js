@@ -31,19 +31,20 @@ var START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
 
 var START_POSITION = {
   // white pieces
-  a1:'wR', b1:'wN', c1:'wB', d1:'wQ', e1:'wK', f1:'wB', g1:'wN', h1:'wR',
+  a1: 'wR', b1: 'wN', c1: 'wB', d1: 'wQ', e1: 'wK', f1: 'wB', g1: 'wN', h1: 'wR',
 
   // white pawns
-  a2:'wP', b2:'wP', c2:'wP', d2:'wP', e2:'wP', f2:'wP', g2:'wP', h2:'wP',
+  a2: 'wP', b2: 'wP', c2: 'wP', d2: 'wP', e2: 'wP', f2: 'wP', g2: 'wP', h2: 'wP',
 
   // black pieces
-  a8:'bR', b8:'bN', c8:'bB', d8:'bQ', e8:'bK', f8:'bB', g8:'bN', h8:'bR',
+  a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
 
   // black pawns
-  a7:'bP', b7:'bP', c7:'bP', d7:'bP', e7:'bP', f7:'bP', g7:'bP', h7:'bP'
+  a7: 'bP', b7: 'bP', c7: 'bP', d7: 'bP', e7: 'bP', f7: 'bP', g7: 'bP', h7: 'bP'
 };
 
 // use unique class names to prevent clashing with anything else on the page
+// and simplify selectors
 var CSS = {
   alpha: 'alpha-d2270',
   black: 'black-3c85d',
@@ -150,9 +151,9 @@ var compareSemVer = function(version, minimum) {
   version = parseSemVer(version);
   minimum = parseSemVer(minimum);
 
-  var versionNum = (version.major * 10000 * 10000) + 
+  var versionNum = (version.major * 10000 * 10000) +
     (version.minor * 10000) + version.patch;
-  var minimumNum = (minimum.major * 10000 * 10000) + 
+  var minimumNum = (minimum.major * 10000 * 10000) +
     (minimum.minor * 10000) + minimum.patch;
 
   return (versionNum >= minimumNum);
@@ -382,7 +383,7 @@ var checkDeps = function() {
 
     if (containerEl.length !== 1) {
       window.alert('ChessBoard Error 1003: The first argument to ' +
-        'ChessBoard() must be an ID or a single DOM node.' + 
+        'ChessBoard() must be an ID or a single DOM node.' +
         '\n\nExiting...');
       return false;
     }
@@ -428,7 +429,7 @@ var expandConfig = function() {
   }
 
   // default for orientation is white
-  if (cfg.hasOwnProperty('orientation') !== true || 
+  if (cfg.hasOwnProperty('orientation') !== true ||
       cfg.orientation !== 'black') {
     cfg.orientation = 'white';
   }
@@ -489,13 +490,13 @@ var expandConfig = function() {
 // calculates square size based on the width of the container
 // got a little CSS black magic here, so let me explain:
 // get the width of the container element (could be anything), reduce by 1 for
-// fudget factor, and then keep reducing until we find an exact mod 8 for 
+// fudget factor, and then keep reducing until we find an exact mod 8 for
 // our square size
 var calculateSquareSize = function() {
 
   var containerWidth = parseInt(containerEl.css('width'), 10);
 
-  // NOTE: there were times while debugging that the while loop would get 
+  // NOTE: there were times while debugging that the while loop would get
   //       stuck, so I added this in order to prevent that
   if (! containerWidth || containerWidth <= 0) {
     return 0;
@@ -520,7 +521,7 @@ var buildWidget = function() {
   var boardWidth = (squareSize * 8);
 
   var html = '<div class="' + CSS.chessboard + '">' +
-  '<div class="' + CSS.board + '" style="width: ' + boardWidth + 'px"></div>' + 
+  '<div class="' + CSS.board + '" style="width: ' + boardWidth + 'px"></div>' +
   '</div>';
 
   return html;
@@ -572,15 +573,15 @@ var buildBoard = function(orientation) {
 
       if (cfg.notation === true) {
         // alpha notation
-        if ((orientation === 'white' && row === 1) || 
+        if ((orientation === 'white' && row === 1) ||
             (orientation === 'black' && row === 8)) {
-          html += '<div class="' + CSS.notation + ' ' + CSS.alpha + '">' + 
+          html += '<div class="' + CSS.notation + ' ' + CSS.alpha + '">' +
             alpha[j] + '</div>';
         }
 
         // numeric notation
         if (j === 0) {
-          html += '<div class="' + CSS.notation + ' ' + CSS.numeric + '">' + 
+          html += '<div class="' + CSS.notation + ' ' + CSS.numeric + '">' +
             row + '</div>';
         }
       }
@@ -833,7 +834,7 @@ var calculateAnimations = function(pos1, pos2) {
   return animations;
 };
 
-// given a position and a set of moves, return a new position 
+// given a position and a set of moves, return a new position
 // with the moves executed
 var calculatePositionFromMoves = function(position, moves) {
   position = deepCopy(position);
@@ -906,7 +907,7 @@ var dropPieceOffBoard = function() {
   // snap back to the board
   if (cfg.dragOffBoard === 'snapback') {
     // get source square position
-    var sourceSquarePosition = 
+    var sourceSquarePosition =
       $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_SOURCE_SQUARE])
       .offset();
 
@@ -1030,7 +1031,7 @@ widget.config = function(arg1, arg2) {
 
 // remove the widget from the page
 widget.destroy = function() {
-  
+
   // TODO: write me
 
 };
@@ -1041,7 +1042,7 @@ widget.flip = function() {
 };
 
 widget.highlight = function() {
-  
+
   // TODO: write me
 
 };
@@ -1121,7 +1122,7 @@ widget.orientation = function(arg) {
   if (arguments.length === 0) {
     return CURRENT_ORIENTATION;
   }
-  
+
   // set to white or black
   if (arg === 'white' || arg === 'black') {
     CURRENT_ORIENTATION = arg;
@@ -1148,7 +1149,7 @@ widget.start = function(useAnimation) {
 
 var stopDefault = function(e) {
   e.preventDefault();
-}
+};
 
 var mousedownSquare = function(e) {
   // do nothing if we're not draggable
@@ -1167,14 +1168,14 @@ var mousedownSquare = function(e) {
 
 var mousemoveBody = function(e) {
   // do nothing if we are not dragging a piece
-  if (DRAGGING_A_PIECE !== true || cfg.draggable !== true || 
+  if (DRAGGING_A_PIECE !== true || cfg.draggable !== true ||
       ! DRAGGED_PIECE_EL) return;
 
   // update the dragged piece
   DRAGGED_PIECE_EL.css({
     left: e.pageX - (SQUARE_SIZE / 2),
     top: e.pageY - (SQUARE_SIZE / 2)
-  })
+  });
 
   // are we on a square?
   var square = isXYOnSquare(e.pageX, e.pageY);
@@ -1201,7 +1202,7 @@ var mouseupBody = function(e) {
 
   // are we on a square?
   var square = isXYOnSquare(e.pageX, e.pageY);
-  
+
   // not on the board
   if (square === false) {
     dropPieceOffBoard();

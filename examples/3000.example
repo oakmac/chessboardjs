@@ -1,0 +1,24 @@
+=== Name
+Get Position
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+<input type="button" id="getPositionBtn" value="Show position in console" />
+
+=== JS
+var cfg = {
+  draggable: true,
+  position: 'start'
+};
+var board = new ChessBoard('board', cfg);
+
+$('#getPositionBtn').on('click', function() {
+  console.log("Current position as an Object:");
+  console.log(board.position());
+
+  console.log("Current position as a FEN string:");
+  console.log(board.position('FEN'));
+});

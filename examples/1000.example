@@ -1,0 +1,11 @@
+=== Name
+Initialize Empty Board
+
+=== Description
+ChessBoard initializes to an empty board with no arguments.
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var board = new ChessBoard('board');

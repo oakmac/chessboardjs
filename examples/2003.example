@@ -1,0 +1,15 @@
+=== Name
+Draggable
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var cfg = {
+  draggable: true,
+  position: 'start'
+};
+var board = new ChessBoard('board', cfg);

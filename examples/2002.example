@@ -1,0 +1,15 @@
+=== Name
+Notation
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var cfg = {
+  notation: false,
+  position: 'start'
+};
+var board = new ChessBoard('board', cfg);

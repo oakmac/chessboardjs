@@ -1,0 +1,11 @@
+=== Name
+Initialize Board to Start Position
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var board = new ChessBoard('board', 'start');

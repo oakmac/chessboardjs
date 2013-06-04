@@ -12,9 +12,9 @@
 <p><a href="examples#<?php echo $example['number']; ?>">&larr; Back to all examples.</a></p>
 <p><a href="examples/<?php echo $example['number']; ?>.js">See the code for this example.</a></p>
 
-<!-- start example code --->
-<?php echo $example['html'] . "\n"; ?>
-<!-- end example code --->
+<!-- start example HTML --->
+<?php echo $example['HTML'] . "\n"; ?>
+<!-- end example HTML --->
 
 <script src="js/json3.min.js"></script>
 <script src="js/jquery-1.10.1.min.js"></script>
@@ -22,9 +22,9 @@
 <script>
 var init = function() {
 
-//--- start example code ---
-<?php echo $example['js'] . "\n"; ?>
-//--- end example code ---
+//--- start example JS ---
+<?php echo $example['JS'] . "\n"; ?>
+//--- end example JS ---
 
 }; // end init()
 $(document).ready(init);

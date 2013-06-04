@@ -1,0 +1,14 @@
+=== Name
+Position
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var cfg = {
+  position: 'start'
+};
+var board = new ChessBoard('board', cfg);

@@ -33,36 +33,54 @@ public static function buildTopBar($active_tab) {
   return $html;
 }
 
-// returns an array of all the examples
-public static function getExamples() {
-  $examples = self::getJSON('examples.json');
-  $examples2 = array();
-  for ($i = 0; $i < count($examples); $i++) {
-    if (is_array($examples[$i]) !== true) continue;
+public static function getExampleGroups() {
+  $exampleGroups = self::getJSON('example_groups.json');
 
-    $example = $examples[$i];
-    $example['html'] = trim(file_get_contents(APP_PATH.'examples/'.$example['number'].'.html'));
-    $example['js'] = trim(file_get_contents(APP_PATH.'examples/'.$example['number'].'.js'));
-    array_push($examples2, $example);
+  $exampleGroups2 = array();
+  foreach ($exampleGroups as $group) {
+    // strip the "----------------" comments
+    if (is_array($group) !== true) continue;
+
+    array_push($exampleGroups2, $group);
   }
-  return $examples2;
+
+  return $exampleGroups2;  
 }
 
-// get the html and js file for an example
+// returns an array of all the examples
+public static function getExamples() {
+  $examples = array();
+  $exampleFiles = glob(APP_PATH.'examples/*.example');
+  foreach ($exampleFiles as $filename) {
+    $contents = file_get_contents($filename);
+    $example = self::parseExampleFile($contents);
+
+    $number = str_replace('.example', '', $filename);
+    $number = preg_replace('/.+\//', '', $number);
+
+    $example['number'] = $number;
+
+    $examples[$number] = $example;
+  }
+
+  return $examples;
+}
+
+// get a single example
 // returns false if the example does not exist
 public static function getExample($number) {
-  // example should be an integer
   $number = (int) $number;
+  $filename = APP_PATH.'examples/'.$number.'.example';
 
-  if (file_exists(APP_PATH.'examples/'.$number.'.html') !== true) {
+  $contents = file_get_contents($filename);
+  if ($contents === false) {
     return false;
   }
 
-  return array(
-    'html'   => trim(file_get_contents(APP_PATH.'examples/'.$number.'.html')),
-    'js'     => trim(file_get_contents(APP_PATH.'examples/'.$number.'.js')),
-    'number' => $number,
-  );
+  $example = self::parseExampleFile($contents);
+  $example['number'] = $number;
+
+  return $example;
 }
 
 public static function getDocs() {
@@ -114,6 +132,31 @@ private static function getJSON($filename) {
     die;
   }
   return $data;
+}
+
+private static function parseExampleFile($contents, $delimiter = '===') {
+  $contents = explode("\n", $contents);
+  $example = array();
+  $currentSection = false;
+
+  foreach ($contents as $line) {
+    // new section
+    if (preg_match('/^'.$delimiter.'/', $line) === 1) {
+      $currentSection = trim(str_replace($delimiter, '', $line));
+      $example[$currentSection] = '';
+      continue;
+    }
+
+    if ($currentSection === false) continue;
+
+    $example[$currentSection] .= $line."\n";
+  }
+
+  foreach ($example as $section => $content) {
+    $example[$section] = trim($content);
+  }
+
+  return $example;
 }
 
 } // end class ChessBoard
