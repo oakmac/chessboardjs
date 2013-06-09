@@ -1,0 +1,21 @@
+=== Name
+onDrop Prevent Drop
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var cfg = {
+  draggable: true,
+  position: 'start',
+  onDrop: function(target, newPosition, oldPosition, 
+                   sourceSquare, piece, orientation) {
+    if (piece.search(/b/) !== -1) {
+      return 'snapback';
+    }
+  }
+};
+var board = new ChessBoard('board', cfg);

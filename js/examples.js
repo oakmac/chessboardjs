@@ -1,13 +1,8 @@
 /*
 var config = {
-  offBoard: 'trash' or 'snapback' or 'constrain'
+  dropOffBoard: 'trash' or 'snapback'
   staticPieces: true // or false
 };
-
-board1.move('e2-e4');
-board1.move(['e2-e4', 'd2-d4']);
-
-board1.destroy(); // remove the board and elements from the DOM
 
 // convenience methods:
 ChessBoard.validFEN('FEN string'); // true or false
@@ -33,10 +28,14 @@ board.config({
 
 // need to add events to hook into the drag and drop system
 // should be able to prevent illegal moves, highlight legal squares, etc
-onDragStart
-onDragMove
 onDrop
 
 // need to handle container resize
+// make sure touch events work perfectly
+// need to be able to handle piece themeing
+// what should be blocked while ANIMATION_HAPPENING === true ?
+
+// snapback vs trash example
+// all animation speeds should be configurable
 
 */

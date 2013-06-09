@@ -11,7 +11,7 @@ onDragMove
 var cfg = {
   draggable: true,
   position: 'start',
-  onDragChange: function(newLocation, oldLocation, sourceSquare, 
+  onDragMove: function(newLocation, oldLocation, sourceSquare, 
                        piece, position, orientation) {
     console.log("You moved the piece!");
     console.log("New location: " + newLocation);
@@ -20,6 +20,7 @@ var cfg = {
     console.log("Piece: " + piece);
     console.log("Board position: " + ChessBoard.objToFEN(position));
     console.log("Board orientation: " + orientation);
+    console.log("----------------------------------------");
   }
 };
 var board = new ChessBoard('board', cfg);

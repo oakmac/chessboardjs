@@ -37,17 +37,18 @@ var validPieceCode = function(code) {
 var validFEN = function(fen) {
   if (typeof fen !== 'string') return false;
 
-  // FEN should be 9 sections separated by slashes
+  // FEN should be at least 8 sections separated by slashes
   var chunks = fen.split('/');
-  if (chunks.length !== 9) return false;
+  if (chunks.length < 8) return false;
 
   // check the piece sections
   for (var i = 0; i < 8; i++) {
-    // TODO: write me
+    if (chunks[i] === '' ||
+        chunks[i].length > 8 || 
+        chunks[i].search(/[^kqrbnpKQRNBP1-8]/) !== -1) {
+      return false;
+    }
   }
-
-  // last section should be either 'w' or 'b'
-  if (chunks[8] !== 'w' && chunks[8] !== 'b') return false;
 
   return true;
 };
@@ -108,12 +109,10 @@ var FENToObj = function(fen) {
     // loop through each character in the FEN section
     for (var j = 0; j < row.length; j++) {
       // number / empty squares
-      // TODO: check this with regex instead
-      var emptySquares = parseInt(row[j], 10);
-      if (emptySquares > 0) {
+      if (row[j].search(/[1-8]/) !== -1) {
+        var emptySquares = parseInt(row[j], 10);
         colIndex += emptySquares;
       }
-
       // piece
       else {
         var square = COLUMNS[colIndex] + currentRow;
@@ -181,25 +180,10 @@ cfg = cfg || {};
 //------------------------------------------------------------------------------
 // Constants
 //------------------------------------------------------------------------------
-var MINIMUM_JQUERY_VERSION = '1.4.2';
 
-// TODO: use start FEN and just convert to position object on load
-
-var START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
-
-var START_POSITION = {
-  // white pieces
-  a1: 'wR', b1: 'wN', c1: 'wB', d1: 'wQ', e1: 'wK', f1: 'wB', g1: 'wN', h1: 'wR',
-
-  // white pawns
-  a2: 'wP', b2: 'wP', c2: 'wP', d2: 'wP', e2: 'wP', f2: 'wP', g2: 'wP', h2: 'wP',
-
-  // black pieces
-  a8: 'bR', b8: 'bN', c8: 'bB', d8: 'bQ', e8: 'bK', f8: 'bB', g8: 'bN', h8: 'bR',
-
-  // black pawns
-  a7: 'bP', b7: 'bP', c7: 'bP', d7: 'bP', e7: 'bP', f7: 'bP', g7: 'bP', h7: 'bP'
-};
+var MINIMUM_JQUERY_VERSION = '1.4.2',
+  START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
+  START_POSITION = FENToObj(START_FEN);
 
 // use unique class names to prevent clashing with anything else on the page
 // and simplify selectors
@@ -455,9 +439,9 @@ var expandConfig = function() {
     cfg.draggable = false;
   }
 
-  // default for dragOffBoard is 'snapback'
-  if (cfg.dragOffBoard !== 'trash') {
-    cfg.dragOffBoard = 'snapback';
+  // default for dropOffBoard is 'snapback'
+  if (cfg.dropOffBoard !== 'trash') {
+    cfg.dropOffBoard = 'snapback';
   }
 
   // make onChange a function if they did not provide one
@@ -892,7 +876,7 @@ var isXYOnSquare = function(x, y) {
     }
   }
 
-  return false;
+  return 'offboard';
 };
 
 // records the XY coords of every square into memory
@@ -911,45 +895,46 @@ var removeSquareHighlights = function() {
     .removeClass(CSS.highlight1 + ' ' + CSS.highlight2);
 };
 
-var dropPieceOffBoard = function() {
+var snapbackPiece = function() {
   removeSquareHighlights();
 
-  // snap back to the board
-  if (cfg.dragOffBoard === 'snapback') {
-    // get source square position
-    var sourceSquarePosition =
-      $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_SOURCE_SQUARE])
-        .offset();
+  // get source square position
+  var sourceSquarePosition = 
+    $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_SOURCE_SQUARE])
+      .offset();
 
-    // animation complete
-    var complete = function() {
-      drawPositionInstant();
-      DRAGGED_PIECE_EL.remove();
-    };
-
-    // animate the piece to the target square
-    var opts = {
-      duration: 50,
-      complete: complete
-    };
-    DRAGGED_PIECE_EL.animate(sourceSquarePosition, opts);
-  }
-
-  // trash the piece
-  else if (cfg.dragOffBoard === 'trash') {
-    // update position
-    var newPosition = deepCopy(CURRENT_POSITION);
-    delete newPosition[DRAGGED_PIECE_SOURCE_SQUARE];
-    setCurrentPosition(newPosition);
-
-    // redraw the position
+  // animation complete
+  var complete = function() {
     drawPositionInstant();
+    DRAGGED_PIECE_EL.remove();
+  };
 
-    // fade the dragged piece
-    DRAGGED_PIECE_EL.fadeOut('fast', function() {
-      DRAGGED_PIECE_EL.remove();
-    });
-  }
+  // animate the piece to the target square
+  var opts = {
+    duration: 50,
+    complete: complete
+  };
+  DRAGGED_PIECE_EL.animate(sourceSquarePosition, opts);
+
+  // set state
+  DRAGGING_A_PIECE = false;
+};
+
+var trashPiece = function() {
+  removeSquareHighlights();
+
+  // remove the source piece
+  var newPosition = deepCopy(CURRENT_POSITION);
+  delete newPosition[DRAGGED_PIECE_SOURCE_SQUARE];
+  setCurrentPosition(newPosition);
+
+  // redraw the position
+  drawPositionInstant();
+
+  // hide the dragged piece
+  DRAGGED_PIECE_EL.fadeOut('fast', function() {
+    DRAGGED_PIECE_EL.remove();
+  });
 
   // set state
   DRAGGING_A_PIECE = false;
@@ -1049,9 +1034,11 @@ widget.config = function(arg1, arg2) {
 
 // remove the widget from the page
 widget.destroy = function() {
+  // remove markup
+  containerEl.html('');
 
-  // TODO: write me
-
+  // remove event handlers
+  containerEl.unbind();
 };
 
 // shorthand method to get the current FEN
@@ -1071,6 +1058,7 @@ widget.highlight = function() {
 };
 
 // move piece(s)
+// TODO: allow the first argument to be an array of moves?
 widget.move = function() {
   if (arguments.length === 0) {
     // TODO: throw error
@@ -1081,7 +1069,7 @@ widget.move = function() {
   for (var i = 0; i < arguments.length; i++) {
     // skip invalid arguments
     if (validMove(arguments[i]) !== true) {
-      // TODO: throw error here
+      // TODO: throw error
       continue;
     }
 
@@ -1122,9 +1110,7 @@ widget.position = function(position, useAnimation) {
 
   // validate position object
   if (validPositionObject(position) !== true) {
-
     // TODO: throw error
-
     return;
   }
 
@@ -1152,12 +1138,14 @@ widget.orientation = function(arg) {
   if (arg === 'white' || arg === 'black') {
     CURRENT_ORIENTATION = arg;
     drawBoard();
+    return;
   }
 
   // flip orientation
   if (arg === 'flip') {
     CURRENT_ORIENTATION = (CURRENT_ORIENTATION === 'white') ? 'black' : 'white';
     drawBoard();
+    return;
   }
 
   // TODO: throw error
@@ -1196,40 +1184,38 @@ var mousemoveBody = function(e) {
   if (DRAGGING_A_PIECE !== true || cfg.draggable !== true ||
       ! DRAGGED_PIECE_EL) return;
 
-  // update the dragged piece
+  // put the dragged piece over the mouse cursor
   DRAGGED_PIECE_EL.css({
     left: e.pageX - (SQUARE_SIZE / 2),
     top: e.pageY - (SQUARE_SIZE / 2)
   });
 
   // get location
-  var square = isXYOnSquare(e.pageX, e.pageY);
+  var location = isXYOnSquare(e.pageX, e.pageY);
 
   // do nothing if the location has not changed
-  if (square === DRAGGED_PIECE_LOCATION) return;
+  if (location === DRAGGED_PIECE_LOCATION) return;
 
   // remove highlight from previous square
-  if (DRAGGED_PIECE_LOCATION !== false) {
+  if (DRAGGED_PIECE_LOCATION !== 'offboard') {
     $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_LOCATION])
       .removeClass(CSS.highlight2);
   }
 
   // add highlight to new square
-  if (square !== false) {
-    $('#' + SQUARE_ELS_IDS[square]).addClass(CSS.highlight2);
+  if (location !== 'offboard') {
+    $('#' + SQUARE_ELS_IDS[location]).addClass(CSS.highlight2);
   }
 
-  // run onDragChange
-  if (typeof cfg.onDragChange === 'function') {
-    var newLocation = (square === false) ? 'offboard' : square;
-    var oldLocation = (DRAGGED_PIECE_LOCATION === false) ?
-      'offboard' : DRAGGED_PIECE_LOCATION;
-    cfg.onDragChange(newLocation, oldLocation, DRAGGED_PIECE_SOURCE_SQUARE,
-      DRAGGED_PIECE, deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION);
+  // run onDragMove
+  if (typeof cfg.onDragMove === 'function') {
+    cfg.onDragMove(location, DRAGGED_PIECE_LOCATION, 
+      DRAGGED_PIECE_SOURCE_SQUARE, DRAGGED_PIECE,
+      deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION);
   }
 
   // update state
-  DRAGGED_PIECE_LOCATION = square;
+  DRAGGED_PIECE_LOCATION = location;
 };
 
 var mouseupBody = function(e) {
@@ -1237,16 +1223,44 @@ var mouseupBody = function(e) {
   if (DRAGGING_A_PIECE !== true || cfg.draggable !== true ||
       ! DRAGGED_PIECE_EL) return;
 
-  // are we on a square?
-  var square = isXYOnSquare(e.pageX, e.pageY);
+  // get the location
+  var location = isXYOnSquare(e.pageX, e.pageY);
 
-  // not on the board
-  if (square === false) {
-    dropPieceOffBoard();
+  // determine what the action should be
+  var action = 'drop';
+  if (location === 'offboard' && cfg.dropOffBoard === 'snapback') {
+    action = 'snapback';
   }
-  // on a square
-  else {
-    dropPiece(square);
+  else if (location === 'offboard' && cfg.dropOffBoard === 'trash') {
+    action = 'trash';
+  }
+
+  // run their onDrop function, which can potentially change the drop action
+  if (typeof cfg.onDrop === 'function') {
+    var newPosition = deepCopy(CURRENT_POSITION);
+    if (location !== 'offboard') {
+      var moves = {};
+      moves[DRAGGED_PIECE_SOURCE_SQUARE] = location;
+      newPosition = calculatePositionFromMoves(CURRENT_POSITION, moves);
+    }
+    var oldPosition = deepCopy(CURRENT_POSITION);
+
+    var result = cfg.onDrop(location, newPosition, oldPosition,
+      DRAGGED_PIECE_SOURCE_SQUARE, DRAGGED_PIECE, CURRENT_ORIENTATION);
+    if (result === 'snapback' || result === 'trash') {
+      action = result;
+    }
+  }
+
+  // do it!
+  if (action === 'snapback') {
+    snapbackPiece();
+  }
+  else if (action === 'trash') {
+    trashPiece();
+  }
+  else if (action === 'drop') {
+    dropPiece(location);
   }
 };
 

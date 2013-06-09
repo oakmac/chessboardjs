@@ -1,0 +1,14 @@
+=== Name
+Destroy Board
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+<input type="button" id="destroyBtn" value="Destroy Board" />
+
+=== JS
+var board = new ChessBoard('board', 'start');
+
+$('#destroyBtn').on('click', board.destroy);

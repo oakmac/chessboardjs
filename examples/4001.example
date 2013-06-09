@@ -17,6 +17,7 @@ var cfg = {
     console.log("Piece: " + piece);
     console.log("Board position: " + ChessBoard.objToFEN(position));
     console.log("Board orientation: " + orientation);
+    console.log("----------------------------------------");
   }
 };
 var board = new ChessBoard('board', cfg);

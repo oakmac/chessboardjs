@@ -15,9 +15,10 @@ var cfg = {
                    sourceSquare, piece, orientation) {
     console.log("You Dropped the piece!");
     console.log("Target: " + target);
+    console.log("New position: " + ChessBoard.objToFEN(newPosition));
+    console.log("Old position: " + ChessBoard.objToFEN(oldPosition));
     console.log("Source square: " + sourceSquare);
     console.log("Piece: " + piece);
-    console.log("Board position: " + ChessBoard.objToFEN(position));
     console.log("Board orientation: " + orientation);
   }
 };
