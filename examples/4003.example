@@ -1,0 +1,25 @@
+=== Name
+onDragMove
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var cfg = {
+  draggable: true,
+  position: 'start',
+  onDragChange: function(newLocation, oldLocation, sourceSquare, 
+                       piece, position, orientation) {
+    console.log("You moved the piece!");
+    console.log("New location: " + newLocation);
+    console.log("Old location: " + oldLocation);
+    console.log("Source square: " + sourceSquare);
+    console.log("Piece: " + piece);
+    console.log("Board position: " + ChessBoard.objToFEN(position));
+    console.log("Board orientation: " + orientation);
+  }
+};
+var board = new ChessBoard('board', cfg);

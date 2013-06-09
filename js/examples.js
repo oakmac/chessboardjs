@@ -34,7 +34,7 @@ board.config({
 // need to add events to hook into the drag and drop system
 // should be able to prevent illegal moves, highlight legal squares, etc
 onDragStart
-onDragOverSquare
+onDragMove
 onDrop
 
 // need to handle container resize

@@ -1,0 +1,24 @@
+=== Name
+onDrop
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var cfg = {
+  draggable: true,
+  position: 'start',
+  onDrop: function(target, newPosition, oldPosition, 
+                   sourceSquare, piece, orientation) {
+    console.log("You Dropped the piece!");
+    console.log("Target: " + target);
+    console.log("Source square: " + sourceSquare);
+    console.log("Piece: " + piece);
+    console.log("Board position: " + ChessBoard.objToFEN(position));
+    console.log("Board orientation: " + orientation);
+  }
+};
+var board = new ChessBoard('board', cfg);

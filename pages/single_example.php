@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title><?php echo $example['name']; ?> Example</title>
+  <title><?php echo $example['Name']; ?> Example</title>
   <base href="<?php echo BASE_URL; ?>" />
 
   <link rel="stylesheet" href="css/chessboard.css" />
