@@ -599,7 +599,6 @@ var buildBoard = function(orientation) {
   return html;
 };
 
-// TODO: integrate this with themeing
 var createPieceImgSrc = function(piece) {
   return 'img/pieces/wikipedia/' + piece + '.png';
 };
@@ -906,7 +905,7 @@ var snapbackPiece = function() {
   // animation complete
   var complete = function() {
     drawPositionInstant();
-    DRAGGED_PIECE_EL.remove();
+    DRAGGED_PIECE_EL.css('display', 'none');
   };
 
   // animate the piece to the target square
@@ -932,9 +931,7 @@ var trashPiece = function() {
   drawPositionInstant();
 
   // hide the dragged piece
-  DRAGGED_PIECE_EL.fadeOut('fast', function() {
-    DRAGGED_PIECE_EL.remove();
-  });
+  DRAGGED_PIECE_EL.fadeOut('fast');
 
   // set state
   DRAGGING_A_PIECE = false;
@@ -956,7 +953,7 @@ var dropPiece = function(square) {
   // animation complete
   var complete = function() {
     drawPositionInstant();
-    DRAGGED_PIECE_EL.remove();
+    DRAGGED_PIECE_EL.css('display', 'none');
   };
 
   // animate the piece to the target square
@@ -970,8 +967,6 @@ var dropPiece = function(square) {
   DRAGGING_A_PIECE = false;
 };
 
-// TODO: just keep the dragged piece always in the DOM and update it's CSS
-//       as necessary
 var beginDraggingPiece = function(square, piece, x, y) {
   // run their custom onDragStart function
   // their custom onDragStart function can cancel drag start
@@ -989,15 +984,13 @@ var beginDraggingPiece = function(square, piece, x, y) {
   captureSquareOffsets();
 
   // create the dragged piece
-  var draggedPieceId = createId();
-  $('body').append(buildPiece(piece, true, draggedPieceId));
-  DRAGGED_PIECE_EL = $('#' + draggedPieceId);
-  DRAGGED_PIECE_EL.css({
-    display: '',
-    position: 'absolute',
-    left: x - (SQUARE_SIZE / 2),
-    top: y - (SQUARE_SIZE / 2)
-  });
+  DRAGGED_PIECE_EL.attr('src', createPieceImgSrc(piece))
+    .css({
+      display: '',
+      position: 'absolute',
+      left: x - (SQUARE_SIZE / 2),
+      top: y - (SQUARE_SIZE / 2)
+    });
 
   // hide the piece on the source square
   $('#' + SQUARE_ELS_IDS[square] + ' img.' + CSS.piece).css('display', 'none');
@@ -1036,6 +1029,7 @@ widget.config = function(arg1, arg2) {
 widget.destroy = function() {
   // remove markup
   containerEl.html('');
+  DRAGGED_PIECE_EL.remove();
 
   // remove event handlers
   containerEl.unbind();
@@ -1286,6 +1280,11 @@ var initDom = function() {
 
   // build the board
   containerEl.html(buildWidget());
+
+  // create the drag piece
+  var draggedPieceId = createId();
+  $('body').append(buildPiece('wP', true, draggedPieceId));
+  DRAGGED_PIECE_EL = $('#' + draggedPieceId);
 
   // grab elements in memory
   boardEl = containerEl.find('div.' + CSS.board);
