@@ -310,16 +310,16 @@ var compareSemVer = function(version, minimum) {
 // Validation
 //------------------------------------------------------------------------------
 
-
-
-/*
 var error = function(code, msg, obj) {
+  // do nothing if showErrors is not set
   if (cfg.hasOwnProperty('showErrors') !== true ||
       cfg.showErrors === false) {
     return;
   }
 
   var errorText = 'ChessBoard Error ' + code + ': ' + msg;
+
+  // print to console
   if (cfg.showErrors === 'console' &&
       typeof console === 'object' &&
       typeof console.log === 'function') {
@@ -330,6 +330,7 @@ var error = function(code, msg, obj) {
     return;
   }
 
+  // alert errors
   if (cfg.showErrors === 'alert') {
     if (obj) {
       errorText += '\n\n' + JSON.stringify(obj);
@@ -338,11 +339,11 @@ var error = function(code, msg, obj) {
     return;
   }
 
+  // custom function
   if (typeof cfg.showErrors === 'function') {
     cfg.showErrors(code, msg, obj);
   }
 };
-*/
 
 // check dependencies
 var checkDeps = function() {
@@ -470,7 +471,7 @@ var expandConfig = function() {
     }
 
     else {
-      // TODO: throw error
+      error(7263, 'Invalid value passed to config.position.', cfg.position);
     }
   }
 
@@ -484,7 +485,7 @@ var expandConfig = function() {
 // calculates square size based on the width of the container
 // got a little CSS black magic here, so let me explain:
 // get the width of the container element (could be anything), reduce by 1 for
-// fudget factor, and then keep reducing until we find an exact mod 8 for
+// fudge factor, and then keep reducing until we find an exact mod 8 for
 // our square size
 var calculateSquareSize = function() {
 
@@ -732,6 +733,7 @@ var doAnimations = function(a) {
   }
 };
 
+/*
 // returns an array of closest squares from square
 var createRadius = function(square) {
   var squares = [];
@@ -739,6 +741,7 @@ var createRadius = function(square) {
   // TODO: write me
 
 };
+*/
 
 // returns the square of the closest instance of piece
 // returns false if no instance of piece is found in position
@@ -1054,16 +1057,14 @@ widget.highlight = function() {
 // move piece(s)
 // TODO: allow the first argument to be an array of moves?
 widget.move = function() {
-  if (arguments.length === 0) {
-    // TODO: throw error
-    return;
-  }
+  // NOTE: no need to throw an error here; just do nothing
+  if (arguments.length === 0) return;
 
   var moves = {};
   for (var i = 0; i < arguments.length; i++) {
     // skip invalid arguments
     if (validMove(arguments[i]) !== true) {
-      // TODO: throw error
+      error(2826, 'Invalid move passed to the move method.', arguments[i]);
       continue;
     }
 
@@ -1104,7 +1105,7 @@ widget.position = function(position, useAnimation) {
 
   // validate position object
   if (validPositionObject(position) !== true) {
-    // TODO: throw error
+    error(6482, 'Invalid position passed to position method.', position);
     return;
   }
 
@@ -1142,7 +1143,8 @@ widget.orientation = function(arg) {
     return;
   }
 
-  // TODO: throw error
+  error(5482, 'The first argument to the orientation method must be ' +
+    '"white", "black", or "flip".', arg);
 };
 
 // set the starting position
