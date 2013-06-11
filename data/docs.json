@@ -113,32 +113,30 @@
 "Methods":[
 "------------------------------------------------------------------------------",
 {
-  "name":"addOption(name, option)",
-  "args":[
-    ["name", "name of the list to add the option to"],
-    ["option", "<a href='docs#option_object'>Option Object</a> to add to the list"]
-  ],
+  "name":"clear()",
   "desc":[
-    "Add an option to a <a href='docs#list_object'>List Object</a>.",
-    "Returns <code class='js keyword'>true</code> if adding the option was successful.",
-    "Returns <code class='js keyword'>false</code> otherwise."
+    "Removes all the pieces on the board with a fade effect.",
+    "Has the same effect as calling <code class='js plain'>position({})</code>"
   ],
   "examples":7000
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"blur()",
-  "desc":"Remove focus from the widget.",
-  "examples":[7001,7056]
+  "name":"clear(useAnimation)",
+  "args":[
+    ["useAnimation", "If <code class='js keyword'>false</code>, removes pieces immediately"]
+  ],
+  "desc":[
+    "Removes all the pieces on the board instantly.",
+    "Has the same effect as calling <code class='js plain'>position({}, </code><code class='js keyword'>false</code><code class='js plain'>)</code>"
+  ],
+  "examples":7000
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"clear()",
-  "desc":[
-    "Clear the value of the widget.",
-    "Has the same effect as calling <code class='js plain'>setValue([])</code>"
-  ],
-  "examples":7002
+  "name":"config()",
+  "desc":"TODO: set config properties",
+  "examples":[7001,7056]
 },
 "------------------------------------------------------------------------------",
 {
@@ -148,40 +146,40 @@
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"focus()",
-  "desc":"Puts the input focus on the widget.",
+  "name":"fen()",
+  "desc":[
+    "Returns the current position as a FEN string.",
+    "Has the same effect as calling <code class='js plain'>position('fen')</code>"
+  ],
   "examples":7004
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"getList(name)",
-  "args":[
-    ["name", "name of the list to get"]
-  ],
-  "desc":[
-    "Returns the <a href='docs#list_object'>List Object</a> if it exists.",
-    "Returns <code class='js keyword'>false</code> if the list does not exist."
-  ],
+  "name":"flip()",
+  "desc":"Flips the orientation of the board.",
   "examples":7005
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"getLists()",
-  "desc":"Returns an object of all the <a href='docs#list_object'>List Objects</a>.",
+  "name":"highlight()",
+  "desc":"TODO: set square highlights",
   "examples":7006
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"getValue()",
+  "name":"move(move1, move2, etc)",
+  "args":[
+    ["moveN", "<code class='js string'>'e2-e4'</code>, <code class='js string'>'g8-f6'</code>, etc"]
+  ],
   "desc":[
-    "Returns the current value of the widget.",
-    "Returns an empty array if the widget has no Token Groups."
+    "Executes one or more moves on the board.",
+    "Returns an updated Position Object of the board including the move(s)."
   ],
   "examples":7007
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"list(name)",
+  "name":"position()",
   "args":[
     ["name", "name of the list to get"]
   ],
@@ -190,7 +188,7 @@
 "------------------------------------------------------------------------------",
 {
   "noId":true,
-  "name":"list(name, list)",
+  "name":"position(newPosition)",
   "args":[
     ["name", "name of the list to add or update"],
     ["list", "<a href='docs#list_object'>List Object</a>"]
@@ -199,7 +197,7 @@
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"pressDown()",
+  "name":"orientation()",
   "desc":[
     "Simulates the user pressing the \"Down Arrow\" key on the input field.",
     "Has no effect if the input field does not have focus."
@@ -208,7 +206,8 @@
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"pressEnter()",
+  "noId":true,
+  "name":"orientation(newOrientation)",
   "desc":[
     "Simulates the user pressing the \"Enter\" key on the input field.",
     "Has no effect if the input field does not have focus."
@@ -217,91 +216,12 @@
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"pressUp()",
+  "name":"start()",
   "desc":[
-    "Simulates the user pressing the \"Up Arrow\" key on the input field.",
-    "Has no effect if the input field does not have focus."
+    "Sets the board to the start position.",
+    "Has the same effect as calling <code class='js plain'>position('start')</code>"
   ],
   "examples":7056
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"removeList(name)",
-  "args":[
-    ["name", "name of the list to remove"]
-  ],
-  "desc":[
-    "Returns <code class='js keyword'>true</code> if the list was removed.",
-    "Returns <code class='js keyword'>false</code> if not.",
-    "You cannot remove the <a href='docs#config_object:initialList'><code class='js plain'>initialList</code></a>."
-  ],
-  "examples":7008
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"removeTokenGroup(index)",
-  "args":[
-    ["index", "zero-based index of the <a href='docs#token_object'>Token Group</a> to remove"]
-  ],
-  "desc":[
-    "Remove a <a href='docs#token_object'>Token Group</a> by array index.",
-    "Returns the updated value of the widget if successful.",
-    "Returns <code class='js keyword'>false</code> otherwise."
-  ],
-  "examples":7009
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"setInput(input)",
-  "args":[
-    ["input", "text to set the input element to"]
-  ],
-  "desc":[
-    "Puts text into the input element as if the user had typed it.",
-    "Returns <code class='js keyword'>true</code> and updates the widget if updating the input was successful.",
-    "Returns <code class='js keyword'>false</code> otherwise."
-  ],
-  "examples":7056
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"setList(name, list)",
-  "args":[
-    ["name", "name of the list to add or update"],
-    ["list", "<a href='docs#list_object'>List Object</a>"]
-  ],
-  "desc":[
-    "Adds a new list or updates an existing list.",
-    "Returns <code class='js keyword'>true</code> if adding the list was successful.",
-    "Returns <code class='js keyword'>false</code> otherwise."
-  ],
-  "examples":7010
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"setValue(value)",
-  "args":[
-    ["value", "array of <a href='docs#token_object'>Token Groups</a>"]
-  ],
-  "desc":[
-    "Returns <code class='js keyword'>true</code> and updates the widget if <code class='js plain'>value</code> is valid.",
-    "Returns <code class='js keyword'>false</code> otherwise."
-  ],
-  "examples":7011
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"val()",
-  "desc":"Alias of <a href='docs#methods:getValue'><code class='js plain'>getValue()</code></a>"
-},
-"------------------------------------------------------------------------------",
-{
-  "noId":true,
-  "name":"val(value)",
-  "args":[
-    ["value", "array of <a href='docs#token_object'>Token Groups</a>"]
-  ],
-  "desc":"Alias of <a href='docs#methods:setValue'><code class='js plain'>setValue(value)</code></a>"
 },
 "------------------------------------------------------------------------------"
 ],

@@ -22,7 +22,7 @@ var validMove = function(move) {
   if (tmp.length !== 2) return false;
 
   return (validSquare(tmp[0]) === true && validSquare(tmp[1]) === true);
-}
+};
 
 var validSquare = function(square) {
   if (typeof square !== 'string') return false;
@@ -233,11 +233,6 @@ var ANIMATION_HAPPENING = false,
 // JS Util Functions
 //------------------------------------------------------------------------------
 
-// http://yuiblog.com/sandbox/yui/3.3.0pr3/api/escape.js.html
-var regexEscape = function(str) {
-  return (str + '').replace(/[\-#$\^*()+\[\]{}|\\,.?\s]/g, '\\$&');
-};
-
 // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
 var createId = function() {
   return 'xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/x/g, function(c) {
@@ -250,34 +245,13 @@ var deepCopy = function(thing) {
   return JSON.parse(JSON.stringify(thing));
 };
 
+/*
 var isArray = Array.isArray || function(vArg) {
   return Object.prototype.toString.call(vArg) === '[object Array]';
 };
 
 var isObject = $.isPlainObject;
-
-// returns an array of object keys
-var keys = function(obj) {
-  var arr = [];
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i) !== true) continue;
-    arr.push(i);
-  }
-  return arr;
-};
-
-// simple string replacement
-var tmpl = function(str, obj) {
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i) !== true) continue;
-
-    // convert to string
-    var value = obj[i] + '';
-
-    str = str.replace(new RegExp('{' + regexEscape(i) + '}', 'g'), value);
-  }
-  return str;
-};
+*/
 
 var parseSemVer = function(version) {
   var tmp = version.split('.');
@@ -488,11 +462,9 @@ var expandConfig = function() {
 // fudge factor, and then keep reducing until we find an exact mod 8 for
 // our square size
 var calculateSquareSize = function() {
-
   var containerWidth = parseInt(containerEl.css('width'), 10);
 
-  // NOTE: there were times while debugging that the while loop would get
-  //       stuck, so I added this in order to prevent that
+  // defensive, prevent infinite loop
   if (! containerWidth || containerWidth <= 0) {
     return 0;
   }
@@ -1075,6 +1047,8 @@ widget.move = function() {
   var pos2 = calculatePositionFromMoves(CURRENT_POSITION, moves);
 
   widget.position(pos2);
+
+  // TODO: return the new position object
 };
 
 widget.position = function(position, useAnimation) {
@@ -1277,6 +1251,7 @@ var addEvents = function() {
 };
 
 var initDom = function() {
+  // TODO: this is being run twice on load; need to reduce to once  
   SQUARE_SIZE = calculateSquareSize();
 
   // build the board
@@ -1295,8 +1270,8 @@ var initDom = function() {
 };
 
 var init = function() {
-  if (checkDeps() !== true) return;
-  if (expandConfig() !== true) return;
+  if (checkDeps() !== true ||
+      expandConfig() !== true) return;
 
   createSquareIds();
   initDom();
