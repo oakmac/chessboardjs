@@ -1105,7 +1105,7 @@ widget.position = function(position, useAnimation) {
 
   // validate position object
   if (validPositionObject(position) !== true) {
-    error(6482, 'Invalid position passed to position method.', position);
+    error(6482, 'Invalid value passed to the position method.', position);
     return;
   }
 
@@ -1143,8 +1143,7 @@ widget.orientation = function(arg) {
     return;
   }
 
-  error(5482, 'The first argument to the orientation method must be ' +
-    '"white", "black", or "flip".', arg);
+  error(5482, 'Invalid value passed to the orientation method.', arg);
 };
 
 // set the starting position

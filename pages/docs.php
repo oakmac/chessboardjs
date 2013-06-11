@@ -8,10 +8,7 @@ $docs = ChessBoard::getDocs();
 
 <div class="section">
 <h2 id="config_object">Config Object</h2>
-<p>The Config Object initializes the AutoComplete widget.</p>
-<p>You define your <a href="docs#list_object">List Objects</a> - which control which options are available to the user - on the <a href="docs#config_object:lists"><code class="js plain">lists</code></a> property.</p>
-<p>As a shorthand method, you can provide an array of <a href="docs#option_object">Option Objects</a> to the config object and it will be expanded as the default list for the widget. See the <a href="examples#1000">Simple List Example</a>.</p>
-<p>As another shorthand method, you can provide a single string value and AutoComplete assumes it's an AJAX url. See the <a href="examples#2000">Simple AJAX example</a>.</p>
+<p>The Config Object initializes the ChessBoard widget.</p>
 <table cellspacing="0">
 <thead>
 <tr>
@@ -35,110 +32,7 @@ foreach($docs['Config Object'] as $prop) {
 <hr class="divider" />
 
 <div class="section">
-<h2 id="list_object">List Object</h2>
-<div class="panel etymology">
-  <div class="word">list</div>
-  <div class="part-of-speech">Noun</div>
-  <div class="definition">A number of connected items or names written or printed consecutively, typically one below the other.</div>
-</div>
-<p>List Objects are the heart of the AutoComplete widget. They define the options available to the user when they are typing.</p>
-<p>The options for a List Object can be sourced directly in the JavaScript or externally with AJAX.</p>
-<p>You can define the list workflow using the <a href="docs#list_object:children"><code class='js plain'>children</code></a> property on List Objects.</p>
-<p>As a shorthand method, you can provide an array of <a href="docs#option_object">Option Objects</a> anywhere that expects a full List Object. See the <a href="examples#1002">Nested Lists example</a>.</p>
-<p>As another shorthand method, you can provide a single string value and AutoComplete assumes it's an AJAX url. See the <a href="examples#2002">Nested Lists with AJAX example</a>.</p>
-<table cellspacing="0">
-<thead>
-<tr>
-  <th>Property / Type</th>
-  <th>Required</th>
-  <th>Default</th>
-  <th>Description</th>
-  <th>Example</th>
-</tr>
-</thead>
-<tbody>
-<?php
-foreach($docs['List Object'] as $prop) {
-  echo buildPropRow('list_object', $prop, $examples);
-}
-?>
-</tbody>
-</table>
-</div><!-- end div.section -->
-
-<hr class="divider" />
-
-<div class="section">
-<h2 id="option_object">Option Object</h2>
-<div class="panel etymology">
-  <div class="word">option</div>
-  <div class="part-of-speech">Noun</div>
-  <div class="definition">A thing that is or may be chosen.</div>
-</div>
-<p>Option Objects are the meat of the AutoComplete widget. They are the options displayed to the user as they type.</p>
-<p>Option Objects can hold any arbitrary value; they are not limited to what the user sees on the screen.</p>
-<p>An Option Object becomes a <a href="docs#token_object">Token Object</a> when the user selects it from the dropdown list.</p>
-<p>You can define the list workflow using the <a href="docs#option_object:children"><code class='js plain'>children</code></a> property on Option Objects.</p>
-<p>As a shorthand method, you can use a string as an Option Object. See the <a href="examples#4014">allowFreeform example</a>.</p>
-<table cellspacing="0">
-<thead>
-<tr>
-  <th>Property / Type</th>
-  <th>Required</th>
-  <th>Default</th>
-  <th>Description</th>
-  <th>Example</th>
-</tr>
-</thead>
-<tbody>
-<?php
-foreach($docs['Option Object'] as $prop) {
-  echo buildPropRow('option_object', $prop, $examples);
-}
-?>
-</tbody>
-</table>
-</div><!-- end div.section -->
-
-<hr class="divider" />
-
-<div class="section">
-<h2 id="token_object">Token Object</h2>
-<div class="panel etymology">
-  <div class="word">token</div>
-  <div class="part-of-speech">Noun</div>
-  <div class="definition">A thing serving as a visible or tangible representation of something abstract.</div>
-</div>
-<p>Token Objects are what is stored on the search bar when a user selects an option from the dropdown menu.</p>
-<p>A Token Group is an array of Token Objects.</p>
-<p>The value of the search bar is an array of Token Groups.</p>
-<p>Token Objects are not explicitly defined in the AutoComplete config; they are created from an Option Object using the <a href="docs#option_object:value"><code class="js plain">option.value</code></a> and <a href="docs#option_object:tokenHTML"><code class="js plain">option.tokenHTML</code></a> properties.</p>
-<p>You can use a string as shorthand for a Token Object when using the <a href="docs#methods:setValue"><code class="js plain">setValue</code></a> method.</p>
-<table cellspacing="0">
-<thead>
-<tr>
-  <th>Property / Type</th>
-  <th>Required</th>
-  <th>Default</th>
-  <th>Description</th>
-  <th>Example</th>
-</tr>
-</thead>
-<tbody>
-<?php
-foreach($docs['Token Object'] as $prop) {
-  echo buildPropRow('token_object', $prop, $examples);
-}
-?>
-</tbody>
-</table>
-</div><!-- end div.section -->
-
-<hr class="divider" />
-
-<div class="section">
 <h2 id="methods">Methods</h2>
-<p>Each AutoComplete object has methods you can use to interact with the widget.</p>
 <table cellspacing="0">
 <thead>
 <tr>
@@ -162,14 +56,7 @@ foreach($docs['Methods'] as $method) {
 
 <div class="section">
 <h2 id="errors">Errors</h2>
-<!--
-<div class="panel etymology">
-  <div class="word">error</div>
-  <div class="part-of-speech">Noun</div>
-  <div class="definition">A mistake.</div>
-</div>
--->
-<p>AutoComplete has an error system designed to inform you when you use the API incorrectly.</p>
+<p>ChessBoard has an error system designed to inform you when you use the API incorrectly.</p>
 <p>Every alert has a unique code associated with it and you can control how the errors are presented with the <a href="docs#config_object:showErrors">showErrors</a> config option.</p>
 <table cellspacing="0">
 <thead>
