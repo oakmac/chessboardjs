@@ -11,6 +11,9 @@
 // start anonymous scope
 ;(function() {
 
+//------------------------------------------------------------------------------
+// Chess Util Functions
+//------------------------------------------------------------------------------
 var COLUMNS = 'abcdefgh'.split('');
 
 var validMove = function(move) {
@@ -276,11 +279,6 @@ var compareSemVer = function(version, minimum) {
 };
 
 //------------------------------------------------------------------------------
-// Chess Util Functions
-//------------------------------------------------------------------------------
-
-
-//------------------------------------------------------------------------------
 // Validation
 //------------------------------------------------------------------------------
 
@@ -483,12 +481,9 @@ var calculateSquareSize = function() {
 // Markup Building Functions
 //------------------------------------------------------------------------------
 
-var buildWidget = function() {
-  var squareSize = calculateSquareSize();
-  var boardWidth = (squareSize * 8);
-
+var buildBoardContainer = function() {
   var html = '<div class="' + CSS.chessboard + '">' +
-  '<div class="' + CSS.board + '" style="width: ' + boardWidth + 'px"></div>' +
+  '<div class="' + CSS.board + '"></div>' +
   '</div>';
 
   return html;
@@ -515,8 +510,6 @@ var buildBoard = function(orientation) {
     orientation = 'white';
   }
 
-  var squareSize = calculateSquareSize();
-  var boardWidth = (squareSize * 8);
   var html = '';
 
   // algebraic notation / orientation
@@ -534,7 +527,7 @@ var buildBoard = function(orientation) {
       var square = alpha[j] + row;
 
       html += '<div class="' + CSS.square + ' ' + CSS[squareColor] + '" ' +
-        'style="width: ' + squareSize + 'px; height: ' + squareSize + 'px" ' +
+        'style="width: ' + SQUARE_SIZE + 'px; height: ' + SQUARE_SIZE + 'px" ' +
         'id="' + SQUARE_ELS_IDS[square] + '" ' +
         'data-square="' + square + '">';
 
@@ -572,12 +565,12 @@ var buildBoard = function(orientation) {
   return html;
 };
 
-var createPieceImgSrc = function(piece) {
+var buildPieceImgSrc = function(piece) {
   return 'img/pieces/wikipedia/' + piece + '.png';
 };
 
 var buildPiece = function(piece, hidden, id) {
-  var html = '<img src="' + createPieceImgSrc(piece) + '" ';
+  var html = '<img src="' + buildPieceImgSrc(piece) + '" ';
   if (id && typeof id === 'string') {
     html += 'id="' + id + '" ';
   }
@@ -739,7 +732,7 @@ var findClosestPiece = function(position, piece, square) {
 // calculate an array of animations that need to happen in order to get
 // from pos1 to pos2
 var calculateAnimations = function(pos1, pos2) {
-  // make deep copies of both
+  // make copies of both
   pos1 = deepCopy(pos1);
   pos2 = deepCopy(pos2);
 
@@ -810,7 +803,7 @@ var calculatePositionFromMoves = function(position, moves) {
   for (var i in moves) {
     if (moves.hasOwnProperty(i) !== true) continue;
 
-    // skip if the position doesn't have a piece on the source square
+    // skip the move if the position doesn't have a piece on the source square
     if (position.hasOwnProperty(i) !== true) continue;
 
     var piece = position[i];
@@ -830,8 +823,13 @@ var setCurrentPosition = function(position) {
   // do nothing if no change in position
   if (oldPosFEN === newPosFEN) return;
 
-  cfg.onChange(oldPosObj, newPosObj, oldPosFEN, newPosFEN);
+  // run their onChange function
+  if (cfg.hasOwnProperty('onChange') === true && 
+      typeof cfg.onChange === 'function') {
+    cfg.onChange(oldPosObj, newPosObj, oldPosFEN, newPosFEN);
+  }
 
+  // update state
   CURRENT_POSITION = position;
 };
 
@@ -959,7 +957,7 @@ var beginDraggingPiece = function(square, piece, x, y) {
   captureSquareOffsets();
 
   // create the dragged piece
-  DRAGGED_PIECE_EL.attr('src', createPieceImgSrc(piece))
+  DRAGGED_PIECE_EL.attr('src', buildPieceImgSrc(piece))
     .css({
       display: '',
       position: 'absolute',
@@ -1095,6 +1093,17 @@ widget.position = function(position, useAnimation) {
     setCurrentPosition(position);
     drawPositionInstant();
   }
+};
+
+widget.resize = function() {
+  // calulate the new square size
+  SQUARE_SIZE = calculateSquareSize();
+
+  // set board width
+  boardEl.css('width', (SQUARE_SIZE * 8) + 'px');
+
+  // redraw the board
+  drawBoard();
 };
 
 widget.orientation = function(arg) {
@@ -1251,22 +1260,20 @@ var addEvents = function() {
 };
 
 var initDom = function() {
-  // TODO: this is being run twice on load; need to reduce to once  
-  SQUARE_SIZE = calculateSquareSize();
+  // build board and save it in memory
+  containerEl.html(buildBoardContainer());
+  boardEl = containerEl.find('div.' + CSS.board);
 
-  // build the board
-  containerEl.html(buildWidget());
+  // set the size
+  widget.resize();
+
+  // load the initial position
+  drawBoard();
 
   // create the drag piece
   var draggedPieceId = createId();
   $('body').append(buildPiece('wP', true, draggedPieceId));
-  DRAGGED_PIECE_EL = $('#' + draggedPieceId);
-
-  // grab elements in memory
-  boardEl = containerEl.find('div.' + CSS.board);
-
-  // load the initial position
-  drawBoard();
+  DRAGGED_PIECE_EL = $('#' + draggedPieceId);  
 };
 
 var init = function() {

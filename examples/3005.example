@@ -20,6 +20,8 @@ $('#showOrientationBtn').on('click', function() {
   console.log("Board orientation is: " + board.orientation());
 });
 
+$('#flipOrientationBtn').on('click', board.flip);
+
 $('#whiteOrientationBtn').on('click', function() {
   board.orientation('white');
 });
@@ -27,5 +29,3 @@ $('#whiteOrientationBtn').on('click', function() {
 $('#blackOrientationBtn').on('click', function() {
   board.orientation('black');
 });
-
-$('#flipOrientationBtn').on('click', board.flip);

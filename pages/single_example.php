@@ -10,7 +10,6 @@
 </head>
 <body>
 <p><a href="examples#<?php echo $example['number']; ?>">&larr; Back to all examples.</a></p>
-<p><a href="examples/<?php echo $example['number']; ?>.js">See the code for this example.</a></p>
 
 <!-- start example HTML --->
 <?php echo $example['HTML'] . "\n"; ?>

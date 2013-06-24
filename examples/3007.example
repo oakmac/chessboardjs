@@ -1,0 +1,14 @@
+=== Name
+Resize
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 60%"></div>
+
+
+=== JS
+// NOTE: click "View example in new window." to see the full effect of this example
+var board = new ChessBoard('board', 'start');
+$(window).resize(board.resize);
