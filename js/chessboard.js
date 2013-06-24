@@ -428,6 +428,13 @@ var expandConfig = function() {
     cfg.notation = true;
   }
 
+  // default piece theme is wikipedia
+  if (cfg.hasOwnProperty('pieceTheme') !== true ||
+      (typeof cfg.pieceTheme !== 'string' && 
+       typeof cfg.pieceTheme !== 'function')) {
+    cfg.pieceTheme = 'img/chesspieces/wikipedia/{piece}.png';
+  }
+
   // make sure position is valid
   if (cfg.hasOwnProperty('position') === true) {
     if (cfg.position === 'start') {
@@ -566,7 +573,16 @@ var buildBoard = function(orientation) {
 };
 
 var buildPieceImgSrc = function(piece) {
-  return 'img/pieces/wikipedia/' + piece + '.png';
+  if (typeof cfg.pieceTheme === 'function') {
+    return cfg.pieceTheme(piece);
+  }
+
+  if (typeof cfg.pieceTheme === 'string') {
+    return cfg.pieceTheme.replace(/{piece}/g, piece);
+  }
+  
+  // NOTE: this should never happen
+  // TODO: throw error?
 };
 
 var buildPiece = function(piece, hidden, id) {

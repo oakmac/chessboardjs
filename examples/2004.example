@@ -1,0 +1,21 @@
+=== Name
+Piece Theme
+
+=== Description
+
+
+=== HTML
+<div id="board1" style="width: 320px; float: left; margin: 8px"></div>
+<div id="board2" style="width: 320px; float: left; margin: 8px"></div>
+<div style="clear:both"></div>
+
+=== JS
+var board1 = new ChessBoard('board1', {
+  pieceTheme: 'img/chesspieces/alpha/{piece}.png',
+  position: 'start'
+});
+
+var board2 = new ChessBoard('board2', {
+  pieceTheme: 'img/chesspieces/uscf/{piece}.png',
+  position: 'start'
+});
