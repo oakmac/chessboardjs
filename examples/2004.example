@@ -16,6 +16,8 @@ var board1 = new ChessBoard('board1', {
 });
 
 var board2 = new ChessBoard('board2', {
-  pieceTheme: 'img/chesspieces/uscf/{piece}.png',
+  pieceTheme: function(piece) {
+    return 'img/chesspieces/uscf/' + piece + '.png';
+  },
   position: 'start'
 });

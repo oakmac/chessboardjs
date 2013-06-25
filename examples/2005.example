@@ -1,0 +1,20 @@
+=== Name
+Animation Speed
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+<input type="button" id="startBtn" value="Start Position" />
+
+=== JS
+var board = new ChessBoard('board', {
+  draggable: true,
+  moveSpeed: 'slow',
+  snapbackSpeed: 500,
+  snapSpeed: 100,
+  position: 'start'
+});
+
+$('#startBtn').on('click', board.start);

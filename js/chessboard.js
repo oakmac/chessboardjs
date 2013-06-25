@@ -387,6 +387,18 @@ var createSquareIds = function() {
   }
 };
 
+var validAnimationSpeed = function(speed) {
+  if (speed === 'fast' || speed === 'slow') {
+    return true;
+  }
+
+  if ((parseInt(speed, 10) + '') !== (speed + '')) {
+    return false;
+  }
+
+  return (speed > 0);
+};
+
 // validate config / set default options
 var expandConfig = function() {
   if (typeof cfg === 'string' || validPositionObject(cfg) === true) {
@@ -433,6 +445,20 @@ var expandConfig = function() {
       (typeof cfg.pieceTheme !== 'string' && 
        typeof cfg.pieceTheme !== 'function')) {
     cfg.pieceTheme = 'img/chesspieces/wikipedia/{piece}.png';
+  }
+
+  // animation speeds
+  if (cfg.hasOwnProperty('moveSpeed') !== true ||
+      validAnimationSpeed(cfg.moveSpeed) !== true) {
+    cfg.moveSpeed = 200;
+  }
+  if (cfg.hasOwnProperty('snapbackSpeed') !== true ||
+      validAnimationSpeed(cfg.snapbackSpeed) !== true) {
+    cfg.snapbackSpeed = 50;
+  }
+  if (cfg.hasOwnProperty('snapSpeed') !== true ||
+      validAnimationSpeed(cfg.snapSpeed) !== true) {
+    cfg.snapSpeed = 25;
   }
 
   // make sure position is valid
@@ -674,7 +700,7 @@ var animateMove = function(srcSquare, destSquare, piece, completeFn) {
 
   // animate the piece to the destination square
   var opts = {
-    duration: 'fast',
+    duration: cfg.moveSpeed,
     complete: complete
   };
   animatedPieceEl.animate(destSquarePosition, opts);
@@ -899,7 +925,7 @@ var snapbackPiece = function() {
 
   // animate the piece to the target square
   var opts = {
-    duration: 50,
+    duration: cfg.snapbackSpeed,
     complete: complete
   };
   DRAGGED_PIECE_EL.animate(sourceSquarePosition, opts);
@@ -947,7 +973,7 @@ var dropPiece = function(square) {
 
   // animate the piece to the target square
   var opts = {
-    duration: 25,
+    duration: cfg.snapSpeed,
     complete: complete
   };
   DRAGGED_PIECE_EL.animate(targetSquarePosition, opts);
