@@ -1014,6 +1014,80 @@ var beginDraggingPiece = function(square, piece, x, y) {
   $('#' + SQUARE_ELS_IDS[square]).addClass(CSS.highlight1);
 };
 
+var updateDraggedPiece = function(x, y) {
+  // put the dragged piece over the mouse cursor
+  DRAGGED_PIECE_EL.css({
+    left: x - (SQUARE_SIZE / 2),
+    top: y - (SQUARE_SIZE / 2)
+  });
+
+  // get location
+  var location = isXYOnSquare(x, y);
+
+  // do nothing if the location has not changed
+  if (location === DRAGGED_PIECE_LOCATION) return;
+
+  // remove highlight from previous square
+  if (DRAGGED_PIECE_LOCATION !== 'offboard') {
+    $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_LOCATION])
+      .removeClass(CSS.highlight2);
+  }
+
+  // add highlight to new square
+  if (location !== 'offboard') {
+    $('#' + SQUARE_ELS_IDS[location]).addClass(CSS.highlight2);
+  }
+
+  // run onDragMove
+  if (typeof cfg.onDragMove === 'function') {
+    cfg.onDragMove(location, DRAGGED_PIECE_LOCATION, 
+      DRAGGED_PIECE_SOURCE_SQUARE, DRAGGED_PIECE,
+      deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION);
+  }
+
+  // update state
+  DRAGGED_PIECE_LOCATION = location;
+};
+
+var stopDraggedPiece = function(location) {
+  // determine what the action should be
+  var action = 'drop';
+  if (location === 'offboard' && cfg.dropOffBoard === 'snapback') {
+    action = 'snapback';
+  }
+  else if (location === 'offboard' && cfg.dropOffBoard === 'trash') {
+    action = 'trash';
+  }
+
+  // run their onDrop function, which can potentially change the drop action
+  if (typeof cfg.onDrop === 'function') {
+    var newPosition = deepCopy(CURRENT_POSITION);
+    if (location !== 'offboard') {
+      var moves = {};
+      moves[DRAGGED_PIECE_SOURCE_SQUARE] = location;
+      newPosition = calculatePositionFromMoves(CURRENT_POSITION, moves);
+    }
+    var oldPosition = deepCopy(CURRENT_POSITION);
+
+    var result = cfg.onDrop(location, newPosition, oldPosition,
+      DRAGGED_PIECE_SOURCE_SQUARE, DRAGGED_PIECE, CURRENT_ORIENTATION);
+    if (result === 'snapback' || result === 'trash') {
+      action = result;
+    }
+  }
+
+  // do it!
+  if (action === 'snapback') {
+    snapbackPiece();
+  }
+  else if (action === 'trash') {
+    trashPiece();
+  }
+  else if (action === 'drop') {
+    dropPiece(location);
+  }
+};
+
 //------------------------------------------------------------------------------
 // Public Methods
 //------------------------------------------------------------------------------
@@ -1184,6 +1258,23 @@ var stopDefault = function(e) {
   e.preventDefault();
 };
 
+var touchstartSquare = function(e) {
+  // do nothing if we're not draggable
+  if (cfg.draggable !== true) return;
+
+  var square = $(this).attr('data-square');
+
+  // no piece on this square
+  if (validSquare(square) !== true ||
+      CURRENT_POSITION.hasOwnProperty(square) !== true) {
+    return;
+  }
+
+  e = e.originalEvent;
+  beginDraggingPiece(square, CURRENT_POSITION[square], 
+    e.changedTouches[0].pageX, e.changedTouches[0].pageY);  
+};
+
 var mousedownSquare = function(e) {
   // do nothing if we're not draggable
   if (cfg.draggable !== true) return;
@@ -1199,46 +1290,39 @@ var mousedownSquare = function(e) {
   beginDraggingPiece(square, CURRENT_POSITION[square], e.pageX, e.pageY);
 };
 
-var mousemoveBody = function(e) {
+var touchmoveWindow = function(e) {
   // do nothing if we are not dragging a piece
   if (DRAGGING_A_PIECE !== true || cfg.draggable !== true ||
       ! DRAGGED_PIECE_EL) return;
 
-  // put the dragged piece over the mouse cursor
-  DRAGGED_PIECE_EL.css({
-    left: e.pageX - (SQUARE_SIZE / 2),
-    top: e.pageY - (SQUARE_SIZE / 2)
-  });
+  // prevent screen from scrolling
+  e.preventDefault();
 
-  // get location
-  var location = isXYOnSquare(e.pageX, e.pageY);
-
-  // do nothing if the location has not changed
-  if (location === DRAGGED_PIECE_LOCATION) return;
-
-  // remove highlight from previous square
-  if (DRAGGED_PIECE_LOCATION !== 'offboard') {
-    $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_LOCATION])
-      .removeClass(CSS.highlight2);
-  }
-
-  // add highlight to new square
-  if (location !== 'offboard') {
-    $('#' + SQUARE_ELS_IDS[location]).addClass(CSS.highlight2);
-  }
-
-  // run onDragMove
-  if (typeof cfg.onDragMove === 'function') {
-    cfg.onDragMove(location, DRAGGED_PIECE_LOCATION, 
-      DRAGGED_PIECE_SOURCE_SQUARE, DRAGGED_PIECE,
-      deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION);
-  }
-
-  // update state
-  DRAGGED_PIECE_LOCATION = location;
+  updateDraggedPiece(e.originalEvent.changedTouches[0].pageX, 
+    e.originalEvent.changedTouches[0].pageY);
 };
 
-var mouseupBody = function(e) {
+var mousemoveWindow = function(e) {
+  // do nothing if we are not dragging a piece
+  if (DRAGGING_A_PIECE !== true || cfg.draggable !== true ||
+      ! DRAGGED_PIECE_EL) return;
+
+  updateDraggedPiece(e.pageX, e.pageY);
+};
+
+var touchendWindow = function(e) {
+  // do nothing if we are not dragging a piece
+  if (DRAGGING_A_PIECE !== true || cfg.draggable !== true ||
+      ! DRAGGED_PIECE_EL) return;
+
+  // get the location
+  var location = isXYOnSquare(e.originalEvent.changedTouches[0].pageX,
+    e.originalEvent.changedTouches[0].pageY);
+
+  stopDraggedPiece(location);
+};
+
+var mouseupWindow = function(e) {
   // do nothing if we are not dragging a piece
   if (DRAGGING_A_PIECE !== true || cfg.draggable !== true ||
       ! DRAGGED_PIECE_EL) return;
@@ -1246,50 +1330,17 @@ var mouseupBody = function(e) {
   // get the location
   var location = isXYOnSquare(e.pageX, e.pageY);
 
-  // determine what the action should be
-  var action = 'drop';
-  if (location === 'offboard' && cfg.dropOffBoard === 'snapback') {
-    action = 'snapback';
-  }
-  else if (location === 'offboard' && cfg.dropOffBoard === 'trash') {
-    action = 'trash';
-  }
-
-  // run their onDrop function, which can potentially change the drop action
-  if (typeof cfg.onDrop === 'function') {
-    var newPosition = deepCopy(CURRENT_POSITION);
-    if (location !== 'offboard') {
-      var moves = {};
-      moves[DRAGGED_PIECE_SOURCE_SQUARE] = location;
-      newPosition = calculatePositionFromMoves(CURRENT_POSITION, moves);
-    }
-    var oldPosition = deepCopy(CURRENT_POSITION);
-
-    var result = cfg.onDrop(location, newPosition, oldPosition,
-      DRAGGED_PIECE_SOURCE_SQUARE, DRAGGED_PIECE, CURRENT_ORIENTATION);
-    if (result === 'snapback' || result === 'trash') {
-      action = result;
-    }
-  }
-
-  // do it!
-  if (action === 'snapback') {
-    snapbackPiece();
-  }
-  else if (action === 'trash') {
-    trashPiece();
-  }
-  else if (action === 'drop') {
-    dropPiece(location);
-  }
+  stopDraggedPiece(location);
 };
 
 //------------------------------------------------------------------------------
 // Initialization
 //------------------------------------------------------------------------------
 
-// NOTE: using delegate and bind here instead of $.on to
-// maintain compatibility with older jquery versions
+var isTouchDevice = function() {
+  return ('ontouchstart' in document.documentElement);
+};
+
 var addEvents = function() {
   // prevent browser "image drag"
   $('body').delegate('img.' + CSS.piece, 'mousedown mousemove', stopDefault);
@@ -1297,8 +1348,14 @@ var addEvents = function() {
 
   // draggable pieces
   boardEl.delegate('div.' + CSS.square, 'mousedown', mousedownSquare);
-  $('body').bind('mousemove', mousemoveBody);
-  $('body').bind('mouseup', mouseupBody);
+  $(window).bind('mousemove', mousemoveWindow);
+  $(window).bind('mouseup', mouseupWindow);
+
+  if (isTouchDevice() === true) {
+    boardEl.on('touchstart', 'div.' + CSS.square, touchstartSquare);
+    $(window).bind('touchmove', touchmoveWindow);
+    $(window).bind('touchend', touchendWindow);
+  }
 };
 
 var initDom = function() {
