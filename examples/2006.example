@@ -1,0 +1,29 @@
+=== Name
+Spare Pieces
+
+=== Description
+
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var board = new ChessBoard('board', {
+  draggable: true,
+  dropOffBoard: 'snapback',
+  onDrop: function(location, newP, oldP, source, piece, orientation) {
+    
+    console.log(location);
+    console.log(ChessBoard.objToFEN(newP));
+    console.log(ChessBoard.objToFEN(oldP));
+    console.log(source);
+    console.log(piece);
+    console.log(orientation);
+    console.log('--------------');
+    
+
+    //return 'snapback';
+  },
+  position: 'start',
+  sparePieces: true
+});

@@ -5,8 +5,8 @@ Piece Theme
 
 
 === HTML
-<div id="board1" style="width: 320px; float: left; margin: 8px"></div>
-<div id="board2" style="width: 320px; float: left; margin: 8px"></div>
+<div id="board1" style="width: 320px; float: left; margin-right: 10px"></div>
+<div id="board2" style="width: 320px; float: left"></div>
 <div style="clear:both"></div>
 
 === JS
