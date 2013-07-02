@@ -1,5 +1,5 @@
 === Name
-onDrop Snapback
+onDrop Trash
 
 === Description
 
@@ -8,10 +8,10 @@ onDrop Snapback
 <div id="board" style="width: 400px"></div>
 
 === JS
-// snapback black pieces when they are dropped
+// trash black pieces when they are dropped
 var onDrop = function(target, newPos, oldPos, source, piece, orientation) {
   if (piece.search(/b/) !== -1) {
-    return 'snapback';
+    return 'trash';
   }
 };
 
