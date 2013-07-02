@@ -6,24 +6,17 @@ Spare Pieces
 
 === HTML
 <div id="board" style="width: 400px"></div>
+<input type="button" id="startBtn" value="Start" />
+<input type="button" id="clearBtn" value="Clear" />
 
 === JS
 var board = new ChessBoard('board', {
   draggable: true,
-  dropOffBoard: 'snapback',
-  onDrop: function(location, newP, oldP, source, piece, orientation) {
-    
-    console.log(location);
-    console.log(ChessBoard.objToFEN(newP));
-    console.log(ChessBoard.objToFEN(oldP));
-    console.log(source);
-    console.log(piece);
-    console.log(orientation);
-    console.log('--------------');
-    
-
-    //return 'snapback';
-  },
+  dropOffBoard: 'trash',
   position: 'start',
   sparePieces: true
 });
+
+$('#startBtn').on('click', board.start);
+
+$('#clearBtn').on('click', board.clear);

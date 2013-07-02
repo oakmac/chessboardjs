@@ -236,6 +236,7 @@ var ANIMATION_HAPPENING = false,
   DRAGGED_PIECE_LOCATION,
   DRAGGED_PIECE_SOURCE,
   DRAGGING_A_PIECE = false,
+  SPARE_PIECE_ELS_IDS = {},
   SQUARE_ELS_IDS = {},
   SQUARE_ELS_OFFSETS;
 
@@ -384,13 +385,23 @@ var checkDeps = function() {
   return true;
 };
 
-// create random IDs for every square on the board
-var createSquareIds = function() {
+// create random IDs for elements
+var createElIds = function() {
+  // squares on the board
   for (var i = 0; i < COLUMNS.length; i++) {
     for (var j = 1; j <= 8; j++) {
       var square = COLUMNS[i] + j;
       SQUARE_ELS_IDS[square] = square + '-' + createId();
     }
+  }
+
+  // spare pieces
+  var pieces = 'KQRBNP'.split('');
+  for (var i = 0; i < pieces.length; i++) {
+    var whitePiece = 'w' + pieces[i];
+    var blackPiece = 'b' + pieces[i];
+    SPARE_PIECE_ELS_IDS[whitePiece] = whitePiece + '-' + createId();
+    SPARE_PIECE_ELS_IDS[blackPiece] = blackPiece + '-' + createId();
   }
 };
 
@@ -690,7 +701,7 @@ var buildSparePieces = function(color) {
 
   var html = '';
   for (var i = 0; i < pieces.length; i++) {
-    html += buildPiece(pieces[i]);
+    html += buildPiece(pieces[i], false, SPARE_PIECE_ELS_IDS[pieces[i]]);
   }  
 
   return html;
@@ -716,11 +727,11 @@ var drawBoard = function() {
 // Animations
 //------------------------------------------------------------------------------
 
-var animateMove = function(srcSquare, destSquare, piece, completeFn) {
+var animateSquareToSquare = function(src, dest, piece, completeFn) {
   // get information about the source and destination squares
-  var srcSquareEl = $('#' + SQUARE_ELS_IDS[srcSquare]);
+  var srcSquareEl = $('#' + SQUARE_ELS_IDS[src]);
   var srcSquarePosition = srcSquareEl.offset();
-  var destSquareEl = $('#' + SQUARE_ELS_IDS[destSquare]);
+  var destSquareEl = $('#' + SQUARE_ELS_IDS[dest]);
   var destSquarePosition = destSquareEl.offset();
 
   // create the animated piece and absolutely position it
@@ -760,6 +771,46 @@ var animateMove = function(srcSquare, destSquare, piece, completeFn) {
   animatedPieceEl.animate(destSquarePosition, opts);
 };
 
+var animateSparePieceToSquare = function(piece, dest, completeFn) {
+  var srcOffset = $('#' + SPARE_PIECE_ELS_IDS[piece]).offset();
+  var destSquareEl = $('#' + SQUARE_ELS_IDS[dest]);
+  var destOffset = destSquareEl.offset();
+
+  // create the animate piece
+  var pieceId = createId();
+  $('body').append(buildPiece(piece, true, pieceId));
+  var animatedPieceEl = $('#' + pieceId);
+  animatedPieceEl.css({
+    display: '',
+    position: 'absolute',
+    left: srcOffset.left,
+    top: srcOffset.top
+  });
+
+  // on complete
+  var complete = function() {
+    // add the "real" piece to the destination square
+    destSquareEl.find('img.' + CSS.piece).remove();
+    destSquareEl.append(buildPiece(piece));
+
+    // remove the animated piece
+    animatedPieceEl.remove();
+
+    // run complete function
+    if (typeof completeFn === 'function') {
+      completeFn();
+    }
+  };  
+
+  // animate the piece to the destination square
+  var opts = {
+    duration: cfg.moveSpeed,
+    complete: complete
+  };
+  animatedPieceEl.animate(destOffset, opts);
+};
+
+// execute an array of animations
 var doAnimations = function(a) {
   ANIMATION_HAPPENING = true;
 
@@ -779,17 +830,24 @@ var doAnimations = function(a) {
         .fadeOut('fast', onFinish);
     }
 
-    // add a piece
-    if (a[i].type === 'add') {
+    // add a piece (no spare pieces)
+    if (a[i].type === 'add' && cfg.sparePieces !== true) {
       $('#' + SQUARE_ELS_IDS[a[i].square])
         .append(buildPiece(a[i].piece, true))
         .find('img.' + CSS.piece)
         .fadeIn('fast', onFinish);
     }
 
+    // add a piece from a spare piece
+    if (a[i].type === 'add' && cfg.sparePieces === true) {
+      animateSparePieceToSquare(a[i].piece, a[i].square, onFinish);
+    }
+
     // move a piece
     if (a[i].type === 'move') {
-      animateMove(a[i].source, a[i].destination, a[i].piece, onFinish);
+      //animateMove(a[i].source, a[i].destination, a[i].piece, onFinish);
+      animateSquareToSquare(a[i].source, a[i].destination, a[i].piece, 
+        onFinish);
     }
   }
 };
@@ -827,7 +885,6 @@ var findClosestPiece = function(position, piece, square) {
 
 // calculate an array of animations that need to happen in order to get
 // from pos1 to pos2
-// TODO: need to add animations from spare pieces if they are enabled
 var calculateAnimations = function(pos1, pos2) {
   // make copies of both
   pos1 = deepCopy(pos1);
@@ -1051,7 +1108,7 @@ var beginDraggingPiece = function(source, piece, x, y) {
   DRAGGED_PIECE = piece;
   DRAGGED_PIECE_SOURCE = source;
 
-  // if the piece came from spare pieces, it is offboard
+  // if the piece came from spare pieces, location is offboard
   if (source === 'spare') {
     DRAGGED_PIECE_LOCATION = 'offboard';
   }
@@ -1072,11 +1129,9 @@ var beginDraggingPiece = function(source, piece, x, y) {
     });
 
   if (source !== 'spare') {
-    // hide the piece on the source square
-    $('#' + SQUARE_ELS_IDS[source] + ' img.' + CSS.piece).css('display', 'none');
-
-    // highlight the source square
-    $('#' + SQUARE_ELS_IDS[source]).addClass(CSS.highlight1);    
+    // highlight the source square and hide the piece
+    $('#' + SQUARE_ELS_IDS[source]).addClass(CSS.highlight1)
+      .find('img.' + CSS.piece).css('display', 'none');
   }
 };
 
@@ -1100,7 +1155,7 @@ var updateDraggedPiece = function(x, y) {
   }
 
   // add highlight to new square
-  if (location !== 'offboard') {
+  if (validSquare(location) === true) {
     $('#' + SQUARE_ELS_IDS[location]).addClass(CSS.highlight2);
   }
 
@@ -1357,6 +1412,12 @@ var isTouchDevice = function() {
   return ('ontouchstart' in document.documentElement);
 };
 
+// reference: http://www.quirksmode.org/js/detect.html
+var isMSIE = function() {
+  return (navigator && navigator.userAgent && 
+      navigator.userAgent.search(/MSIE/) !== -1);
+};
+
 var stopDefault = function(e) {
   e.preventDefault();
 };
@@ -1459,14 +1520,25 @@ var touchendWindow = function(e) {
 var addEvents = function() {
   // prevent browser "image drag"
   $('body').on('mousedown mousemove', 'img.' + CSS.piece, stopDefault);
-  document.ondragstart = function() { return false; }; // IE-specific
 
   // mouse drag pieces
   boardEl.on('mousedown', 'div.' + CSS.square, mousedownSquare);
   containerEl.on('mousedown', 'div.' + CSS.sparePieces + ' img.' + CSS.piece,
     mousedownSparePiece);
-  $(window).on('mousemove', mousemoveWindow);
-  $(window).on('mouseup', mouseupWindow);  
+
+  // IE doesn't like the events on the window object, but other browsers
+  // perform better that way
+  if (isMSIE() === true) {
+    // prevent browser "image drag", IE-specific
+    document.ondragstart = function() { return false; };
+
+    $('body').on('mousemove', mousemoveWindow);
+    $('body').on('mouseup', mouseupWindow);
+  }
+  else {
+    $(window).on('mousemove', mousemoveWindow);
+    $(window).on('mouseup', mouseupWindow);
+  }
 
   // touch drag pieces
   if (isTouchDevice() === true) {
@@ -1504,7 +1576,9 @@ var init = function() {
   if (checkDeps() !== true ||
       expandConfig() !== true) return;
 
-  createSquareIds();
+  // create unique IDs for all the elements we will create
+  createElIds();
+
   initDom();
   addEvents();
 };

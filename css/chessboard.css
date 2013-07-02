@@ -16,8 +16,8 @@ div.clearfix-7da63 {
 /* board */
 div.board-b72b1 {
   border: 2px solid #404040;
+  -moz-box-sizing: content-box;
   box-sizing: content-box;
-  -moz-box-sizing: content-box;    
 }
 
 /* square */
