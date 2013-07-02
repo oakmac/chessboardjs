@@ -47,7 +47,7 @@ var validFEN = function(fen) {
   // check the piece sections
   for (var i = 0; i < 8; i++) {
     if (chunks[i] === '' ||
-        chunks[i].length > 8 || 
+        chunks[i].length > 8 ||
         chunks[i].search(/[^kqrbnpKQRNBP1-8]/) !== -1) {
       return false;
     }
@@ -426,8 +426,7 @@ var expandConfig = function() {
   }
 
   // default for orientation is white
-  if (cfg.hasOwnProperty('orientation') !== true ||
-      cfg.orientation !== 'black') {
+  if (cfg.orientation !== 'black') {
     cfg.orientation = 'white';
   }
   CURRENT_ORIENTATION = cfg.orientation;
@@ -463,14 +462,13 @@ var expandConfig = function() {
   }
 
   // default for notation is true
-  if (cfg.hasOwnProperty('notation') !== true ||
-      cfg.notation !== false) {
+  if (cfg.notation !== false) {
     cfg.notation = true;
   }
 
   // default piece theme is wikipedia
   if (cfg.hasOwnProperty('pieceTheme') !== true ||
-      (typeof cfg.pieceTheme !== 'string' && 
+      (typeof cfg.pieceTheme !== 'string' &&
        typeof cfg.pieceTheme !== 'function')) {
     cfg.pieceTheme = 'img/chesspieces/wikipedia/{piece}.png';
   }
@@ -546,14 +544,14 @@ var buildBoardContainer = function() {
   var html = '<div class="' + CSS.chessboard + '">';
 
   if (cfg.sparePieces === true) {
-    html += '<div class="' + CSS.sparePieces + ' ' + 
+    html += '<div class="' + CSS.sparePieces + ' ' +
       CSS.sparePiecesTop + '"></div>';
   }
 
   html += '<div class="' + CSS.board + '"></div>';
 
   if (cfg.sparePieces === true) {
-    html += '<div class="' + CSS.sparePieces + ' ' + 
+    html += '<div class="' + CSS.sparePieces + ' ' +
       CSS.sparePiecesBottom + '"></div>';
   }
 
@@ -646,7 +644,7 @@ var buildPieceImgSrc = function(piece) {
   if (typeof cfg.pieceTheme === 'string') {
     return cfg.pieceTheme.replace(/{piece}/g, piece);
   }
-  
+
   // NOTE: this should never happen
   // TODO: throw error?
 };
@@ -694,15 +692,15 @@ var drawPositionInstant = function() {
 };
 
 var buildSparePieces = function(color) {
-  var pieces = ['wK','wQ','wR','wB','wN','wP'];
+  var pieces = ['wK', 'wQ', 'wR', 'wB', 'wN', 'wP'];
   if (color === 'black') {
-    pieces = ['bK','bQ','bR','bB','bN','bP'];
+    pieces = ['bK', 'bQ', 'bR', 'bB', 'bN', 'bP'];
   }
 
   var html = '';
   for (var i = 0; i < pieces.length; i++) {
     html += buildPiece(pieces[i], false, SPARE_PIECE_ELS_IDS[pieces[i]]);
-  }  
+  }
 
   return html;
 };
@@ -800,7 +798,7 @@ var animateSparePieceToSquare = function(piece, dest, completeFn) {
     if (typeof completeFn === 'function') {
       completeFn();
     }
-  };  
+  };
 
   // animate the piece to the destination square
   var opts = {
@@ -846,7 +844,7 @@ var doAnimations = function(a) {
     // move a piece
     if (a[i].type === 'move') {
       //animateMove(a[i].source, a[i].destination, a[i].piece, onFinish);
-      animateSquareToSquare(a[i].source, a[i].destination, a[i].piece, 
+      animateSquareToSquare(a[i].source, a[i].destination, a[i].piece,
         onFinish);
     }
   }
@@ -978,10 +976,7 @@ var setCurrentPosition = function(position) {
   if (oldPosFEN === newPosFEN) return;
 
   // run their onChange function
-  if (cfg.hasOwnProperty('onChange') === true && 
-      typeof cfg.onChange === 'function') {
-    cfg.onChange(oldPosObj, newPosObj, oldPosFEN, newPosFEN);
-  }
+  cfg.onChange(oldPosObj, newPosObj, oldPosFEN, newPosFEN);
 
   // update state
   CURRENT_POSITION = position;
@@ -1025,7 +1020,7 @@ var snapbackPiece = function() {
   removeSquareHighlights();
 
   // get source square position
-  var sourceSquarePosition = 
+  var sourceSquarePosition =
     $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_SOURCE])
       .offset();
 
@@ -1098,7 +1093,7 @@ var beginDraggingPiece = function(source, piece, x, y) {
   // run their custom onDragStart function
   // their custom onDragStart function can cancel drag start
   if (typeof cfg.onDragStart === 'function' &&
-      cfg.onDragStart(source, piece, 
+      cfg.onDragStart(source, piece,
         deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION) === false) {
     return;
   }
@@ -1161,7 +1156,7 @@ var updateDraggedPiece = function(x, y) {
 
   // run onDragMove
   if (typeof cfg.onDragMove === 'function') {
-    cfg.onDragMove(location, DRAGGED_PIECE_LOCATION, 
+    cfg.onDragMove(location, DRAGGED_PIECE_LOCATION,
       DRAGGED_PIECE_SOURCE, DRAGGED_PIECE,
       deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION);
   }
@@ -1183,7 +1178,7 @@ var stopDraggedPiece = function(location) {
   // run their onDrop function, which can potentially change the drop action
   if (typeof cfg.onDrop === 'function') {
     var newPosition = deepCopy(CURRENT_POSITION);
-    
+
     // source piece is a spare piece and position is off the board
     if (DRAGGED_PIECE_SOURCE === 'spare' && location === 'offboard') {
       // position has not changed; do nothing
@@ -1414,7 +1409,7 @@ var isTouchDevice = function() {
 
 // reference: http://www.quirksmode.org/js/detect.html
 var isMSIE = function() {
-  return (navigator && navigator.userAgent && 
+  return (navigator && navigator.userAgent &&
       navigator.userAgent.search(/MSIE/) !== -1);
 };
 
@@ -1450,8 +1445,8 @@ var touchstartSquare = function(e) {
   }
 
   e = e.originalEvent;
-  beginDraggingPiece(square, CURRENT_POSITION[square], 
-    e.changedTouches[0].pageX, e.changedTouches[0].pageY);  
+  beginDraggingPiece(square, CURRENT_POSITION[square],
+    e.changedTouches[0].pageX, e.changedTouches[0].pageY);
 };
 
 var mousedownSparePiece = function(e) {
@@ -1470,7 +1465,7 @@ var touchstartSparePiece = function(e) {
   var piece = $(this).attr('data-piece');
 
   e = e.originalEvent;
-  beginDraggingPiece('spare', piece, 
+  beginDraggingPiece('spare', piece,
     e.changedTouches[0].pageX, e.changedTouches[0].pageY);
 };
 
@@ -1488,7 +1483,7 @@ var touchmoveWindow = function(e) {
   // prevent screen from scrolling
   e.preventDefault();
 
-  updateDraggedPiece(e.originalEvent.changedTouches[0].pageX, 
+  updateDraggedPiece(e.originalEvent.changedTouches[0].pageX,
     e.originalEvent.changedTouches[0].pageY);
 };
 
