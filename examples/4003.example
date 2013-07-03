@@ -8,19 +8,21 @@ onDragMove
 <div id="board" style="width: 400px"></div>
 
 === JS
+var onDragMove = function(newLocation, oldLocation, source,
+                          piece, position, orientation) {
+  console.log("New location: " + newLocation);
+  console.log("Old location: " + oldLocation);
+  console.log("Source: " + source);
+  console.log("Piece: " + piece);
+  console.log("Position: " + ChessBoard.objToFEN(position));
+  console.log("Orientation: " + orientation);
+  console.log("--------------------");
+};
+
 var cfg = {
   draggable: true,
   position: 'start',
-  onDragMove: function(newLocation, oldLocation, sourceSquare, 
-                       piece, position, orientation) {
-    console.log("You moved the piece!");
-    console.log("New location: " + newLocation);
-    console.log("Old location: " + oldLocation);
-    console.log("Source square: " + sourceSquare);
-    console.log("Piece: " + piece);
-    console.log("Board position: " + ChessBoard.objToFEN(position));
-    console.log("Board orientation: " + orientation);
-    console.log("----------------------------------------");
-  }
+  onDragMove: onDragMove,
+  sparePieces: true
 };
 var board = new ChessBoard('board', cfg);

@@ -150,7 +150,7 @@ function buildPropRow($propType, $prop, $examples) {
 
   // examples
   $html .= '  <td>'."\n";
-  $html .= buildExample($prop['examples'], $examples);
+  $html .= buildExamplesCell($prop['examples'], $examples);
   $html .= '  </td>'."\n";
 
   $html .= '</tr>'."\n";
@@ -193,7 +193,7 @@ function buildMethodRow($method, $examples) {
 
   // examples
   $html .= '  <td>'."\n";
-  $html .= buildExample($method['examples'], $examples);
+  $html .= buildExamplesCell($method['examples'], $examples);
   $html .= '  </td>'."\n";
 
   $html .= "</tr>\n";
@@ -262,17 +262,18 @@ function buildDefault($default) {
   return $default;
 }
 
-function buildExample($ex, $allExamples) {
+function buildExamplesCell($ex, $allExamples) {
   if (is_array($ex) !== true) {
     $ex = array($ex);
   }
 
   $html = '';
   foreach ($ex as $exNum) {
-    $example = getExampleByNumber($exNum, $allExamples);
-    if ($example === false) continue;
+    if (array_key_exists($exNum, $allExamples) !== true) continue;
 
-    $html .= '    <p><a href="examples#'.$exNum.'">'.$example['name'].'</a></p>'."\n";
+    $example = $allExamples[$exNum];
+
+    $html .= '    <p><a href="examples#'.$exNum.'">'.$example['Name'].'</a></p>'."\n";
   }
   return $html;
 }

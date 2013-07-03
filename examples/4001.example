@@ -8,16 +8,18 @@ onDragStart
 <div id="board" style="width: 400px"></div>
 
 === JS
+var onDragStart = function(source, piece, position, orientation) {
+  console.log("Source: " + source);
+  console.log("Piece: " + piece);
+  console.log("Position: " + ChessBoard.objToFEN(position));
+  console.log("Orientation: " + orientation);
+  console.log("--------------------");
+};
+
 var cfg = {
   draggable: true,
   position: 'start',
-  onDragStart : function(square, piece, position, orientation) {
-    console.log("You started dragging a piece!");
-    console.log("Square: " + square);
-    console.log("Piece: " + piece);
-    console.log("Board position: " + ChessBoard.objToFEN(position));
-    console.log("Board orientation: " + orientation);
-    console.log("----------------------------------------");
-  }
+  onDragStart: onDragStart,
+  sparePieces: true
 };
 var board = new ChessBoard('board', cfg);

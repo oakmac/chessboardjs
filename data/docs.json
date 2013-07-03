@@ -118,7 +118,7 @@
     "Removes all the pieces on the board with a fade effect.",
     "Has the same effect as calling <code class='js plain'>position({})</code>"
   ],
-  "examples":7000
+  "examples":3003
 },
 "------------------------------------------------------------------------------",
 {
@@ -130,7 +130,7 @@
     "Removes all the pieces on the board instantly.",
     "Has the same effect as calling <code class='js plain'>position({}, </code><code class='js keyword'>false</code><code class='js plain'>)</code>"
   ],
-  "examples":7000
+  "examples":3003
 },
 "------------------------------------------------------------------------------",
 {
@@ -142,7 +142,7 @@
 {
   "name":"destroy()",
   "desc":"Remove the widget from the DOM.",
-  "examples":7003
+  "examples":3006
 },
 "------------------------------------------------------------------------------",
 {
@@ -157,7 +157,7 @@
 {
   "name":"flip()",
   "desc":"Flips the orientation of the board.",
-  "examples":7005
+  "examples":3005
 },
 "------------------------------------------------------------------------------",
 {
@@ -175,7 +175,7 @@
     "Executes one or more moves on the board.",
     "Returns an updated Position Object of the board including the move(s)."
   ],
-  "examples":7007
+  "examples":3004
 },
 "------------------------------------------------------------------------------",
 {
@@ -183,7 +183,8 @@
   "args":[
     ["name", "name of the list to get"]
   ],
-  "desc":"Alias of <a href='docs#methods:getList'><code class='js plain'>getList(name)</code></a>"
+  "desc":"Alias of <a href='docs#methods:getList'><code class='js plain'>getList(name)</code></a>",
+  "examples":3000
 },
 "------------------------------------------------------------------------------",
 {
@@ -193,7 +194,8 @@
     ["name", "name of the list to add or update"],
     ["list", "<a href='docs#list_object'>List Object</a>"]
   ],
-  "desc":"Alias of <a href='docs#methods:setList'><code class='js plain'>setList(name, list)</code></a>"
+  "desc":"Alias of <a href='docs#methods:setList'><code class='js plain'>setList(name, list)</code></a>",
+  "examples":3001
 },
 "------------------------------------------------------------------------------",
 {
@@ -202,7 +204,7 @@
     "Simulates the user pressing the \"Down Arrow\" key on the input field.",
     "Has no effect if the input field does not have focus."
   ],
-  "examples":7056
+  "examples":3005
 },
 "------------------------------------------------------------------------------",
 {
@@ -212,7 +214,7 @@
     "Simulates the user pressing the \"Enter\" key on the input field.",
     "Has no effect if the input field does not have focus."
   ],
-  "examples":7056
+  "examples":3005
 },
 "------------------------------------------------------------------------------",
 {
@@ -221,7 +223,7 @@
     "Sets the board to the start position.",
     "Has the same effect as calling <code class='js plain'>position('start')</code>"
   ],
-  "examples":7056
+  "examples":3001
 },
 "------------------------------------------------------------------------------"
 ],
@@ -261,8 +263,8 @@
 },
 {
   "id":1005,
-  "desc":"Unable to find a valid version of jQuery. Please include jQuery 1.4.2 or higher on the page.",
-  "fix":"ChessBoard requires <a href='http://jquery.com/'>jQuery</a> version 1.4.2 or higher."
+  "desc":"Unable to find a valid version of jQuery. Please include jQuery 1.7.0 or higher on the page.",
+  "fix":"ChessBoard requires <a href='http://jquery.com/'>jQuery</a> version 1.7.0 or higher."
 },
 {
   "id":2826,

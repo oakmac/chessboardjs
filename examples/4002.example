@@ -11,7 +11,7 @@ onDragStart Prevent Drag
 === JS
 // only allow pieces to be dragged when the board is oriented
 // in their direction
-var onDragStart = function(square, piece, position, orientation) {
+var onDragStart = function(source, piece, position, orientation) {
   if ((orientation === 'white' && piece.search(/^w/) === -1) ||
       (orientation === 'black' && piece.search(/^b/) === -1)) {
     return false;

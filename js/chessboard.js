@@ -185,7 +185,7 @@ cfg = cfg || {};
 // Constants
 //------------------------------------------------------------------------------
 
-var MINIMUM_JQUERY_VERSION = '1.4.2',
+var MINIMUM_JQUERY_VERSION = '1.7.0',
   START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
   START_POSITION = FENToObj(START_FEN);
 
@@ -487,6 +487,10 @@ var expandConfig = function() {
       validAnimationSpeed(cfg.snapSpeed) !== true) {
     cfg.snapSpeed = 25;
   }
+  if (cfg.hasOwnProperty('trashSpeed') !== true ||
+      validAnimationSpeed(cfg.trashSpeed) !== true) {
+    cfg.trashSpeed = 100;
+  }
 
   // make sure position is valid
   if (cfg.hasOwnProperty('position') === true) {
@@ -509,6 +513,12 @@ var expandConfig = function() {
 
   return true;
 };
+
+
+
+// TODO: trash speed should be configurable
+
+
 
 //------------------------------------------------------------------------------
 // DOM-related things
@@ -673,7 +683,7 @@ var buildPiece = function(piece, hidden, id) {
 //------------------------------------------------------------------------------
 
 var clearBoardFade = function() {
-  boardEl.find('img.' + CSS.piece).fadeOut('fast', function() {
+  boardEl.find('img.' + CSS.piece).fadeOut(cfg.trashSpeed, function() {
     $(this).remove();
   });
 };
@@ -826,10 +836,11 @@ var doAnimations = function(a) {
     // clear a piece
     if (a[i].type === 'clear') {
       $('#' + SQUARE_ELS_IDS[a[i].square] + ' img.' + CSS.piece)
-        .fadeOut('fast', onFinish);
+        .fadeOut(cfg.trashSpeed, onFinish);
     }
 
     // add a piece (no spare pieces)
+    // TODO: need to make this speed configurable
     if (a[i].type === 'add' && cfg.sparePieces !== true) {
       $('#' + SQUARE_ELS_IDS[a[i].square])
         .append(buildPiece(a[i].piece, true))
@@ -1054,7 +1065,7 @@ var trashPiece = function() {
   drawPositionInstant();
 
   // hide the dragged piece
-  draggedPieceEl.fadeOut('fast');
+  draggedPieceEl.fadeOut(cfg.trashSpeed);
 
   // set state
   DRAGGING_A_PIECE = false;
@@ -1207,8 +1218,8 @@ var stopDraggedPiece = function(location) {
 
     var oldPosition = deepCopy(CURRENT_POSITION);
 
-    var result = cfg.onDrop(location, newPosition, oldPosition,
-      DRAGGED_PIECE_SOURCE, DRAGGED_PIECE, CURRENT_ORIENTATION);
+    var result = cfg.onDrop(DRAGGED_PIECE_SOURCE, location, DRAGGED_PIECE,
+      newPosition, oldPosition, CURRENT_ORIENTATION);
     if (result === 'snapback' || result === 'trash') {
       action = result;
     }
@@ -1525,7 +1536,7 @@ var addEvents = function() {
   // IE doesn't like the events on the window object, but other browsers
   // perform better that way
   if (isMSIE() === true) {
-    // prevent browser "image drag", IE-specific
+    // IE-specific prevent browser "image drag"
     document.ondragstart = function() { return false; };
 
     $('body').on('mousemove', mousemoveWindow);

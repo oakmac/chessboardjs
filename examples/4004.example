@@ -8,18 +8,20 @@ onDrop
 <div id="board" style="width: 400px"></div>
 
 === JS
+var onDrop = function(source, target, piece, newPos, oldPos, orientation) {
+  console.log("Source: " + source);
+  console.log("Target: " + target);
+  console.log("Piece: " + piece);
+  console.log("New position: " + ChessBoard.objToFEN(newPos));
+  console.log("Old position: " + ChessBoard.objToFEN(oldPos));
+  console.log("Orientation: " + orientation);
+  console.log("--------------------");
+};
+
 var cfg = {
   draggable: true,
   position: 'start',
-  onDrop: function(target, newPosition, oldPosition, 
-                   sourceSquare, piece, orientation) {
-    console.log("You Dropped the piece!");
-    console.log("Target: " + target);
-    console.log("New position: " + ChessBoard.objToFEN(newPosition));
-    console.log("Old position: " + ChessBoard.objToFEN(oldPosition));
-    console.log("Source square: " + sourceSquare);
-    console.log("Piece: " + piece);
-    console.log("Board orientation: " + orientation);
-  }
+  onDrop: onDrop,
+  sparePieces: true
 };
 var board = new ChessBoard('board', cfg);
