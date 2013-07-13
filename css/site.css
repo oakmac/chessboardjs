@@ -337,3 +337,7 @@ table#markup_example_tbl td {
   -o-border-radius: 3px;
   border-radius: 3px;  
 }
+
+thead.center th {
+  text-align: center;
+}

@@ -1,0 +1,25 @@
+=== Name
+Piece Theme Function
+
+=== Description
+<a href="docs#config:pieceTheme"><code class="js plain">pieceTheme</code></a> can be a function.
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var pieceTheme = function(piece) {
+  // alpha theme for white pieces
+  if (piece.search(/w/) !== -1) {
+    return 'img/chesspieces/alpha/' + piece + '.png';
+  }
+  
+  // USCF for black pieces
+  return 'img/chesspieces/uscf/' + piece + '.png';
+};
+
+var cfg = {
+  pieceTheme: pieceTheme,
+  position: 'start'
+};
+var board = new ChessBoard('board', cfg);

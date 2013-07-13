@@ -2,7 +2,7 @@
 Initialize Board from FEN
 
 === Description
-
+You can initialize a position from a <a href="http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation">FEN</a> string.
 
 === HTML
 <div id="board" style="width: 400px"></div>

@@ -1,0 +1,18 @@
+=== Name
+Position Object
+
+=== Description
+You can set the <a href="docs#config:position"><code class="js plain">position</code></a> property to a position object.
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var cfg = {
+  position: {
+    d4: 'wP',
+    d6: 'bK',
+    e4: 'wK'
+  }
+};
+var board = new ChessBoard('board', cfg);

@@ -1,0 +1,16 @@
+=== Name
+Draggable Trash
+
+=== Description
+Set <a href="docs#config:dropOffBoard"><code class="js plain">dropOffBoard</code></a> to <code class='js string'>'trash'</code> to remove pieces when they are dropped outside the board.
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var cfg = {
+  draggable: true,
+  dropOffBoard: 'trash',
+  position: 'start'
+};
+var board = new ChessBoard('board', cfg);

@@ -7,10 +7,9 @@ $docs = ChessBoard::getDocs();
 ?>
 
 <div class="section">
-<h2 id="config_object">Config Object</h2>
-<p>The Config Object initializes the ChessBoard widget.</p>
+<h2 id="config">Config</h2>
 <table cellspacing="0">
-<thead>
+<thead class="center">
 <tr>
   <th>Property / Type</th>
   <th>Required</th>
@@ -22,7 +21,7 @@ $docs = ChessBoard::getDocs();
 <tbody>
 <?php
 foreach($docs['Config Object'] as $prop) {
-  echo buildPropRow('config_object', $prop, $examples);
+  echo buildPropRow('config', $prop, $examples);
 }
 ?>
 </tbody>
@@ -34,7 +33,7 @@ foreach($docs['Config Object'] as $prop) {
 <div class="section">
 <h2 id="methods">Methods</h2>
 <table cellspacing="0">
-<thead>
+<thead class="center">
 <tr>
   <th>Method</th>
   <th>Args</th>
@@ -59,7 +58,7 @@ foreach($docs['Methods'] as $method) {
 <p>ChessBoard has an error system designed to inform you when you use the API incorrectly.</p>
 <p>Every alert has a unique code associated with it and you can control how the errors are presented with the <a href="docs#config_object:showErrors">showErrors</a> config option.</p>
 <table cellspacing="0">
-<thead>
+<thead class="center">
 <tr>
   <th style="width: 75px">Error ID</th>
   <th style="width: 45%">Error Text</th>

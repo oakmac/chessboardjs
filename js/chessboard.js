@@ -462,11 +462,6 @@ var expandConfig = function() {
     cfg.onChange = function() {};
   }
 
-  // default for notation is true
-  if (cfg.notation !== false) {
-    cfg.notation = true;
-  }
-
   // default piece theme is wikipedia
   if (cfg.hasOwnProperty('pieceTheme') !== true ||
       (typeof cfg.pieceTheme !== 'string' &&
@@ -613,7 +608,7 @@ var buildBoard = function(orientation) {
         'id="' + SQUARE_ELS_IDS[square] + '" ' +
         'data-square="' + square + '">';
 
-      if (cfg.notation === true) {
+      if (cfg.showNotation === true) {
         // alpha notation
         if ((orientation === 'white' && row === 1) ||
             (orientation === 'black' && row === 8)) {

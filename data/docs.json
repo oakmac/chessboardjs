@@ -2,75 +2,82 @@
 "Config Object":[
 "------------------------------------------------------------------------------",
 {
-  "name":"initialList",
-  "type":"String",
-  "req":"sometimes",
-  "default":false,
-  "desc":[
-    "The <code class='js plain'>initialList</code> property is the first list started when the user clicks on the AutoComplete widget.",
-    "It's value should be the name of a <a href='docs#list_object'>List Object</a>.",
-    "<code class='js plain'>initialList</code> is required when there are more than one List Objects on <a href='docs#config_object:lists'><code class='js plain'>config.lists</code></a>."
-  ],
-  "examples":[1002,1003]
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"initialValue",
-  "type":"Array of<br /><a href='docs#token_object'>Token Groups</a>",
-  "req":false,
-  "default":false,
-  "desc":[
-    "If provided, sets the initial value of the AutoComplete widget."
-  ],
-  "examples":[3000]
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"lists",
-  "type":"Object of<br /><a href='docs#list_object'>List Objects</a>",
-  "req":true,
-  "default":false,
-  "desc":[
-    "The <code class='js plain'>lists</code> property contains all of the lists used to power the dropdown options.",
-    "<code class='js plain'>lists</code> should be an object where the property values are the names of lists, and the values are <a href='docs#list_object'>List Objects</a>."
-  ],
-  "examples":[1002,1003]
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"maxTokenGroups",
-  "type":["Number","<code class='js keyword'>false</code>"],
+  "name":"draggable",
+  "type":"Boolean",
   "req":false,
   "default":"<code class='js keyword'>false</code>",
   "desc":[
-    "The maximum number of Token Groups allowed in the search bar.",
-    "Set <code class='js plain'>maxTokenGroups</code> to <code class='js keyword'>false</code> to allow unlimited <a href='docs#token_object'>Token Groups</a>."
+    "If <code class='js keyword'>true</code>, pieces on the board are draggable to other squares."
   ],
-  "examples":[3001]
+  "examples":[2003]
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"onChange",
-  "type":"Function",
+  "name":"dropOffBoard",
+  "type":[
+    "<code class='js string'>'snapback'</code>",
+    "<code class='js string'>'trash'</code>"
+  ],
+  "req":false,
+  "default":"<code class='js string'>'snapback'</code>",
+  "desc":[
+    "If <code class='js string'>'snapback'</code>, pieces dropped off the board will return to their original square.",
+    "If <code class='js string'>'trash'</code>, pieces dropped off the board will be removed from the board.",
+    "This property has no effect when <a href='docs#config:draggable'><code class='js plain'>draggable</code></a> is <code class='js keyword'>false</code>."
+  ],
+  "examples":[2003,2082]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"position",
+  "type":[
+    "<code class='js string'>'start'</code>",
+    "FEN String",
+    "Position Object"
+  ],
   "req":false,
   "default":false,
   "desc":[
-    "Function to execute when the value of the widget changes.",
-    "The first argument to the function is the new value of the widget, the second argument is the old value of the widget.",
-    "If this function returns a valid widget value, then that value becomes the value of the widget.  If not, the original new value becomes the value of the widget."
+    "If provided, sets the initial position of the board."
   ],
-  "examples":[6000,6001]
+  "examples":[2000,2044,2063]
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"placeholderHTML",
-  "type":"String",
-  "req":false,
-  "default":"<code class='js string'>''</code>",
-  "desc":[
-    "A placeholder to show in the AutoComplete widget when there are no Token Groups."
+  "name":"orientation",
+  "type":[
+    "<code class='js string'>'white'</code>",
+    "<code class='js string'>'black'</code>"
   ],
-  "examples":3005
+  "req":false,
+  "default":"<code class='js string'>'white'</code>",
+  "desc":[
+    "If provided, sets the orientation of the board."
+  ],
+  "examples":[2001]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"showNotation",
+  "type":"Boolean",
+  "req":false,
+  "default":"<code class='js keyword'>true</code>",
+  "desc":[
+    "Turn board notation on or off."
+  ],
+  "examples":[2002]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"sparePieces",
+  "type":"Boolean",
+  "req":false,
+  "default":"<code class='js keyword'>false</code>",
+  "desc":[
+    "If <code class='js keyword'>true</code>, the board will have spare pieces that can be dropped onto the board.",
+    "If <code class='js plain'>sparePieces</code> is set to <code class='js keyword'>true</code>, <a href='docs#config:draggable'><code class='js plain'>draggable</code></a> gets set to <code class='js keyword'>true</code> as well."
+  ],
+  "examples":2006
 },
 "------------------------------------------------------------------------------",
 {
@@ -90,16 +97,60 @@
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"tokenSeparatorHTML",
+  "name":"pieceTheme",
   "type":["String","Function"],
   "req":false,
-  "default":"<code class='js string'>':'</code>",
+  "default":"<code class='js string'>'img/chesspieces/<br />wikipedia/{piece}.png'</code>",
   "desc":[
-    "The HTML string to put between <a href='docs#token_object'>Tokens</a> in the search bar.",
-    "If <code class='js plain'>tokenSeparatorHTML</code> is a function the first argument is the Token Object to the left of the separator, the second argument is the Token Object to the right.",
-    "The function should return an HTML string."
+    "A template string used to determine the source of piece images.",
+    "If <code class='js plain'>pieceTheme</code> is a function the first argument is the piece code.",
+    "The function should return an <code class='js string'>&lt;img&gt;</code> source."
   ],
-  "examples":[3015,3016]
+  "examples":[2004,2030]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"moveSpeed",
+  "type":["Number","<code class='js string'>'slow'</code>","<code class='js string'>'fast'</code>"],
+  "req":false,
+  "default":"<code class='js number'>200</code>",
+  "desc":[
+    "Animation speed for when pieces move between squares or from spare pieces to the board."
+  ],
+  "examples":[2005]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"snapbackSpeed",
+  "type":["Number","<code class='js string'>'slow'</code>","<code class='js string'>'fast'</code>"],
+  "req":false,
+  "default":"<code class='js number'>50</code>",
+  "desc":[
+    "Animation speed for when pieces that were dropped outside the board return to their original square."
+  ],
+  "examples":[2005]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"snapSpeed",
+  "type":["Number","<code class='js string'>'slow'</code>","<code class='js string'>'fast'</code>"],
+  "req":false,
+  "default":"<code class='js number'>25</code>",
+  "desc":[
+    "Animation speed for when pieces \"snap\" to a square when dropped."
+  ],
+  "examples":[2005]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"trashSpeed",
+  "type":["Number","<code class='js string'>'slow'</code>","<code class='js string'>'fast'</code>"],
+  "req":false,
+  "default":"<code class='js number'>100</code>",
+  "desc":[
+    "Animation speed for when pieces are removed."
+  ],
+  "examples":[2005]
 },
 "------------------------------------------------------------------------------"
 ],

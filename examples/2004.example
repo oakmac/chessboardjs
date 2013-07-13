@@ -1,23 +1,15 @@
 === Name
-Piece Theme
+Piece Theme String
 
 === Description
-
+Use the <a href="docs#config:pieceTheme"><code class="js plain">pieceTheme</code></a> property to set the source of piece images.
 
 === HTML
-<div id="board1" style="width: 320px; float: left; margin-right: 10px"></div>
-<div id="board2" style="width: 320px; float: left"></div>
-<div style="clear:both"></div>
+<div id="board" style="width: 400px"></div>
 
 === JS
-var board1 = new ChessBoard('board1', {
+var cfg = {
   pieceTheme: 'img/chesspieces/alpha/{piece}.png',
   position: 'start'
-});
-
-var board2 = new ChessBoard('board2', {
-  pieceTheme: function(piece) {
-    return 'img/chesspieces/uscf/' + piece + '.png';
-  },
-  position: 'start'
-});
+};
+var board = new ChessBoard('board', cfg);

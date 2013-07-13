@@ -17,11 +17,12 @@ $examplesGroups = ChessBoard::getExampleGroups();
 <div class="nine columns">
   <h2 id="example_name"></h2>
   <p><a href="#" id="example_single_page_link" target="_blank">View example in new window.</a></p>
+  <p id="example_desc_container"></p>
   <div id="example_html_container"></div>
   <h4>JavaScript</h4>
   <div id="example_js_container"></div>
   <h4>HTML</h4>
-  <div id="example_show_html_container"></div>  
+  <div id="example_show_html_container"></div>
 </div>
 
 </div><!-- end div.row -->
@@ -82,6 +83,7 @@ var showExample = function(number) {
 
   $('#example_name').html(examples[number].name);
   $('#example_single_page_link').attr('href', 'examples/' + number);
+  $('#example_desc_container').html(examples[number].desc);
   $('#example_html_container').html(examples[number].html);
   $('#example_js_container').html('<pre class="prettyprint">' + examples[number].jsStr + '</pre>');
   $('#example_show_html_container').html('<pre class="prettyprint">' + htmlEscape(examples[number].html) + '</pre>');

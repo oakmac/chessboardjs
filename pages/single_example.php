@@ -11,6 +11,8 @@
 <body>
 <p><a href="examples#<?php echo $example['number']; ?>">&larr; Back to all examples.</a></p>
 
+<p><?php echo $example['Description'] . "\n"; ?></p>
+
 <!-- start example HTML --->
 <?php echo $example['HTML'] . "\n"; ?>
 <!-- end example HTML --->

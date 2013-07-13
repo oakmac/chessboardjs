@@ -2,7 +2,7 @@
 Spare Pieces
 
 === Description
-
+Set <a href="docs#config:sparePieces"><code class="js plain">sparePieces</code></a> to <code class="js keyword">true</code> to show spare pieces that can be dropped onto the board.
 
 === HTML
 <div id="board" style="width: 400px"></div>
