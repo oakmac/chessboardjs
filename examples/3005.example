@@ -2,7 +2,7 @@
 Orientation
 
 === Description
-
+Use the <a href="docs#methods:orientation"><code class="js plain">orientation</code></a> method to retrieve and set the orientation. Use the <a href="docs#methods:flip"><code class="js plain">flip</code></a> method to flip orientation.
 
 === HTML
 <div id="board" style="width: 400px"></div>

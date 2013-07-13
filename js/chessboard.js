@@ -1238,16 +1238,10 @@ var stopDraggedPiece = function(location) {
 
 // clear the board
 widget.clear = function(useAnimation) {
-  if (useAnimation === false) {
-    clearBoardInstant();
-  }
-  else {
-    clearBoardFade();
-  }
-
-  setCurrentPosition({});
+  widget.position({}, useAnimation);
 };
 
+/*
 // get or set config properties
 widget.config = function(arg1, arg2) {
   // get the current config
@@ -1257,6 +1251,7 @@ widget.config = function(arg1, arg2) {
 
   // TODO: write me
 };
+*/
 
 // remove the widget from the page
 widget.destroy = function() {
@@ -1284,12 +1279,12 @@ widget.highlight = function() {
 
 };
 
-// move piece(s)
-// TODO: allow the first argument to be an array of moves?
+// move pieces
 widget.move = function() {
-  // NOTE: no need to throw an error here; just do nothing
+  // no need to throw an error here; just do nothing
   if (arguments.length === 0) return;
 
+  // collect the moves into an object
   var moves = {};
   for (var i = 0; i < arguments.length; i++) {
     // skip invalid arguments
@@ -1302,11 +1297,37 @@ widget.move = function() {
     moves[tmp[0]] = tmp[1];
   }
 
-  var pos2 = calculatePositionFromMoves(CURRENT_POSITION, moves);
+  // calculate position from moves
+  var newPos = calculatePositionFromMoves(CURRENT_POSITION, moves);
 
-  widget.position(pos2);
+  // update the board
+  widget.position(newPos);
 
-  // TODO: return the new position object
+  // return the new position object
+  return newPos;
+};
+
+widget.orientation = function(arg) {
+  // no arguments, return the current orientation
+  if (arguments.length === 0) {
+    return CURRENT_ORIENTATION;
+  }
+
+  // set to white or black
+  if (arg === 'white' || arg === 'black') {
+    CURRENT_ORIENTATION = arg;
+    drawBoard();
+    return;
+  }
+
+  // flip orientation
+  if (arg === 'flip') {
+    CURRENT_ORIENTATION = (CURRENT_ORIENTATION === 'white') ? 'black' : 'white';
+    drawBoard();
+    return;
+  }
+
+  error(5482, 'Invalid value passed to the orientation method.', arg);
 };
 
 widget.position = function(position, useAnimation) {
@@ -1376,29 +1397,6 @@ widget.resize = function() {
 
   // redraw the board
   drawBoard();
-};
-
-widget.orientation = function(arg) {
-  // no arguments, return the current orientation
-  if (arguments.length === 0) {
-    return CURRENT_ORIENTATION;
-  }
-
-  // set to white or black
-  if (arg === 'white' || arg === 'black') {
-    CURRENT_ORIENTATION = arg;
-    drawBoard();
-    return;
-  }
-
-  // flip orientation
-  if (arg === 'flip') {
-    CURRENT_ORIENTATION = (CURRENT_ORIENTATION === 'white') ? 'black' : 'white';
-    drawBoard();
-    return;
-  }
-
-  error(5482, 'Invalid value passed to the orientation method.', arg);
 };
 
 // set the starting position

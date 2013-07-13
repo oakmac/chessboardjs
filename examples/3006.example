@@ -2,7 +2,7 @@
 Destroy Board
 
 === Description
-
+Use the <a href="docs#methods:destroy"><code class="js plain">destroy</code></a> method to kill the board and remove it from the DOM.
 
 === HTML
 <div id="board" style="width: 400px"></div>

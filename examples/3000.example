@@ -2,7 +2,7 @@
 Get Position
 
 === Description
-
+Use the <a href="docs#methods:position"><code class="js plain">position</code></a> and <a href="docs#methods:fen"><code class="js plain">fen</code></a> methods to retrieve the current position of the board.
 
 === HTML
 <div id="board" style="width: 400px"></div>
@@ -20,5 +20,5 @@ $('#getPositionBtn').on('click', function() {
   console.log(board.position());
 
   console.log("Current position as a FEN string:");
-  console.log(board.position('FEN'));
+  console.log(board.fen());
 });

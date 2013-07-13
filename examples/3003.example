@@ -2,7 +2,7 @@
 Clear Board
 
 === Description
-
+Use the <a href="docs#methods:clear"><code class="js plain">clear</code></a> method to remove all the pieces from the board.
 
 === HTML
 <div id="board" style="width: 400px"></div>

@@ -164,57 +164,46 @@
 "Methods":[
 "------------------------------------------------------------------------------",
 {
-  "name":"clear()",
-  "desc":[
-    "Removes all the pieces on the board with a fade effect.",
-    "Has the same effect as calling <code class='js plain'>position({})</code>"
-  ],
-  "examples":3003
-},
-"------------------------------------------------------------------------------",
-{
   "name":"clear(useAnimation)",
   "args":[
-    ["useAnimation", "If <code class='js keyword'>false</code>, removes pieces immediately"]
+    ["useAnimation", "<code class='js keyword'>false</code> <small>(optional)</small>"]
   ],
   "desc":[
-    "Removes all the pieces on the board instantly.",
-    "Has the same effect as calling <code class='js plain'>position({}, </code><code class='js keyword'>false</code><code class='js plain'>)</code>"
+    "Removes all the pieces on the board.",
+    "If <code class='js plain'>useAnimation</code> is <code class='js keyword'>false</code>, removes pieces instantly.",
+    "Alias of <a href='docs#methods:position'><code class='js plain'>position({})</code></a> and <a href='docs#methods:position'><code class='js plain'>position({}, <code class='js keyword'>false</code><code class='js plain'>)</code></a>"
   ],
-  "examples":3003
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"config()",
-  "desc":"TODO: set config properties",
-  "examples":[7001,7056]
+  "examples":[3003]
 },
 "------------------------------------------------------------------------------",
 {
   "name":"destroy()",
   "desc":"Remove the widget from the DOM.",
-  "examples":3006
+  "examples":[3006]
 },
 "------------------------------------------------------------------------------",
 {
   "name":"fen()",
   "desc":[
     "Returns the current position as a FEN string.",
-    "Has the same effect as calling <code class='js plain'>position('fen')</code>"
+    "Alias of <a href='docs#methods:position'><code class='js plain'>position(</code><code class='js string'>'fen'</code><code class='js plain'>)</code></a>"
   ],
-  "examples":7004
+  "examples":[3000]
 },
 "------------------------------------------------------------------------------",
 {
   "name":"flip()",
-  "desc":"Flips the orientation of the board.",
-  "examples":3005
+  "desc":[
+    "Flips the board orientation.",
+    "Alias of <a href='docs#methods:orientation'><code class='js plain'>orientation(</code><code class='js string'>'flip'</code><code class='js plain'>)</code></a>"
+  ],
+  "examples":[3005]
 },
 "------------------------------------------------------------------------------",
 {
   "name":"highlight()",
   "desc":"TODO: set square highlights",
-  "examples":7006
+  "examples":[7006]
 },
 "------------------------------------------------------------------------------",
 {
@@ -226,55 +215,71 @@
     "Executes one or more moves on the board.",
     "Returns an updated Position Object of the board including the move(s)."
   ],
-  "examples":3004
+  "examples":[3004]
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"position()",
+  "name":"position(fen)",
   "args":[
-    ["name", "name of the list to get"]
+    ["fen", "<code class='js string'>'fen'</code> <small>(optional)</small>"]
   ],
-  "desc":"Alias of <a href='docs#methods:getList'><code class='js plain'>getList(name)</code></a>",
-  "examples":3000
+  "desc":[
+    "Returns the current position as a Position Object.",
+    "If the first argument is <code class='js string'>'fen'</code>, returns the position as a FEN string."
+  ],
+  "examples":[3000]
 },
 "------------------------------------------------------------------------------",
 {
   "noId":true,
-  "name":"position(newPosition)",
+  "name":"position(newPosition, useAnimation)",
   "args":[
-    ["name", "name of the list to add or update"],
-    ["list", "<a href='docs#list_object'>List Object</a>"]
+    ["newPosition", "Position Object, FEN string, or <code class='js string'>'start'</code>"],
+    ["useAnimation", "<code class='js keyword'>false</code> <small>(optional)</small>"]
   ],
-  "desc":"Alias of <a href='docs#methods:setList'><code class='js plain'>setList(name, list)</code></a>",
-  "examples":3001
+  "desc":[
+    "Animates to a new position.",
+    "If <code class='js plain'>useAnimation</code> is <code class='js keyword'>false</code>, sets the position instantly."
+  ],
+  "examples":[3001]
 },
 "------------------------------------------------------------------------------",
 {
   "name":"orientation()",
   "desc":[
-    "Simulates the user pressing the \"Down Arrow\" key on the input field.",
-    "Has no effect if the input field does not have focus."
+    "Returns the current orientation of the board."
   ],
-  "examples":3005
+  "examples":[3005]
 },
 "------------------------------------------------------------------------------",
 {
   "noId":true,
-  "name":"orientation(newOrientation)",
-  "desc":[
-    "Simulates the user pressing the \"Enter\" key on the input field.",
-    "Has no effect if the input field does not have focus."
+  "name":"orientation(arg)",
+  "args":[
+    ["arg", "<code class='js string'>'white'</code>, <code class='js string'>'black'</code>, or <code class='js string'>'flip'</code>"]
   ],
-  "examples":3005
+  "desc":[
+    "If <code class='js string'>'white'</code> or <code class='js string'>'black'</code>, sets the orientation of the board accordingly.",
+    "If <code class='js string'>'flip'</code>, flips the orientation."
+  ],
+  "examples":[3005]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"resize()",
+  "desc":[
+    "Recalculates board and square sizes based on the parent element and redraws the board accordingly."
+  ],
+  "examples":[3007]
 },
 "------------------------------------------------------------------------------",
 {
   "name":"start()",
   "desc":[
     "Sets the board to the start position.",
-    "Has the same effect as calling <code class='js plain'>position('start')</code>"
+    "Alias of <a href='docs#methods:position'><code class='js plain'>position(</code><code class='js string'>'start'</code><code class='js plain'>)</code></a>"
   ],
-  "examples":3001
+  "examples":[3001]
 },
 "------------------------------------------------------------------------------"
 ],

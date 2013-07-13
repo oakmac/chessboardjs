@@ -2,7 +2,7 @@
 Set Position
 
 === Description
-
+Use the <a href="docs#methods:start"><code class="js plain">start</code></a> and <a href="docs#methods:position"><code class="js plain">position</code></a> methods to set the board position.
 
 === HTML
 <div id="board" style="width: 400px"></div>

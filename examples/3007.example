@@ -2,7 +2,7 @@
 Resize
 
 === Description
-
+Use the <a href="docs#methods:resize"><code class="js plain">resize</code></a> method to recalculate and redraw the board based on the size of it's parent element.
 
 === HTML
 <div id="board" style="width: 60%"></div>

@@ -9,13 +9,13 @@ Piece Theme Function
 
 === JS
 var pieceTheme = function(piece) {
-  // alpha theme for white pieces
+  // wikipedia theme for white pieces
   if (piece.search(/w/) !== -1) {
-    return 'img/chesspieces/alpha/' + piece + '.png';
+    return 'img/chesspieces/wikipedia/' + piece + '.png';
   }
   
-  // USCF for black pieces
-  return 'img/chesspieces/uscf/' + piece + '.png';
+  // alpha theme for black pieces
+  return 'img/chesspieces/alpha/' + piece + '.png';
 };
 
 var cfg = {
