@@ -2,7 +2,7 @@
 onDrop Trash
 
 === Description
-
+If <code class="js string">'trash'</code> is returned from the <a href="docs#config:onDrop"><code class="js plain">onDrop</code></a> function, the dragged piece will be removed.
 
 === HTML
 <div id="board" style="width: 400px"></div>

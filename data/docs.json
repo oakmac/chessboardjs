@@ -44,6 +44,57 @@
 },
 "------------------------------------------------------------------------------",
 {
+  "name":"onChange",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "Fires everytime the board position changes.",
+    "The first argument to the function is the old position, the second argument is the new position."
+  ],
+  "examples":[4000]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"onDragStart",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "Fires everytime a piece is picked up.",
+    "The first argument to the function is the source of the piece, the second argument is the piece, the third argument is the current position on the board, and the fourth argument is the current orientation.",
+    "The drag action is prevented if the function returns <code class='js keyword'>false</code>."
+  ],
+  "examples":[4001,4002]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"onDragMove",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "Fires everytime a dragged piece changes location.",
+    "The first argument to the function is the new location of the piece, the second argument is the old location of the piece, the third argument is the source of the dragged piece, the fourth argument is the piece, the fifth argument is the current position on the board, and the sixth argument is the current orientation."
+  ],
+  "examples":[4003]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"onDrop",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "Fires everytime a piece is dropped.",
+    "The first argument to the function is the source of the dragged piece, the second argument is the target of the dragged piece, the third argument is the piece, the fourth argument is the new position once the piece drops, the fifth argument is the old position before the piece was picked up, and the sixth argument is the current orientation.",
+    "If <code class='js string'>'snapback'</code> is returned from the function, the piece will return to it's source square.",
+    "If <code class='js string'>'trash'</code> is returned from the function, the piece will be removed."
+  ],
+  "examples":[4004,4005,4006]
+},
+"------------------------------------------------------------------------------",
+{
   "name":"orientation",
   "type":[
     "<code class='js string'>'white'</code>",

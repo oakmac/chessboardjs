@@ -2,7 +2,7 @@
 onDragStart Prevent Drag
 
 === Description
-
+Prevent the drag action by returning <code class="js keyword">false</code> from the <a href="docs#config:onDragStart"><code class="js plain">onDragStart</code></a> function.
 
 === HTML
 <div id="board" style="width: 400px"></div>

@@ -457,11 +457,6 @@ var expandConfig = function() {
     cfg.draggable = true;
   }
 
-  // make onChange a function if they did not provide one
-  if (typeof cfg.onChange !== 'function') {
-    cfg.onChange = function() {};
-  }
-
   // default piece theme is wikipedia
   if (cfg.hasOwnProperty('pieceTheme') !== true ||
       (typeof cfg.pieceTheme !== 'string' &&
@@ -508,12 +503,6 @@ var expandConfig = function() {
 
   return true;
 };
-
-
-
-// TODO: trash speed should be configurable
-
-
 
 //------------------------------------------------------------------------------
 // DOM-related things
@@ -974,16 +963,19 @@ var calculatePositionFromMoves = function(position, moves) {
 };
 
 var setCurrentPosition = function(position) {
-  var oldPosObj = deepCopy(CURRENT_POSITION);
-  var newPosObj = deepCopy(position);
-  var oldPosFEN = objToFEN(oldPosObj);
-  var newPosFEN = objToFEN(newPosObj);
+  var oldPos = deepCopy(CURRENT_POSITION);
+  var newPos = deepCopy(position);
+  var oldFEN = objToFEN(oldPos);
+  var newFEN = objToFEN(newPos);
 
   // do nothing if no change in position
-  if (oldPosFEN === newPosFEN) return;
+  if (oldFEN === newFEN) return;
 
   // run their onChange function
-  cfg.onChange(oldPosObj, newPosObj, oldPosFEN, newPosFEN);
+  if (cfg.hasOwnProperty('onChange') === true && 
+    typeof cfg.onChange === 'function') {
+    cfg.onChange(oldPos, newPos);
+  }
 
   // update state
   CURRENT_POSITION = position;
@@ -1024,18 +1016,23 @@ var removeSquareHighlights = function() {
 };
 
 var snapbackPiece = function() {
-  removeSquareHighlights();
+  // there is no "snapback" for spare pieces
+  if (DRAGGED_PIECE_SOURCE === 'spare') {
+    trashPiece();
+    return;
+  }
 
-  // get source square position
-  var sourceSquarePosition =
-    $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_SOURCE])
-      .offset();
+  removeSquareHighlights();
 
   // animation complete
   var complete = function() {
     drawPositionInstant();
     draggedPieceEl.css('display', 'none');
   };
+
+  // get source square position
+  var sourceSquarePosition = 
+    $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_SOURCE]).offset();
 
   // animate the piece to the target square
   var opts = {
@@ -1076,8 +1073,7 @@ var dropPieceOnSquare = function(square) {
   setCurrentPosition(newPosition);
 
   // get target square information
-  var targetSquareEl = $('#' + SQUARE_ELS_IDS[square]);
-  var targetSquarePosition = targetSquareEl.offset();
+  var targetSquarePosition = $('#' + SQUARE_ELS_IDS[square]).offset();
 
   // animation complete
   var complete = function() {
@@ -1085,7 +1081,7 @@ var dropPieceOnSquare = function(square) {
     draggedPieceEl.css('display', 'none');
   };
 
-  // animate the piece to the target square
+  // snap the piece to the target square
   var opts = {
     duration: cfg.snapSpeed,
     complete: complete
@@ -1183,7 +1179,8 @@ var stopDraggedPiece = function(location) {
   }
 
   // run their onDrop function, which can potentially change the drop action
-  if (typeof cfg.onDrop === 'function') {
+  if (cfg.hasOwnProperty('onDrop') === true &&
+    typeof cfg.onDrop === 'function') {
     var newPosition = deepCopy(CURRENT_POSITION);
 
     // source piece is a spare piece and position is off the board

@@ -2,7 +2,7 @@
 onDrop
 
 === Description
-
+The <a href="docs#config:onDrop"><code class="js plain">onDrop</code></a> event fires every time a piece is dropped.
 
 === HTML
 <div id="board" style="width: 400px"></div>
