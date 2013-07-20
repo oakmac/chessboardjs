@@ -2,7 +2,7 @@
 Initialize Board from Object
 
 === Description
-
+Pass a <a href="docs#position_object">Position Object</a> as the second argument to initialize the board to a specific position.
 
 === HTML
 <div id="board" style="width: 400px"></div>

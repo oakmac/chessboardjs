@@ -32,6 +32,9 @@ $examplesGroups = ChessBoard::getExampleGroups();
 <script src="js/prettify.js"></script>
 <script src="js/chessboard.js"></script>
 <script>
+window.console = window.console || {};
+console.log = console.log || function() {};
+
 // yo dawg, i heard you like code...
 var examples = {};
 <?php

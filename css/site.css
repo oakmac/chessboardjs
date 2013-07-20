@@ -298,7 +298,7 @@ table#markup_example_tbl td {
   padding-bottom: 250px;
 }
 
-#example_html_container input {
+#example_html_container input, input.btn, button.btn {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

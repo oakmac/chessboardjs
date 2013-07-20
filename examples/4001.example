@@ -12,7 +12,7 @@ var onDragStart = function(source, piece, position, orientation) {
   console.log("Drag started:");
   console.log("Source: " + source);
   console.log("Piece: " + piece);
-  console.log("Position: " + ChessBoard.objToFEN(position));
+  console.log("Position: " + ChessBoard.objToFen(position));
   console.log("Orientation: " + orientation);
   console.log("--------------------");
 };

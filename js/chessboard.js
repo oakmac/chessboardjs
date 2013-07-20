@@ -38,7 +38,7 @@ var validPieceCode = function(code) {
   return (code.search(/^[bw][KQRNBP]$/) !== -1);
 };
 
-var validFEN = function(fen) {
+var validFen = function(fen) {
   if (typeof fen !== 'string') return false;
 
   // FEN should be at least 8 sections separated by slashes
@@ -72,7 +72,7 @@ var validPositionObject = function(pos) {
 };
 
 // convert FEN piece code to bP, wK, etc
-var FENToPieceCode = function(piece) {
+var fenToPieceCode = function(piece) {
   // black piece
   if (piece.toLowerCase() === piece) {
     return 'b' + piece.toUpperCase();
@@ -83,7 +83,7 @@ var FENToPieceCode = function(piece) {
 };
 
 // convert bP, wK, etc code to FEN structure
-var pieceCodeToFEN = function(piece) {
+var pieceCodeToFen = function(piece) {
   var tmp = piece.split('');
 
   // white piece
@@ -97,8 +97,8 @@ var pieceCodeToFEN = function(piece) {
 
 // convert FEN string to position object
 // returns false if the FEN string is invalid
-var FENToObj = function(fen) {
-  if (validFEN(fen) !== true) {
+var fenToObj = function(fen) {
+  if (validFen(fen) !== true) {
     return false;
   }
 
@@ -120,7 +120,7 @@ var FENToObj = function(fen) {
       // piece
       else {
         var square = COLUMNS[colIndex] + currentRow;
-        position[square] = FENToPieceCode(row[j]);
+        position[square] = fenToPieceCode(row[j]);
         colIndex++;
       }
     }
@@ -133,7 +133,7 @@ var FENToObj = function(fen) {
 
 // position object to FEN string
 // returns false if the obj is not a valid position object
-var objToFEN = function(obj) {
+var objToFen = function(obj) {
   if (validPositionObject(obj) !== true) {
     return false;
   }
@@ -147,7 +147,7 @@ var objToFEN = function(obj) {
 
       // piece exists
       if (obj.hasOwnProperty(square) === true) {
-        fen += pieceCodeToFEN(obj[square]);
+        fen += pieceCodeToFen(obj[square]);
       }
 
       // empty space
@@ -187,7 +187,7 @@ cfg = cfg || {};
 
 var MINIMUM_JQUERY_VERSION = '1.7.0',
   START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
-  START_POSITION = FENToObj(START_FEN);
+  START_POSITION = fenToObj(START_FEN);
 
 // use unique class names to prevent clashing with anything else on the page
 // and simplify selectors
@@ -256,14 +256,6 @@ var createId = function() {
 var deepCopy = function(thing) {
   return JSON.parse(JSON.stringify(thing));
 };
-
-/*
-var isArray = Array.isArray || function(vArg) {
-  return Object.prototype.toString.call(vArg) === '[object Array]';
-};
-
-var isObject = $.isPlainObject;
-*/
 
 var parseSemVer = function(version) {
   var tmp = version.split('.');
@@ -488,8 +480,8 @@ var expandConfig = function() {
       CURRENT_POSITION = deepCopy(START_POSITION);
     }
 
-    else if (validFEN(cfg.position) === true) {
-      CURRENT_POSITION = FENToObj(cfg.position);
+    else if (validFen(cfg.position) === true) {
+      CURRENT_POSITION = fenToObj(cfg.position);
     }
 
     else if (validPositionObject(cfg.position) === true) {
@@ -641,7 +633,7 @@ var buildPieceImgSrc = function(piece) {
   }
 
   // NOTE: this should never happen
-  // TODO: throw error?
+  error(8272, 'Unable to build image source for cfg.pieceTheme.');
 };
 
 var buildPiece = function(piece, hidden, id) {
@@ -858,15 +850,14 @@ var createRadius = function(square) {
 
 // returns the square of the closest instance of piece
 // returns false if no instance of piece is found in position
+// TODO: this function doesn't actually return the closest piece,
+//       need to implement that
 var findClosestPiece = function(position, piece, square) {
-
-  // TODO: replace this algorithm with a radius one
-
   for (var i in position) {
     if (position.hasOwnProperty(i) !== true) continue;
 
     // ignore the square
-    // TODO: is this a bug?
+    // TODO: do we need to ignore the square that was sent in?
     //if (i === square) continue;
 
     if (position[i] === piece) {
@@ -885,6 +876,7 @@ var calculateAnimations = function(pos1, pos2) {
   pos2 = deepCopy(pos2);
 
   var animations = [];
+  var squaresMovedTo = {};
 
   // remove pieces that are the same in both positions
   for (var i in pos2) {
@@ -911,6 +903,7 @@ var calculateAnimations = function(pos1, pos2) {
 
       delete pos1[closestPiece];
       delete pos2[i];
+      squaresMovedTo[i] = true;
     }
   }
 
@@ -930,6 +923,10 @@ var calculateAnimations = function(pos1, pos2) {
   // clear pieces from pos1
   for (var i in pos1) {
     if (pos1.hasOwnProperty(i) !== true) continue;
+
+    // do not clear a piece if it is on a square that is the result
+    // of a "move", ie: a piece capture
+    if (squaresMovedTo.hasOwnProperty(i) === true) continue;
 
     animations.push({
       type: 'clear',
@@ -965,11 +962,11 @@ var calculatePositionFromMoves = function(position, moves) {
 var setCurrentPosition = function(position) {
   var oldPos = deepCopy(CURRENT_POSITION);
   var newPos = deepCopy(position);
-  var oldFEN = objToFEN(oldPos);
-  var newFEN = objToFEN(newPos);
+  var oldFen = objToFen(oldPos);
+  var newFen = objToFen(newPos);
 
   // do nothing if no change in position
-  if (oldFEN === newFEN) return;
+  if (oldFen === newFen) return;
 
   // run their onChange function
   if (cfg.hasOwnProperty('onChange') === true && 
@@ -1240,13 +1237,12 @@ widget.clear = function(useAnimation) {
 
 /*
 // get or set config properties
+// TODO: write this, GitHub Issue #1
 widget.config = function(arg1, arg2) {
   // get the current config
   if (arguments.length === 0) {
     return deepCopy(cfg);
   }
-
-  // TODO: write me
 };
 */
 
@@ -1270,11 +1266,12 @@ widget.flip = function() {
   widget.orientation('flip');
 };
 
+/*
+// TODO: write this, GitHub Issue #5
 widget.highlight = function() {
 
-  // TODO: write me
-
 };
+*/
 
 // move pieces
 widget.move = function() {
@@ -1335,7 +1332,7 @@ widget.position = function(position, useAnimation) {
 
   // get position as FEN
   if (typeof position === 'string' && position.toLowerCase() === 'fen') {
-    return objToFEN(CURRENT_POSITION);
+    return objToFen(CURRENT_POSITION);
   }
 
   // default for useAnimations is true
@@ -1349,8 +1346,8 @@ widget.position = function(position, useAnimation) {
   }
 
   // convert FEN to position object
-  if (validFEN(position) === true) {
-    position = FENToObj(position);
+  if (validFen(position) === true) {
+    position = fenToObj(position);
   }
 
   // validate position object
@@ -1589,7 +1586,7 @@ return widget;
 }; // end window.ChessBoard
 
 // expose util functions
-window.ChessBoard.FENToObj = FENToObj;
-window.ChessBoard.objToFEN = objToFEN;
+window.ChessBoard.fenToObj = fenToObj;
+window.ChessBoard.objToFen = objToFen;
 
 })(); // end anonymous wrapper

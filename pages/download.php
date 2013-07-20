@@ -2,7 +2,7 @@
 $page_title = 'Download';
 $active_nav_tab = 'Download';
 include(APP_PATH . 'pages/header.php');
-$releases = AC::getReleases();
+$releases = ChessBoard::getReleases();
 $mostRecentVersion = $releases[0]['version'];
 ?>
 
@@ -23,7 +23,7 @@ foreach ($releases as $release) {
 
 <div class="section">
 <h4>Development</h4>
-<p><a href="https://github.com/oakmac/autocompletejs/">GitHub</a></p>
+<p><a href="https://github.com/oakmac/chessboardjs/">GitHub</a></p>
 </div>
 
 <?php

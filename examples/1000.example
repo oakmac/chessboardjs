@@ -2,7 +2,7 @@
 Initialize Empty Board
 
 === Description
-ChessBoard initializes to an empty board with no arguments.
+ChessBoard initializes to an empty board with no second argument.
 
 === HTML
 <div id="board" style="width: 400px"></div>

@@ -2,7 +2,7 @@
 Multiple Boards
 
 === Description
-
+You can have multiple boards on the same page.
 
 === HTML
 <div id="board1" style="width: 200px; float: left; margin-right: 10px"></div>

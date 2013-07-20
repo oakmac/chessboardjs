@@ -1,4 +1,5 @@
 {
+
 "Config Object":[
 "------------------------------------------------------------------------------",
 {
@@ -137,14 +138,14 @@
   "req":false,
   "default":false,
   "desc":[
-    "<code class='js plain'>showErrors</code> is an optional parameter to control how AutoComplete reports errors.",
-    "Every error in AutoComplete has a <a href='docs#errors'>unique code</a> to help diagnose problems and search for solutions.",
+    "<code class='js plain'>showErrors</code> is an optional parameter to control how ChessBoard reports errors.",
+    "Every error in ChessBoard has a <a href='docs#errors'>unique code</a> to help diagnose problems and search for solutions.",
     "If <code class='js plain'>showErrors</code> is <code class='js keyword'>false</code> then errors will be ignored.",
     "If <code class='js plain'>showErrors</code> is <code class='js string'>'console'</code> then errors will be sent to <code class='js plain'>console.log()</code>.",
     "If <code class='js plain'>showErrors</code> is <code class='js string'>'alert'</code> then errors will be sent to <code class='js plain'>window.alert()</code>.",
     "If <code class='js plain'>showErrors</code> is a function then the first argument is the unique error code, the second argument is an error string, and an optional third argument is a data structure that is relevant to the error."
   ],
-  "examples":[3012,3088]
+  "examples":[]
 },
 "------------------------------------------------------------------------------",
 {
@@ -222,7 +223,7 @@
   "desc":[
     "Removes all the pieces on the board.",
     "If <code class='js plain'>useAnimation</code> is <code class='js keyword'>false</code>, removes pieces instantly.",
-    "Alias of <a href='docs#methods:position'><code class='js plain'>position({})</code></a> and <a href='docs#methods:position'><code class='js plain'>position({}, <code class='js keyword'>false</code><code class='js plain'>)</code></a>"
+    "Alias of <a href='docs#methods:position'><code class='js plain'>position({})</code></a> and <a href='docs#methods:position'><code class='js plain'>position({},</code> <code class='js keyword'>false</code><code class='js plain'>)</code></a>"
   ],
   "examples":[3003]
 },
@@ -249,12 +250,6 @@
     "Alias of <a href='docs#methods:orientation'><code class='js plain'>orientation(</code><code class='js string'>'flip'</code><code class='js plain'>)</code></a>"
   ],
   "examples":[3005]
-},
-"------------------------------------------------------------------------------",
-{
-  "name":"highlight()",
-  "desc":"TODO: set square highlights",
-  "examples":[7006]
 },
 "------------------------------------------------------------------------------",
 {
@@ -392,6 +387,14 @@
   "id":7263,
   "desc":"Invalid value passed to config.position",
   "fix":"Position must either be <code class='js string'>'start'</code>, a valid FEN String, or a Position Object."
+},
+{
+  "id":8272,
+  "desc":"Unable to build image source for cfg.pieceTheme.",
+  "fix":[
+    "This is an internal ChessBoard error that you should never see.",
+    "If you see this error please open a <a href='https://github.com/oakmac/chessboardjs/issues'>GitHub issue</a>."
+  ]
 }
 ]
 

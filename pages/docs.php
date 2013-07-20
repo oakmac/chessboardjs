@@ -56,7 +56,7 @@ foreach($docs['Methods'] as $method) {
 <div class="section">
 <h2 id="errors">Errors</h2>
 <p>ChessBoard has an error system designed to inform you when you use the API incorrectly.</p>
-<p>Every alert has a unique code associated with it and you can control how the errors are presented with the <a href="docs#config_object:showErrors">showErrors</a> config option.</p>
+<p>Every alert has a unique code associated with it and you can control how the errors are presented with the <a href="docs#config:showErrors">showErrors</a> config option.</p>
 <table cellspacing="0">
 <thead class="center">
 <tr>

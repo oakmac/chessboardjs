@@ -2,7 +2,7 @@
 Initialize Board to Start Position
 
 === Description
-
+Pass <code class="js string">'start'</code> as the second argument to initialize the board to the start position.
 
 === HTML
 <div id="board" style="width: 400px"></div>

@@ -14,8 +14,8 @@ var cfg = {
   position: 'start',
   onChange: function(oldPos, newPos) {
     console.log("Position changed:");
-    console.log("Old position: " + ChessBoard.objToFEN(oldPos));
-    console.log("New position: " + ChessBoard.objToFEN(newPos));
+    console.log("Old position: " + ChessBoard.objToFen(oldPos));
+    console.log("New position: " + ChessBoard.objToFen(newPos));
     console.log("--------------------");
   }
 };

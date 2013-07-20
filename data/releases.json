@@ -1,66 +1,17 @@
 [
 "-----------------------------------------------------------------",
 {
-  "version":"0.3.0",
-  "date":"09 Apr 2013",
-  "released":false,
-  "changes":[
-    "Allow DOM element to be passed to AutoComplete constructor",
-    "Fix bug with jQuery detection code"
-  ],
-  "files":[
-    { "name":"autocomplete-0.3.0.zip", "size":"68.3 KB" },
-    { "name":"autocomplete-0.3.0.js", "size":"65.0 KB" },
-    { "name":"autocomplete-0.3.0.min.js", "size":"20.9 KB" },
-    { "name":"autocomplete-0.3.0.css", "size":"2.89 KB" },
-    { "name":"autocomplete-0.3.0.min.css", "size":"2.32 KB" }
-  ]
-},
-"-----------------------------------------------------------------",
-{
-  "version":"0.2.1",
-  "date":"09 Apr 2013",
-  "changes":[
-    "Fix bug with escaping HTML when calculating the width of the input element"
-  ],
-  "files":[
-    { "name":"autocomplete-0.2.1.zip", "size":"68.3 KB" },
-    { "name":"autocomplete-0.2.1.js", "size":"65.0 KB" },
-    { "name":"autocomplete-0.2.1.min.js", "size":"20.9 KB" },
-    { "name":"autocomplete-0.2.1.css", "size":"2.89 KB" },
-    { "name":"autocomplete-0.2.1.min.css", "size":"2.32 KB" }
-  ]
-},
-"-----------------------------------------------------------------",
-{
-  "version":"0.2.0",
-  "date":"25 Mar 2013",
-  "changes":[
-    "Remove \"groups\" option for Option Objects",
-    "Improve tab behavior",
-    "Bug fixes"
-  ],
-  "files":[
-    { "name":"autocomplete-0.2.0.zip", "size":"68.3 KB" },
-    { "name":"autocomplete-0.2.0.js", "size":"65.0 KB" },
-    { "name":"autocomplete-0.2.0.min.js", "size":"20.9 KB" },
-    { "name":"autocomplete-0.2.0.css", "size":"2.89 KB" },
-    { "name":"autocomplete-0.2.0.min.css", "size":"2.32 KB" }
-  ]
-},
-"-----------------------------------------------------------------",
-{
   "version":"0.1.0",
-  "date":"14 Feb 2013",
+  "date":"13 Jul 2013",
   "changes":[
     "Initial release"
   ],
   "files":[
-    { "name":"autocomplete-0.1.0.zip", "size":"24.1 KB" },
-    { "name":"autocomplete-0.1.0.js", "size":"60.4 KB" },
-    { "name":"autocomplete-0.1.0.min.js", "size":"20.0 KB" },
-    { "name":"autocomplete-0.1.0.css", "size":"2.92 KB" },
-    { "name":"autocomplete-0.1.0.min.css", "size":"2.44 KB" }
+    { "name":"chessboard-0.1.0.zip", "size":"24.1 KB" },
+    { "name":"chessboard-0.1.0.js", "size":"60.4 KB" },
+    { "name":"chessboard-0.1.0.min.js", "size":"20.0 KB" },
+    { "name":"chessboard-0.1.0.css", "size":"2.92 KB" },
+    { "name":"chessboard-0.1.0.min.css", "size":"2.44 KB" }
   ]
 },
 "-----------------------------------------------------------------"
