@@ -831,7 +831,6 @@ var doAnimations = function(a) {
 
     // move a piece
     if (a[i].type === 'move') {
-      //animateMove(a[i].source, a[i].destination, a[i].piece, onFinish);
       animateSquareToSquare(a[i].source, a[i].destination, a[i].piece,
         onFinish);
     }
