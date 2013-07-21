@@ -280,7 +280,7 @@ var compareSemVer = function(version, minimum) {
 };
 
 //------------------------------------------------------------------------------
-// Validation
+// Validation / Errors
 //------------------------------------------------------------------------------
 
 var error = function(code, msg, obj) {
@@ -376,26 +376,6 @@ var checkDeps = function() {
   }
 
   return true;
-};
-
-// create random IDs for elements
-var createElIds = function() {
-  // squares on the board
-  for (var i = 0; i < COLUMNS.length; i++) {
-    for (var j = 1; j <= 8; j++) {
-      var square = COLUMNS[i] + j;
-      SQUARE_ELS_IDS[square] = square + '-' + createId();
-    }
-  }
-
-  // spare pieces
-  var pieces = 'KQRBNP'.split('');
-  for (var i = 0; i < pieces.length; i++) {
-    var whitePiece = 'w' + pieces[i];
-    var blackPiece = 'b' + pieces[i];
-    SPARE_PIECE_ELS_IDS[whitePiece] = whitePiece + '-' + createId();
-    SPARE_PIECE_ELS_IDS[blackPiece] = blackPiece + '-' + createId();
-  }
 };
 
 var validAnimationSpeed = function(speed) {
@@ -497,7 +477,7 @@ var expandConfig = function() {
 };
 
 //------------------------------------------------------------------------------
-// DOM-related things
+// DOM Misc
 //------------------------------------------------------------------------------
 
 // calculates square size based on the width of the container
@@ -521,6 +501,26 @@ var calculateSquareSize = function() {
   }
 
   return (boardWidth / 8);
+};
+
+// create random IDs for elements
+var createElIds = function() {
+  // squares on the board
+  for (var i = 0; i < COLUMNS.length; i++) {
+    for (var j = 1; j <= 8; j++) {
+      var square = COLUMNS[i] + j;
+      SQUARE_ELS_IDS[square] = square + '-' + createId();
+    }
+  }
+
+  // spare pieces
+  var pieces = 'KQRBNP'.split('');
+  for (var i = 0; i < pieces.length; i++) {
+    var whitePiece = 'w' + pieces[i];
+    var blackPiece = 'b' + pieces[i];
+    SPARE_PIECE_ELS_IDS[whitePiece] = whitePiece + '-' + createId();
+    SPARE_PIECE_ELS_IDS[blackPiece] = blackPiece + '-' + createId();
+  }
 };
 
 //------------------------------------------------------------------------------
@@ -654,30 +654,6 @@ var buildPiece = function(piece, hidden, id) {
   return html;
 };
 
-//------------------------------------------------------------------------------
-// DOM Manipulation
-//------------------------------------------------------------------------------
-
-var clearBoardFade = function() {
-  boardEl.find('img.' + CSS.piece).fadeOut(cfg.trashSpeed, function() {
-    $(this).remove();
-  });
-};
-
-var clearBoardInstant = function() {
-  boardEl.find('img.' + CSS.piece).remove();
-};
-
-var drawPositionInstant = function() {
-  clearBoardInstant();
-
-  for (var i in CURRENT_POSITION) {
-    if (CURRENT_POSITION.hasOwnProperty(i) !== true) continue;
-
-    $('#' + SQUARE_ELS_IDS[i]).append(buildPiece(CURRENT_POSITION[i]));
-  }
-};
-
 var buildSparePieces = function(color) {
   var pieces = ['wK', 'wQ', 'wR', 'wB', 'wN', 'wP'];
   if (color === 'black') {
@@ -690,22 +666,6 @@ var buildSparePieces = function(color) {
   }
 
   return html;
-};
-
-var drawBoard = function() {
-  boardEl.html(buildBoard(CURRENT_ORIENTATION));
-  drawPositionInstant();
-
-  if (cfg.sparePieces === true) {
-    if (CURRENT_ORIENTATION === 'white') {
-      sparePiecesTopEl.html(buildSparePieces('black'));
-      sparePiecesBottomEl.html(buildSparePieces('white'));
-    }
-    else {
-      sparePiecesTopEl.html(buildSparePieces('white'));
-      sparePiecesBottomEl.html(buildSparePieces('black'));
-    }
-  }
 };
 
 //------------------------------------------------------------------------------
@@ -939,6 +899,50 @@ var calculateAnimations = function(pos1, pos2) {
   return animations;
 };
 
+//------------------------------------------------------------------------------
+// Control Flow
+//------------------------------------------------------------------------------
+
+var clearBoardFade = function() {
+  boardEl.find('img.' + CSS.piece).fadeOut(cfg.trashSpeed, function() {
+    $(this).remove();
+  });
+};
+
+var clearBoardInstant = function() {
+  boardEl.find('img.' + CSS.piece).remove();
+};
+
+var drawPositionInstant = function() {
+  clearBoardInstant();
+
+  for (var i in CURRENT_POSITION) {
+    if (CURRENT_POSITION.hasOwnProperty(i) !== true) continue;
+
+    $('#' + SQUARE_ELS_IDS[i]).append(buildPiece(CURRENT_POSITION[i]));
+  }
+};
+
+var drawBoard = function() {
+  boardEl.html(buildBoard(CURRENT_ORIENTATION));
+  drawPositionInstant();
+
+  if (cfg.sparePieces === true) {
+    if (CURRENT_ORIENTATION === 'white') {
+      sparePiecesTopEl.html(buildSparePieces('black'));
+      sparePiecesBottomEl.html(buildSparePieces('white'));
+    }
+    else {
+      sparePiecesTopEl.html(buildSparePieces('white'));
+      sparePiecesBottomEl.html(buildSparePieces('black'));
+    }
+  }
+};
+
+var animateToPosition = function(pos1, pos2) {
+  doAnimations(calculateAnimations(pos1, pos2));
+};
+
 // given a position and a set of moves, return a new position
 // with the moves executed
 var calculatePositionFromMoves = function(position, moves) {
@@ -975,10 +979,6 @@ var setCurrentPosition = function(position) {
 
   // update state
   CURRENT_POSITION = position;
-};
-
-var animateToPosition = function(pos1, pos2) {
-  doAnimations(calculateAnimations(pos1, pos2));
 };
 
 var isXYOnSquare = function(x, y) {
@@ -1257,7 +1257,7 @@ widget.destroy = function() {
 
 // shorthand method to get the current FEN
 widget.fen = function() {
-  widget.position('fen');
+  return widget.position('fen');
 };
 
 // flip orientation
