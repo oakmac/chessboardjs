@@ -821,7 +821,7 @@ var createRadius = function(square) {
   // calculate distance of all squares
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
-      var s = COLUMNS[i] + (j+1);
+      var s = COLUMNS[i] + (j + 1);
 
       // skip the square we're starting from
       if (square === s) continue;
@@ -856,7 +856,7 @@ var findClosestPiece = function(position, piece, square) {
   // search through the position in order of distance for the piece
   for (var i = 0; i < closestSquares.length; i++) {
     var s = closestSquares[i];
-    
+
     if (position.hasOwnProperty(s) === true && position[s] === piece) {
       return s;
     }
