@@ -2,16 +2,12 @@
 "-----------------------------------------------------------------",
 {
   "version":"0.1.0",
-  "date":"13 Jul 2013",
+  "date":"21 Jul 2013",
   "changes":[
     "Initial release"
   ],
   "files":[
-    { "name":"chessboard-0.1.0.zip", "size":"24.1 KB" },
-    { "name":"chessboard-0.1.0.js", "size":"60.4 KB" },
-    { "name":"chessboard-0.1.0.min.js", "size":"20.0 KB" },
-    { "name":"chessboard-0.1.0.css", "size":"2.92 KB" },
-    { "name":"chessboard-0.1.0.min.css", "size":"2.44 KB" }
+    { "name":"chessboard-0.1.0.zip", "size":"44.0 KB" }
   ]
 },
 "-----------------------------------------------------------------"
