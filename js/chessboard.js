@@ -797,30 +797,68 @@ var doAnimations = function(a) {
   }
 };
 
-/*
+// returns the distance between two squares
+var squareDistance = function(s1, s2) {
+  s1 = s1.split('');
+  var s1x = COLUMNS.indexOf(s1[0]) + 1;
+  var s1y = parseInt(s1[1], 10);
+
+  s2 = s2.split('');
+  var s2x = COLUMNS.indexOf(s2[0]) + 1;
+  var s2y = parseInt(s2[1], 10);
+
+  var xDelta = Math.abs(s1x - s2x);
+  var yDelta = Math.abs(s1y - s2y);
+
+  if (xDelta >= yDelta) return xDelta;
+  return yDelta;
+};
+
 // returns an array of closest squares from square
 var createRadius = function(square) {
   var squares = [];
 
-  // TODO: write me
+  // calculate distance of all squares
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 8; j++) {
+      var s = COLUMNS[i] + (j+1);
 
+      // skip the square we're starting from
+      if (square === s) continue;
+
+      squares.push({
+        square: s,
+        distance: squareDistance(square, s)
+      });
+    }
+  }
+
+  // sort by distance
+  squares.sort(function(a, b) {
+    return a.distance - b.distance;
+  });
+
+  // just return the square code
+  var squares2 = [];
+  for (var i = 0; i < squares.length; i++) {
+    squares2.push(squares[i].square);
+  }
+
+  return squares2;
 };
-*/
 
 // returns the square of the closest instance of piece
 // returns false if no instance of piece is found in position
-// TODO: this function doesn't actually return the closest piece,
-//       need to implement that
 var findClosestPiece = function(position, piece, square) {
-  for (var i in position) {
-    if (position.hasOwnProperty(i) !== true) continue;
+  // create array of closest squares from square
+  var closestSquares = createRadius(square);
 
-    // ignore the square
-    // TODO: do we need to ignore the square that was sent in?
-    //if (i === square) continue;
-
-    if (position[i] === piece) {
-      return i;
+  // search through the position in order of distance for the piece
+  for (var i = 0; i < closestSquares.length; i++) {
+    var s = closestSquares[i];
+    
+    if (position.hasOwnProperty(s) === true && position[s] === piece) {
+      return s;
     }
   }
 
