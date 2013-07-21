@@ -968,7 +968,7 @@ var setCurrentPosition = function(position) {
   if (oldFen === newFen) return;
 
   // run their onChange function
-  if (cfg.hasOwnProperty('onChange') === true && 
+  if (cfg.hasOwnProperty('onChange') === true &&
     typeof cfg.onChange === 'function') {
     cfg.onChange(oldPos, newPos);
   }
@@ -1027,7 +1027,7 @@ var snapbackPiece = function() {
   };
 
   // get source square position
-  var sourceSquarePosition = 
+  var sourceSquarePosition =
     $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_SOURCE]).offset();
 
   // animate the piece to the target square
