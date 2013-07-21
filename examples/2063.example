@@ -2,7 +2,7 @@
 Position Object
 
 === Description
-You can set the <a href="docs#config:position"><code class="js plain">position</code></a> property with a Position Object.
+You can set the <a href="docs#config:position"><code class="js plain">position</code></a> property with a <a href="docs#position_object">Position Object</a>.
 
 === HTML
 <div id="board" style="width: 400px"></div>

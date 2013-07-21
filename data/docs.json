@@ -33,8 +33,8 @@
   "name":"position",
   "type":[
     "<code class='js string'>'start'</code>",
-    "FEN String",
-    "Position Object"
+    "<a href='docs#fen_string'>FEN String</a>",
+    "<a href='docs#position_object'>Position Object</a>"
   ],
   "req":false,
   "default":false,

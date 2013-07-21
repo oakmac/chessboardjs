@@ -54,6 +54,26 @@ foreach($docs['Methods'] as $method) {
 <hr class="divider" />
 
 <div class="section">
+<h2 id="position_object">Position Object</h2>
+<p>You can use a JavaScript object to represent a board position.</p>
+<p>The object property names must be algebraic squares (ie: e4, b2, c6, etc) and the values must be a valid piece codes (ie: wP, bK, wQ, etc).</p>
+<p>See an example of using an object to represent a position <a href="examples#1003">here</a>.</p>
+<p>ChessBoard exposes the <a href="examples#4000"><code class="js plain">ChessBoard.objToFen</code></a> method to help convert between Position Objects and <a href="docs#fen_string">FEN Strings</a>.</p>
+</div><!-- end div.section -->
+
+<hr class="divider" />
+
+<div class="section">
+<h2 id="fen_string">FEN String</h2>
+<p>You can use <a href="http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation">Forsyth-Edwards Notation (FEN)</a> to represent a board position.</p>
+<p>Note that FEN notation captures more information than ChessBoard requires, like who's move it is and whether or not castling is allowed. This information will be ignored; only the position information is used.</p>
+<p>See an example of using a FEN String to represent a position <a href="examples#1002">here</a> and <a href="examples#1004">here</a>.</p>
+<p>ChessBoard exposes the <code class="js plain">ChessBoard.fenToObj</code> method to help convert a FEN String to a <a href="docs#position_object">Position Object</a>.</p>
+</div><!-- end div.section -->
+
+<hr class="divider" />
+
+<div class="section">
 <h2 id="errors">Errors</h2>
 <p>ChessBoard has an error system designed to inform you when you use the API incorrectly.</p>
 <p>Every alert has a unique code associated with it and you can control how the errors are presented with the <a href="docs#config:showErrors">showErrors</a> config option.</p>
