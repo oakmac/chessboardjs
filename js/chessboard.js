@@ -785,6 +785,7 @@ var doAnimations = function(a) {
 
     // add a piece (no spare pieces)
     // TODO: need to make this speed configurable
+    // GitHub Issue #24: need to add an "appearSpeed" config option
     if (a[i].type === 'add' && cfg.sparePieces !== true) {
       $('#' + SQUARE_ELS_IDS[a[i].square])
         .append(buildPiece(a[i].piece, true))
@@ -1060,7 +1061,7 @@ var removeSquareHighlights = function() {
 var snapbackPiece = function() {
   // there is no "snapback" for spare pieces
   if (DRAGGED_PIECE_SOURCE === 'spare') {
-    trashPiece();
+    trashDraggedPiece();
     return;
   }
 
@@ -1087,7 +1088,7 @@ var snapbackPiece = function() {
   DRAGGING_A_PIECE = false;
 };
 
-var trashPiece = function() {
+var trashDraggedPiece = function() {
   removeSquareHighlights();
 
   // remove the source piece
@@ -1226,9 +1227,8 @@ var stopDraggedPiece = function(location) {
     var newPosition = deepCopy(CURRENT_POSITION);
 
     // source piece is a spare piece and position is off the board
-    if (DRAGGED_PIECE_SOURCE === 'spare' && location === 'offboard') {
-      // position has not changed; do nothing
-    }
+    //if (DRAGGED_PIECE_SOURCE === 'spare' && location === 'offboard') {...}
+    // position has not changed; do nothing
 
     // source piece is a spare piece and position is on the board
     if (DRAGGED_PIECE_SOURCE === 'spare' && validSquare(location) === true) {
@@ -1264,7 +1264,7 @@ var stopDraggedPiece = function(location) {
     snapbackPiece();
   }
   else if (action === 'trash') {
-    trashPiece();
+    trashDraggedPiece();
   }
   else if (action === 'drop') {
     dropPieceOnSquare(location);
