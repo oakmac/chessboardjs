@@ -41,9 +41,13 @@ var validPieceCode = function(code) {
 var validFen = function(fen) {
   if (typeof fen !== 'string') return false;
 
+  // cut off any move, castling, etc info from the end
+  // we're only interested in position information
+  fen = fen.replace(/ .+$/, '');
+
   // FEN should be at least 8 sections separated by slashes
   var chunks = fen.split('/');
-  if (chunks.length < 8) return false;
+  if (chunks.length !== 8) return false;
 
   // check the piece sections
   for (var i = 0; i < 8; i++) {
@@ -101,6 +105,10 @@ var fenToObj = function(fen) {
   if (validFen(fen) !== true) {
     return false;
   }
+
+  // cut off any move, castling, etc info from the end
+  // we're only interested in position information
+  fen = fen.replace(/ .+$/, '');
 
   var rows = fen.split('/');
   var position = {};
