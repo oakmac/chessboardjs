@@ -8,7 +8,7 @@ ChessBoardJS is a standalone JavaScript Chess Board. It is designed to be "just 
 
 - Use ChessBoardJS to show game positions alongside your expert commentary.
 - Use ChessBoardJS to have a tactics website where users have to guess the best move.
-- Integrate ChessBoard and [chess.js](https://github.com/jhlywa/chess.js) with a PGN database and allow people to search and playback games.
+- Integrate ChessBoard and [chess.js](https://github.com/jhlywa/chess.js) with a PGN database and allow people to search and playback games (see [Example 5000](http://chessboardjs.com/examples#5000))
 - Build a chess server and have users play their games out using the ChessBoardJS board.
 
 ChessBoardJS is flexible enough to handle any of these situations with relative ease.
