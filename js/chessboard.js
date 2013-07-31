@@ -1123,6 +1123,12 @@ var dropDraggedPieceOnSquare = function(square) {
   var complete = function() {
     drawPositionInstant();
     draggedPieceEl.css('display', 'none');
+
+    // execute their onSnapEnd function
+    if (cfg.hasOwnProperty('onSnapEnd') === true &&
+      typeof cfg.onSnapEnd === 'function') {
+      cfg.onSnapEnd(DRAGGED_PIECE_SOURCE, square, DRAGGED_PIECE);
+    }
   };
 
   // snap the piece to the target square
@@ -1324,9 +1330,17 @@ widget.move = function() {
   // no need to throw an error here; just do nothing
   if (arguments.length === 0) return;
 
+  var useAnimation = true;
+
   // collect the moves into an object
   var moves = {};
   for (var i = 0; i < arguments.length; i++) {
+    // any "false" to this function means no animations
+    if (arguments[i] === false) {
+      useAnimation = false;
+      continue;
+    }
+
     // skip invalid arguments
     if (validMove(arguments[i]) !== true) {
       error(2826, 'Invalid move passed to the move method.', arguments[i]);
@@ -1341,7 +1355,7 @@ widget.move = function() {
   var newPos = calculatePositionFromMoves(CURRENT_POSITION, moves);
 
   // update the board
-  widget.position(newPos);
+  widget.position(newPos, useAnimation);
 
   // return the new position object
   return newPos;
