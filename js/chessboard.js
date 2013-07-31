@@ -38,6 +38,7 @@ var validPieceCode = function(code) {
   return (code.search(/^[bw][KQRNBP]$/) !== -1);
 };
 
+// TODO: this whole function could probably be replaced with a single regex
 var validFen = function(fen) {
   if (typeof fen !== 'string') return false;
 
@@ -45,7 +46,7 @@ var validFen = function(fen) {
   // we're only interested in position information
   fen = fen.replace(/ .+$/, '');
 
-  // FEN should be at least 8 sections separated by slashes
+  // FEN should be 8 sections separated by slashes
   var chunks = fen.split('/');
   if (chunks.length !== 8) return false;
 
@@ -395,7 +396,7 @@ var validAnimationSpeed = function(speed) {
     return false;
   }
 
-  return (speed > 0);
+  return (speed >= 0);
 };
 
 // validate config / set default options
@@ -1058,7 +1059,7 @@ var removeSquareHighlights = function() {
     .removeClass(CSS.highlight1 + ' ' + CSS.highlight2);
 };
 
-var snapbackPiece = function() {
+var snapbackDraggedPiece = function() {
   // there is no "snapback" for spare pieces
   if (DRAGGED_PIECE_SOURCE === 'spare') {
     trashDraggedPiece();
@@ -1106,7 +1107,7 @@ var trashDraggedPiece = function() {
   DRAGGING_A_PIECE = false;
 };
 
-var dropPieceOnSquare = function(square) {
+var dropDraggedPieceOnSquare = function(square) {
   removeSquareHighlights();
 
   // update position
@@ -1261,13 +1262,13 @@ var stopDraggedPiece = function(location) {
 
   // do it!
   if (action === 'snapback') {
-    snapbackPiece();
+    snapbackDraggedPiece();
   }
   else if (action === 'trash') {
     trashDraggedPiece();
   }
   else if (action === 'drop') {
-    dropPieceOnSquare(location);
+    dropDraggedPieceOnSquare(location);
   }
 };
 
