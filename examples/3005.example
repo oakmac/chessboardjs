@@ -13,7 +13,7 @@ Use the <a href="docs#methods:orientation"><code class="js plain">orientation</c
 
 
 === JS
-var ruyLopez = '2bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R/w';
+var ruyLopez = '2bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R';
 var board = new ChessBoard('board', ruyLopez);
 
 $('#showOrientationBtn').on('click', function() {
