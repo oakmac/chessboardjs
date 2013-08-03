@@ -18,14 +18,9 @@ var board,
   fenEl = $('#fen'),
   pgnEl = $('#pgn');
 
-// do not pick up pieces if the game is over
-// only pick up pieces for the side to move
+// only pick up pieces which have valid moves
 var onDragStart = function(source, piece, position, orientation) {
-  if (game.in_checkmate() === true || game.in_draw() === true ||
-      (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-      (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-    return false;
-  }
+  return game.moves({square: source}).length > 0;
 };
 
 var onDrop = function(source, target) {
