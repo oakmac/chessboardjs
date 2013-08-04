@@ -1,0 +1,32 @@
+=== Name
+Random vs Random
+
+=== Description
+Who will win in this riveting game of <code class="js plain">Math.random()</code> vs <code class="js plain">Math.random()</code>?
+
+=== HTML
+<script src="js/chess.js"></script>
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var board,
+  game = new Chess();
+
+var makeRandomMove = function() {
+  var possibleMoves = game.moves();
+
+  // exit if the game is over
+  if (game.game_over() === true ||
+    game.in_draw() === true ||
+    possibleMoves.length === 0) return;
+
+  var randomIndex = Math.floor(Math.random() * possibleMoves.length);
+  game.move(possibleMoves[randomIndex]);
+  board.position(game.fen());
+
+  window.setTimeout(makeRandomMove, 500);
+};
+
+board = new ChessBoard('board', 'start');
+
+window.setTimeout(makeRandomMove, 500);
