@@ -98,6 +98,32 @@
 },
 "------------------------------------------------------------------------------",
 {
+  "name":"onMouseoutSquare",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "Fires when the mouse leaves a square.",
+    "The first argument to the function is the square that was left, the second argument is the piece on that square (or <code class='js keyword'>false</code> if there is no piece), the third argument is the current position of the board, and the fourth argument is the current orientation.",
+    "Note that <code class='js plain'>onMouseoutSquare</code> will <strong>not</strong> fire during piece drag and drop. Use <code class='js plain'><a href='docs#config:onDragMove'>onDragMove</a></code>."
+  ],
+  "examples":[5003]
+},
+"------------------------------------------------------------------------------",
+{
+  "name":"onMouseoverSquare",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "Fires when the mouse enters a square.",
+    "The first argument to the function is the square that was entered, the second argument is the piece on that square (or <code class='js keyword'>false</code> if there is no piece), the third argument is the current position of the board, and the fourth argument is the current orientation.",
+    "Note that <code class='js plain'>onMouseoverSquare</code> will <strong>not</strong> fire during piece drag and drop. Use <code class='js plain'><a href='docs#config:onDragMove'>onDragMove</a></code>."
+  ],
+  "examples":[5003]
+},
+"------------------------------------------------------------------------------",
+{
   "name":"onSnapEnd",
   "type":"Function",
   "req":false,

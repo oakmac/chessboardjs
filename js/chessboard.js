@@ -593,7 +593,8 @@ var buildBoard = function(orientation) {
     for (var j = 0; j < 8; j++) {
       var square = alpha[j] + row;
 
-      html += '<div class="' + CSS.square + ' ' + CSS[squareColor] + '" ' +
+      html += '<div class="' + CSS.square + ' ' + CSS[squareColor] + ' ' +
+        'square-' + square + '" ' +
         'style="width: ' + SQUARE_SIZE + 'px; height: ' + SQUARE_SIZE + 'px" ' +
         'id="' + SQUARE_ELS_IDS[square] + '" ' +
         'data-square="' + square + '">';
@@ -1535,6 +1536,56 @@ var mousemoveWindow = function(e) {
   updateDraggedPiece(e.pageX, e.pageY);
 };
 
+var mouseenterSquare = function(e) {
+  // do not fire this event if we are dragging a piece
+  // NOTE: this should never happen, but it's a safeguard
+  if (DRAGGING_A_PIECE !== false) return;
+
+  if (cfg.hasOwnProperty('onMouseoverSquare') !== true ||
+    typeof cfg.onMouseoverSquare !== 'function') return;
+
+  // get the square
+  var square = $(e.currentTarget).attr('data-square');
+
+  // NOTE: this should never happen; defensive
+  if (validSquare(square) !== true) return;
+  
+  // get the piece on this square
+  var piece = false;
+  if (CURRENT_POSITION.hasOwnProperty(square) === true) {
+    piece = CURRENT_POSITION[square];
+  }
+
+  // execute their function
+  cfg.onMouseoverSquare(square, piece, deepCopy(CURRENT_POSITION),
+    CURRENT_ORIENTATION);
+};
+
+var mouseleaveSquare = function(e) {
+  // do not fire this event if we are dragging a piece
+  // NOTE: this should never happen, but it's a safeguard
+  if (DRAGGING_A_PIECE !== false) return;
+
+  if (cfg.hasOwnProperty('onMouseoutSquare') !== true ||
+    typeof cfg.onMouseoutSquare !== 'function') return;
+
+  // get the square
+  var square = $(e.currentTarget).attr('data-square');
+
+  // NOTE: this should never happen; defensive
+  if (validSquare(square) !== true) return;
+  
+  // get the piece on this square
+  var piece = false;
+  if (CURRENT_POSITION.hasOwnProperty(square) === true) {
+    piece = CURRENT_POSITION[square];
+  }
+
+  // execute their function
+  cfg.onMouseoutSquare(square, piece, deepCopy(CURRENT_POSITION),
+    CURRENT_ORIENTATION);
+};
+
 var touchmoveWindow = function(e) {
   // do nothing if we are not dragging a piece
   if (DRAGGING_A_PIECE !== true) return;
@@ -1579,6 +1630,10 @@ var addEvents = function() {
   boardEl.on('mousedown', 'div.' + CSS.square, mousedownSquare);
   containerEl.on('mousedown', 'div.' + CSS.sparePieces + ' img.' + CSS.piece,
     mousedownSparePiece);
+
+  // mouse enter / leave square
+  boardEl.on('mouseenter', 'div.' + CSS.square, mouseenterSquare);
+  boardEl.on('mouseleave', 'div.' + CSS.square, mouseleaveSquare);
 
   // IE doesn't like the events on the window object, but other browsers
   // perform better that way
