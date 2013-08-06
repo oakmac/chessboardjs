@@ -1,6 +1,20 @@
 [
 "-----------------------------------------------------------------",
 {
+  "version":"0.2.0",
+  "date":"05 Aug 2013",
+  "changes":[
+    "Added onMouseoverSquare and onMouseoutSquare events",
+    "Added onSnapEnd event",
+    "Added square code as CSS class on the squares",
+    "chess.js integration examples"
+  ],
+  "files":[
+    { "name":"chessboardjs-0.2.0.zip", "size":"44.6 KB" }
+  ]
+},
+"-----------------------------------------------------------------",
+{
   "version":"0.1.0",
   "date":"21 Jul 2013",
   "changes":[
