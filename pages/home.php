@@ -31,7 +31,7 @@ $mostRecentVersion = $releases[0]['version'];
 
 <div class="section">
 <h2>Get It</h2>
-<a class="button large radius" href="releases/<?php echo $mostRecentVersion; ?>/chessboard-<?php echo $mostRecentVersion; ?>.zip" style="line-height: 22px">
+<a class="button large radius" href="releases/<?php echo $mostRecentVersion; ?>/chessboardjs-<?php echo $mostRecentVersion; ?>.zip" style="line-height: 22px">
   Download Most Recent Version<br />
   <small style="font-weight: normal; font-size: 12px">v<?php echo $mostRecentVersion; ?></small>
 </a>
