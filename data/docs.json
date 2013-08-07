@@ -144,7 +144,7 @@
   "req":false,
   "default":"<code class='js string'>'white'</code>",
   "desc":[
-    "If provided, sets the orientation of the board."
+    "If provided, sets the initial orientation of the board."
   ],
   "examples":[2001]
 },
@@ -340,9 +340,9 @@
 "------------------------------------------------------------------------------",
 {
   "noId":true,
-  "name":"orientation(arg)",
+  "name":"orientation(side)",
   "args":[
-    ["arg", "<code class='js string'>'white'</code>, <code class='js string'>'black'</code>, or <code class='js string'>'flip'</code>"]
+    ["side", "<code class='js string'>'white'</code>, <code class='js string'>'black'</code>, or <code class='js string'>'flip'</code>"]
   ],
   "desc":[
     "If <code class='js string'>'white'</code> or <code class='js string'>'black'</code>, sets the orientation of the board accordingly.",
@@ -360,10 +360,14 @@
 },
 "------------------------------------------------------------------------------",
 {
-  "name":"start()",
+  "name":"start(useAnimation)",
+  "args": [
+    ["useAnimation", "<code class='js keyword'>false</code> <small>(optional)</small>"]
+  ],
   "desc":[
     "Sets the board to the start position.",
-    "Alias of <a href='docs#methods:position'><code class='js plain'>position(</code><code class='js string'>'start'</code><code class='js plain'>)</code></a>"
+    "If <code class='js plain'>useAnimation</code> is <code class='js keyword'>false</code>, sets the position instantly.",
+    "Alias of <a href='docs#methods:position'><code class='js plain'>position(</code><code class='js string'>'start'</code><code class='js plain'>)</code></a> and <a href='docs#methods:position'><code class='js plain'>position(</code><code class='js string'>'start'</code><code class='js plain'>, </code><code class='js keyword'>false</code><code class='js plain'>)</code></a>"
   ],
   "examples":[3001]
 },
