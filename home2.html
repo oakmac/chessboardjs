@@ -21,7 +21,9 @@
 </div><!-- end #hero -->
 </div><!-- end #heroWrapper -->
 
-<div class="nav-bar body-width">
+<div class="body-width">
+
+<div class="nav-bar">
   <a href=""><span class="piece">&#9823;</span> Getting Started</a>
   <a href="examples"><span class="piece">&#9819;</span> Examples</a>
   <a href="docs"><span class="piece">&#9818;</span> Documentation</a>
@@ -29,18 +31,40 @@
   <div class="clearfix"></div>
 </div>
 
-<div class="body-width">
-<div class="left col">
+<div class="col">
   <h2>As easy as two lines.</h2>
   <h4>HTML</h4>
-  <pre class="prettyprint">&lt;div id="board" style="width: 400px"&gt;&lt;/div&gt;</pre>
+  <pre class="prettyprint">&lt;div id="board1" style="width: 400px"&gt;&lt;/div&gt;</pre>
   <h4>JavaScript</h4>
-  <pre class="prettyprint">var board = new ChessBoard('board', 'start');</pre>  
+  <pre class="prettyprint">var board1 = new ChessBoard('board1', 'start');</pre>  
 </div>
-<div class="right col">
-  <div id="board" style="width: 400px"></div>
+<div class="col">
+  <div id="board1" style="width: 400px"></div>
 </div>
 <div class="clearfix"></div>
+
+<div class="col">
+  <h2>Customize with a powerful API.</h2>
+  <h4>HTML</h4>
+  <pre class="prettyprint">&lt;div id="board2" style="width: 400px"&gt;&lt;/div&gt;
+&lt;input type="button" id="startBtn" value="Start" /&gt;
+&lt;input type="button" id="clearBtn" value="Clear" /&gt;</pre>
+  <h4>JavaScript</h4>
+  <pre class="prettyprint">var board2 = new ChessBoard('board2', {
+  draggable: true,
+  dropOffBoard: 'trash',
+  sparePieces: true
+});
+$('#startBtn').on('click', board2.start);
+$('#clearBtn').on('click', board2.clear);</pre>
+</div>
+<div class="col">
+  <div id="board2" style="width: 400px"></div>
+  <input type="button" id="startBtn" value="Start" />
+  <input type="button" id="clearBtn" value="Clear" />
+</div>
+<div class="clearfix"></div>
+
 </div><!-- end .body-width -->
 
 <script src="js/json3.min.js"></script>
@@ -49,8 +73,17 @@
 <script src="js/chessboard.js"></script>
 <script>
 $(document).ready(function() {
-  var board = new ChessBoard('board', 'start');
   prettyPrint();
+
+  var board1 = new ChessBoard('board1', 'start');
+
+  var board2 = new ChessBoard('board2', {
+    draggable: true,
+    dropOffBoard: 'trash',
+    sparePieces: true
+  });
+  $('#startBtn').on('click', board2.start);
+  $('#clearBtn').on('click', board2.clear);
 
   // prevent "browser drag" of the black king
   $('#hero img').on('mousedown', function(e) { e.preventDefault(); });
