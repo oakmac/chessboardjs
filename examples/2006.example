@@ -13,7 +13,6 @@ Set <a href="docs#config:sparePieces"><code class="js plain">sparePieces</code><
 var board = new ChessBoard('board', {
   draggable: true,
   dropOffBoard: 'trash',
-  position: 'start',
   sparePieces: true
 });
 
