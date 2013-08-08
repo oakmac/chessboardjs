@@ -1,0 +1,218 @@
+/*----------------------------------------------------------------------------*/
+/* prettyPrint
+/*----------------------------------------------------------------------------*/
+.pln {
+  color: #c5c8c6;
+}
+@media screen {
+  .str {
+    color: #b5bd68;
+  }
+  .kwd {
+    color: #b294bb;
+  }
+  .com {
+    color: #969896;
+  }
+  .typ {
+    color: #81a2be;
+  }
+  .lit {
+    color: #de935f;
+  }
+  .pun {
+    color: #c5c8c6;
+  }
+  .opn {
+    color: #c5c8c6;
+  }
+  .clo {
+    color: #c5c8c6;
+  }
+  .tag {
+    color: #cc6666;
+  }
+  .atn {
+    color: #de935f;
+  }
+  .atv {
+    color: #8abeb7;
+  }
+  .dec {
+    color: #de935f;
+  }
+  .var {
+    color: #cc6666;
+  }
+  .fun {
+    color: #81a2be;
+  }
+}
+@media print,projection {
+  .str {
+    color: #060;
+  }
+  .kwd {
+    color: #006;
+    font-weight: bold;
+  }
+  .com {
+    color: #600;
+    font-style: italic;
+  }
+  .typ {
+    color: #404;
+    font-weight: bold;
+  }
+  .lit {
+    color: #044;
+  }
+  .pun,
+  .opn,
+  .clo {
+    color: #440;
+  }
+  .tag {
+    color: #006;
+    font-weight: bold;
+  }
+  .atn {
+    color: #404;
+  }
+  .atv {
+    color: #060;
+  }
+}
+pre.prettyprint {
+  background: #1d1f21;
+  font-family: Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/*----------------------------------------------------------------------------*/
+/* General
+/*----------------------------------------------------------------------------*/
+
+body {
+  font-family: "Open Sans";
+}
+
+.body-width {
+  margin: 0 auto;
+  width: 960px;
+}
+
+.clearfix {
+  clear: both;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Homepage Hero Unit
+/*----------------------------------------------------------------------------*/
+#heroWrapper {
+  background-image: url('../img/board-background.png');
+  background-position: center top;
+}
+
+#hero {
+  height: 420px;
+  margin: 0px auto;
+  padding-top: 118px;
+  text-align: center;
+}
+
+#hero img {
+  display: block;
+  height: 60px;
+  margin: 0 auto;
+  width: 60px;
+}
+
+#hero h1 {
+  color: #fff;
+  font-size: 44px;
+  font-weight: 400;
+  margin: 0;
+  padding-top: 16px;
+}
+
+#hero h3 {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 300;
+  margin: 0;
+  padding-top: 8px;
+}
+
+#hero a {
+  background: #ffdc10;
+  color: #333;
+  display: block;
+  margin: 50px auto 0 auto;
+  padding: 12px 24px;
+  width: 160px;
+  text-decoration: none;
+
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+  border-radius: 6px;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Nav Bar
+/*----------------------------------------------------------------------------*/
+
+.nav-bar {
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+}
+
+.nav-bar a {
+  color: #444;
+  display: block;
+  float: left;
+  font-size: 18px;
+  padding: 20px 0;
+  text-align: center;
+  text-decoration: none;
+  width: 240px;
+}
+
+.nav-bar .piece {
+  visibility: hidden;
+}
+
+.nav-bar a:hover .piece {
+  visibility: visible;
+}
+
+h2 {
+  font-size: 26px;
+  font-weight: 300;
+}
+
+.col {
+  float: left;
+  padding: 40px;
+  width: 400px;
+}
+
+h4 {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+pre.prettyprint {
+  margin: 8px 0 30px 0;
+}
