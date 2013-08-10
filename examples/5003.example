@@ -38,7 +38,6 @@ var onDragStart = function(source, piece) {
 };
 
 var onDrop = function(source, target) {
-  // remove highlights
   removeGreySquares();
 
   // see if the move is legal
@@ -72,7 +71,6 @@ var onMouseoverSquare = function(square, piece) {
 };
 
 var onMouseoutSquare = function(square, piece) {
-  // remove highlights
   removeGreySquares();
 };
 
