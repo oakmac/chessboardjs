@@ -771,17 +771,25 @@ function animateSparePieceToSquare(piece, dest, completeFn) {
 }
 
 // execute an array of animations
-function doAnimations(a) {
+function doAnimations(a, oldPos, newPos) {
   ANIMATION_HAPPENING = true;
 
   var numFinished = 0;
-  var onFinish = function() {
+  function onFinish() {
     numFinished++;
-    if (numFinished === a.length) {
-      drawPositionInstant();
-      ANIMATION_HAPPENING = false;
+    
+    // exit if all the animations aren't finished
+    if (numFinished !== a.length) return;
+
+    drawPositionInstant();
+    ANIMATION_HAPPENING = false;
+
+    // run their onMoveEnd function
+    if (cfg.hasOwnProperty('onMoveEnd') === true &&
+      typeof cfg.onMoveEnd === 'function') {
+      cfg.onMoveEnd(deepCopy(oldPos), deepCopy(newPos));
     }
-  };
+  }
 
   for (var i = 0; i < a.length; i++) {
     // clear a piece
@@ -1417,7 +1425,8 @@ widget.position = function(position, useAnimation) {
 
   if (useAnimation === true) {
     // start the animations
-    doAnimations(calculateAnimations(CURRENT_POSITION, position));
+    doAnimations(calculateAnimations(CURRENT_POSITION, position),
+      CURRENT_POSITION, position);
 
     // set the new position
     setCurrentPosition(position);

@@ -1,0 +1,35 @@
+=== Name
+onMoveEnd
+
+=== Description
+The <a href="docs#config:onMoveEnd"><code class="js plain">onMoveEnd</code></a> event fires at the end of animations when the board position changes.
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+<input type="button" id="startBtn" value="Start Position" />
+<input type="button" id="clearBtn" value="Clear" />
+<input type="button" id="ruyLopezBtn" value="Ruy Lopez" />
+<input type="button" id="moveBtn" value="a2-a4, h7-h5" />
+
+=== JS
+var onMoveEnd = function(oldPos, newPos) {
+  console.log("Move animation complete:");
+  console.log("Old position: " + ChessBoard.objToFen(oldPos));
+  console.log("New position: " + ChessBoard.objToFen(newPos));
+  console.log("--------------------");
+};
+
+var cfg = {
+  position: 'start',
+  onMoveEnd: onMoveEnd
+};
+var board = new ChessBoard('board', cfg);
+
+$('#startBtn').on('click', board.start);
+$('#clearBtn').on('click', board.clear);
+$('#ruyLopezBtn').on('click', function() {
+  board.position('1rbqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R');
+});
+$('#moveBtn').on('click', function() {
+  board.move('a2-a4', 'h7-h5');
+});
