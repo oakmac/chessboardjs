@@ -446,6 +446,10 @@ var expandConfig = function() {
   }
 
   // animation speeds
+  if (cfg.hasOwnProperty('appearSpeed') !== true ||
+      validAnimationSpeed(cfg.appearSpeed) !== true) {
+    cfg.appearSpeed = 200;
+  }  
   if (cfg.hasOwnProperty('moveSpeed') !== true ||
       validAnimationSpeed(cfg.moveSpeed) !== true) {
     cfg.moveSpeed = 200;
@@ -786,13 +790,11 @@ var doAnimations = function(a) {
     }
 
     // add a piece (no spare pieces)
-    // TODO: need to make this speed configurable
-    // GitHub Issue #24: need to add an "appearSpeed" config option
     if (a[i].type === 'add' && cfg.sparePieces !== true) {
       $('#' + SQUARE_ELS_IDS[a[i].square])
         .append(buildPiece(a[i].piece, true))
         .find('img.' + CSS.piece)
-        .fadeIn('fast', onFinish);
+        .fadeIn(cfg.appearSpeed, onFinish);
     }
 
     // add a piece from a spare piece

@@ -202,6 +202,18 @@
 },
 "------------------------------------------------------------------------------",
 {
+  "name":"appearSpeed",
+  "type":["Number","<code class='js string'>'slow'</code>","<code class='js string'>'fast'</code>"],
+  "req":false,
+  "default":"<code class='js number'>200</code>",
+  "desc":[
+    "Animation speed for when pieces appear on a square.",
+    "Note that the \"appear\" animation only occurs when <a href='docs#config:sparePieces'><code class='js plain'>sparePieces</code></a> is <code class='js keyword'>false</code>."
+  ],
+  "examples":[]
+},
+"------------------------------------------------------------------------------",
+{
   "name":"moveSpeed",
   "type":["Number","<code class='js string'>'slow'</code>","<code class='js string'>'fast'</code>"],
   "req":false,
