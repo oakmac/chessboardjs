@@ -8,5 +8,5 @@ Pass a <a href="docs#fen_string">FEN String</a> as the second argument to initia
 <div id="board" style="width: 400px"></div>
 
 === JS
-var ruyLopez = '2bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R';
+var ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R';
 var board = new ChessBoard('board', ruyLopez);
