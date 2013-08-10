@@ -34,7 +34,7 @@ public static function buildTopBar($active_tab) {
 }
 
 public static function getExampleGroups() {
-  $exampleGroups = self::getJSON('example_groups.json');
+  $exampleGroups = self::getJSON('examples.json');
 
   $exampleGroups2 = array();
   foreach ($exampleGroups as $group) {

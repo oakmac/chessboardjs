@@ -124,6 +124,18 @@
 },
 "------------------------------------------------------------------------------",
 {
+  "name":"onSnapbackEnd",
+  "type":"Function",
+  "req":false,
+  "default":false,
+  "desc":[
+    "Fires when the \"snapback\" animation is complete when pieces are dropped off the board.",
+    "The first argument to the function is the dragged piece, the second argument is the square the piece returned to, the third argument is the current position, and the fourth argument is the current orientation."
+  ],
+  "examples":[4011]
+},
+"------------------------------------------------------------------------------",
+{
   "name":"onSnapEnd",
   "type":"Function",
   "req":false,
