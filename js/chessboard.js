@@ -1061,10 +1061,17 @@ function snapbackDraggedPiece() {
   removeSquareHighlights();
 
   // animation complete
-  var complete = function() {
+  function complete() {
     drawPositionInstant();
     draggedPieceEl.css('display', 'none');
-  };
+
+    // run their onSnapbackEnd function
+    if (cfg.hasOwnProperty('onSnapbackEnd') === true &&
+      typeof cfg.onSnapbackEnd === 'function') {
+      cfg.onSnapbackEnd(DRAGGED_PIECE, DRAGGED_PIECE_SOURCE,
+        deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION);
+    }
+  }
 
   // get source square position
   var sourceSquarePosition =

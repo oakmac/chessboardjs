@@ -1,0 +1,24 @@
+=== Name
+onSnapbackEnd
+
+=== Description
+The <a href="docs#config:onSnapbackEnd"><code class="js plain">onSnapbackEnd</code></a> event fires after a piece has snapped back to it's original square.
+
+=== HTML
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var onSnapbackEnd = function(piece, square, position, orientation) {
+  console.log("Piece: " + piece);
+  console.log("Square: " + square);
+  console.log("Position: " + ChessBoard.objToFen(position));
+  console.log("Orientation: " + orientation);
+  console.log("--------------------");
+};
+
+var cfg = {
+  draggable: true,
+  position: 'start',
+  onSnapbackEnd: onSnapbackEnd
+};
+var board = new ChessBoard('board', cfg);
