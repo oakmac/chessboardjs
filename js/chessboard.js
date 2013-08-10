@@ -449,7 +449,7 @@ function expandConfig() {
   if (cfg.hasOwnProperty('appearSpeed') !== true ||
       validAnimationSpeed(cfg.appearSpeed) !== true) {
     cfg.appearSpeed = 200;
-  }  
+  }
   if (cfg.hasOwnProperty('moveSpeed') !== true ||
       validAnimationSpeed(cfg.moveSpeed) !== true) {
     cfg.moveSpeed = 200;
@@ -777,7 +777,7 @@ function doAnimations(a, oldPos, newPos) {
   var numFinished = 0;
   function onFinish() {
     numFinished++;
-    
+
     // exit if all the animations aren't finished
     if (numFinished !== a.length) return;
 
@@ -1588,7 +1588,7 @@ function mouseenterSquare(e) {
 
   // NOTE: this should never happen; defensive
   if (validSquare(square) !== true) return;
-  
+
   // get the piece on this square
   var piece = false;
   if (CURRENT_POSITION.hasOwnProperty(square) === true) {
@@ -1613,7 +1613,7 @@ function mouseleaveSquare(e) {
 
   // NOTE: this should never happen; defensive
   if (validSquare(square) !== true) return;
-  
+
   // get the piece on this square
   var piece = false;
   if (CURRENT_POSITION.hasOwnProperty(square) === true) {
