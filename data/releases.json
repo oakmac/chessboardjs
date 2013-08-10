@@ -6,7 +6,8 @@
   "date":"05 Aug 2013",
   "changes":[
     "Added appearSpeed animation config",
-    "Added onSnapbackEnd event"
+    "Added onSnapbackEnd event",
+    "Added onMoveEnd event"
   ],
   "files":[
     { "name":"chessboardjs-0.3.0.zip", "size":"44.6 KB" }

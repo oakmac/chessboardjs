@@ -1,0 +1,74 @@
+=== Name
+Piece Highlighting
+
+=== Description
+Use CSS to show piece highlighting.
+
+=== HTML
+<style type="text/css">
+.highlight-white {
+  -webkit-box-shadow: inset 0 0 3px 3px yellow;
+  -moz-box-shadow: inset 0 0 3px 3px yellow;
+  box-shadow: inset 0 0 3px 3px yellow;  
+}
+.highlight-black {
+  -webkit-box-shadow: inset 0 0 3px 3px blue;
+  -moz-box-shadow: inset 0 0 3px 3px blue;
+  box-shadow: inset 0 0 3px 3px blue;  
+}
+</style>
+<script src="js/chess.js"></script>
+<div id="board" style="width: 400px"></div>
+
+=== JS
+var board,
+  boardEl = $('#board'),
+  game = new Chess(),
+  squareClass = 'square-55d63',
+  squareToHighlight,
+  colorToHighlight;
+
+var makeRandomMove = function() {
+  var possibleMoves = game.moves({
+    verbose: true
+  });
+
+  // exit if the game is over
+  if (game.game_over() === true ||
+    game.in_draw() === true ||
+    possibleMoves.length === 0) return;
+
+  var randomIndex = Math.floor(Math.random() * possibleMoves.length);
+  var move = possibleMoves[randomIndex];
+
+  if (move.color === 'w') {
+    boardEl.find('.' + squareClass).removeClass('highlight-white');
+    boardEl.find('.square-' + move.from).addClass('highlight-white');
+    squareToHighlight = move.to;
+    colorToHighlight = 'white';
+  }
+  else {
+    boardEl.find('.square-55d63').removeClass('highlight-black');
+    boardEl.find('.square-' + move.from).addClass('highlight-black');
+    squareToHighlight = move.to;
+    colorToHighlight = 'black';    
+  }
+
+  game.move(possibleMoves[randomIndex].san);
+  board.position(game.fen());
+
+  window.setTimeout(makeRandomMove, 1200);
+};
+
+var onMoveEnd = function() {
+  boardEl.find('.square-' + squareToHighlight)
+    .addClass('highlight-' + colorToHighlight);
+};
+
+var cfg = {
+  position: 'start',
+  onMoveEnd: onMoveEnd
+};
+board = new ChessBoard('board', cfg);
+
+window.setTimeout(makeRandomMove, 500);
