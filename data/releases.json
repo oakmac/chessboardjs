@@ -1,9 +1,8 @@
 [
 "-----------------------------------------------------------------",
 {
-  "released":false,
   "version":"0.3.0",
-  "date":"05 Aug 2013",
+  "date":"10 Aug 2013",
   "changes":[
     "Added appearSpeed animation config",
     "Added onSnapbackEnd event",
