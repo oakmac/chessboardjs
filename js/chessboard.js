@@ -1294,17 +1294,6 @@ widget.clear = function(useAnimation) {
   widget.position({}, useAnimation);
 };
 
-/*
-// get or set config properties
-// TODO: write this, GitHub Issue #1
-widget.config = function(arg1, arg2) {
-  // get the current config
-  if (arguments.length === 0) {
-    return deepCopy(cfg);
-  }
-};
-*/
-
 // remove the widget from the page
 widget.destroy = function() {
   // remove markup
@@ -1669,7 +1658,7 @@ function addEvents() {
 function initDom() {
   // create unique IDs for all the elements we will create
   createElIds();
-  
+
   // build board and save it in memory
   containerEl.html(buildBoardContainer());
   boardEl = containerEl.find('.' + CSS.board);
