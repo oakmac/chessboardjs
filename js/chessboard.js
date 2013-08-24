@@ -186,7 +186,6 @@ function objToFen(obj) {
 }
 
 window['ChessBoard'] = window['ChessBoard'] || function(containerElOrId, cfg) {
-'use strict';
 
 cfg = cfg || {};
 
@@ -200,6 +199,7 @@ var MINIMUM_JQUERY_VERSION = '1.7.0',
 
 // use unique class names to prevent clashing with anything else on the page
 // and simplify selectors
+// NOTE: these should never change
 var CSS = {
   alpha: 'alpha-d2270',
   black: 'black-3c85d',
@@ -1667,6 +1667,9 @@ function addEvents() {
 }
 
 function initDom() {
+  // create unique IDs for all the elements we will create
+  createElIds();
+  
   // build board and save it in memory
   containerEl.html(buildBoardContainer());
   boardEl = containerEl.find('.' + CSS.board);
@@ -1691,9 +1694,6 @@ function initDom() {
 function init() {
   if (checkDeps() !== true ||
       expandConfig() !== true) return;
-
-  // create unique IDs for all the elements we will create
-  createElIds();
 
   initDom();
   addEvents();
