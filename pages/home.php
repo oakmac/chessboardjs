@@ -1,41 +1,89 @@
-<?php
-$page_title = 'Home';
-$active_nav_tab = 'Home';
-include(APP_PATH . 'pages/header.php');
-$releases = ChessBoard::getReleases();
-$mostRecentVersion = $releases[0]['version'];
-?>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>chessboard.js &raquo; Home</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/normalize-2.1.2.min.css" />
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" />
+  <link rel="stylesheet" href="css/site2.css" />
+  <link rel="stylesheet" href="css/chessboard.css" />
+</head>
+<body>
 
-<h1>ChessBoardJS is a JavaScript Chess Board Widget</h1>
+<div id="heroWrapper">
+<div id="hero" class="body-width">
+  <img src="img/chesspieces/wikipedia/bK.png" alt="Black King" />
+  <h1>chessboard.js</h1>
+  <h3>The easiest way to embed a chess board on your site.</h3>
+  <a href="releases/0.3.0/chessboardjs-0.3.0.zip">Download v0.3.0</a>
+</div><!-- end #hero -->
+</div><!-- end #heroWrapper -->
 
-<hr />
+<div class="nav-bar body-width" id="start">
+  <a href="#start"><span class="piece">&#9823;</span> Getting Started</a>
+  <a href="examples"><span class="piece">&#9819;</span> Examples</a>
+  <a href="docs"><span class="piece">&#9820;</span> Documentation</a>
+  <a href="download"><span class="piece">&#9822;</span> Download</a>
+  <div class="clearfix"></div>
+</div>
 
-<div class="section">
-<h2>Usage</h2>
+<div class="vertical-bar"></div>
 
-<div style="float: left; width: 400px">
+<div class="body-width">
+
+<div class="col">
+  <h2>As easy as two lines.</h2>
   <h4>HTML</h4>
-  <pre class="prettyprint">&lt;div id="board" style="width: 400px"&gt;&lt;/div&gt;</pre>
+  <pre class="prettyprint">&lt;div id="board1" style="width: 400px"&gt;&lt;/div&gt;</pre>
   <h4>JavaScript</h4>
-  <pre class="prettyprint">var board = new ChessBoard('board', 'start');</pre>  
+  <pre class="prettyprint">var board1 = new ChessBoard('board1', 'start');</pre>  
 </div>
-<div style="float: right; margin-right: 60px">
-  <h4>Result:</h4>
-  <div id="board" style="width: 400px;"></div>
+<div class="col">
+  <div id="board1" style="width: 400px"></div>
 </div>
-<div style="clear:both"></div>
+<div class="clearfix"></div>
 
-</div><!-- end .section -->
-
-<hr />
-
-<div class="section">
-<h2>Get It</h2>
-<a class="button large radius" href="releases/<?php echo $mostRecentVersion; ?>/chessboardjs-<?php echo $mostRecentVersion; ?>.zip" style="line-height: 22px">
-  Download Most Recent Version<br />
-  <small style="font-weight: normal; font-size: 12px">v<?php echo $mostRecentVersion; ?></small>
-</a>
+<div class="col">
+  <h2>Customize with a powerful API.</h2>
+  <h4>HTML</h4>
+  <pre class="prettyprint">&lt;div id="board2" style="width: 400px"&gt;&lt;/div&gt;
+&lt;input type="button" id="startBtn" value="Start" /&gt;
+&lt;input type="button" id="clearBtn" value="Clear" /&gt;</pre>
+  <h4>JavaScript</h4>
+  <pre class="prettyprint">var board2 = new ChessBoard('board2', {
+  draggable: true,
+  dropOffBoard: 'trash',
+  sparePieces: true
+});
+$('#startBtn').on('click', board2.start);
+$('#clearBtn').on('click', board2.clear);</pre>
 </div>
+<div class="col">
+  <div id="board2" style="width: 400px"></div>
+  <input type="button" id="startBtn" value="Start" />
+  <input type="button" id="clearBtn" value="Clear" />
+</div>
+<div class="clearfix"></div>
+
+</div><!-- end .body-width -->
+
+<div id="footerWrapper">
+  <div class="body-width">
+    <div class="left-col">
+      <p>chessboard.js is released under the <a href="https://github.com/oakmac/chessboardjs/blob/master/LICENSE">MIT License</a></p>
+      <p>the code can be found on <a href="https://github.com/oakmac/chessboardjs/">GitHub</a></p>
+    </div>
+    <div class="right-col">
+      <a href="">Home</a>
+      <a href="examples">Examples</a>
+      <a href="docs">Docs</a>
+      <a href="download">Download</a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div><!-- end #footerWrapper -->
 
 <script src="js/json3.min.js"></script>
 <script src="js/jquery-1.10.1.min.js"></script>
@@ -43,11 +91,21 @@ $mostRecentVersion = $releases[0]['version'];
 <script src="js/chessboard.js"></script>
 <script>
 $(document).ready(function() {
-  var board = new ChessBoard('board', 'start');
   prettyPrint();
+
+  var board1 = new ChessBoard('board1', 'start');
+
+  var board2 = new ChessBoard('board2', {
+    draggable: true,
+    dropOffBoard: 'trash',
+    sparePieces: true
+  });
+  $('#startBtn').on('click', board2.start);
+  $('#clearBtn').on('click', board2.clear);
+
+  // prevent "browser drag" of the black king
+  $('#hero img').on('mousedown', function(e) { e.preventDefault(); });
 });
 </script>
-
-<?php
-include(APP_PATH . 'pages/footer.php');
-?>
+</body>
+</html>

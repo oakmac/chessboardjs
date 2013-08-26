@@ -1,5 +1,5 @@
 === Name
-Initialize Board from FEN
+FEN String
 
 === Description
 Pass a <a href="docs#fen_string">FEN String</a> as the second argument to initialize the board to a specific position.

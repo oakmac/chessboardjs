@@ -1,5 +1,5 @@
 === Name
-Initialize Board from Object
+Position Object
 
 === Description
 Pass a <a href="docs#position_object">Position Object</a> as the second argument to initialize the board to a specific position.

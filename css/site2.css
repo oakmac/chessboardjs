@@ -113,8 +113,122 @@ body {
   clear: both;
 }
 
+.vertical-bar {
+  border-top: 1px solid #efefef;
+}
+
+h2 {
+  font-size: 26px;
+  font-weight: 300;
+}
+
+h4 {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+pre.prettyprint {
+  margin: 8px 0 30px 0;
+}
+
 /*----------------------------------------------------------------------------*/
-/* Homepage Hero Unit
+/* Header
+/*----------------------------------------------------------------------------*/
+
+#topBar {
+  background-image: url('../img/board-background.png');
+  background-position: center top;
+  height: 35px;
+}
+
+#headerWrapper {
+  padding: 20px 0;
+}
+
+#headerWrapper .left-col {
+  float: left;
+  width: 300px;
+}
+
+#homeLink {
+  color: #444;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#homeLink .piece {
+  font-weight: normal;
+}
+
+#headerWrapper .right-col {
+  float: right;
+  text-align: right;
+  width: 600px;
+}
+
+#headerWrapper .nav-link {
+  display: block;
+  color: #444;
+  float: right;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  width: 140px;
+}
+
+#headerWrapper .nav-link .piece {
+  visibility: hidden;
+}
+
+#headerWrapper .nav-link:hover .piece {
+  visibility: visible;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Footer
+/*----------------------------------------------------------------------------*/
+
+#footerWrapper {
+  background: #333;
+  color: #999;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  padding: 15px 0 30px 0;
+}
+
+#footerWrapper p {
+  margin: 0 0 8px 0;
+}
+
+#footerWrapper a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#footerWrapper a:hover {
+  text-decoration: underline;
+}
+
+#footerWrapper .left-col {
+  float: left;
+  width: 400px;
+}
+
+#footerWrapper .right-col {
+  float: right;
+  text-align: right;
+  width: 400px;
+}
+
+#footerWrapper .right-col a {
+  padding: 0px 8px;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Homepage
 /*----------------------------------------------------------------------------*/
 #heroWrapper {
   background-image: url('../img/board-background.png');
@@ -167,15 +281,6 @@ body {
   border-radius: 6px;
 }
 
-/*----------------------------------------------------------------------------*/
-/* Nav Bar
-/*----------------------------------------------------------------------------*/
-
-.nav-bar {
-  border-top: 1px solid #efefef;
-  border-bottom: 1px solid #efefef;
-}
-
 .nav-bar a {
   color: #444;
   display: block;
@@ -195,24 +300,77 @@ body {
   visibility: visible;
 }
 
-h2 {
-  font-size: 26px;
-  font-weight: 300;
-}
-
 .col {
   float: left;
   padding: 40px;
   width: 400px;
 }
 
-h4 {
-  font-size: 14px;
-  font-weight: 400;
-  margin: 0;
-  text-transform: uppercase;
+/*----------------------------------------------------------------------------*/
+/* Examples
+/*----------------------------------------------------------------------------*/
+
+#examplesListContainer {
+  float: left;
+  padding: 40px 0;
+  width: 205px;
 }
 
-pre.prettyprint {
-  margin: 8px 0 30px 0;
+#examplesListContainer h4 {
+  background: #f2f2f2;
+  border-top: 1px solid #e6e6e6;
+  border-right: 1px solid #e6e6e6;
+  border-left: 3px solid #ccc;
+  color: #555;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0px;
+  padding: 15px 20px;
+  text-transform: none;
+}
+
+#examplesListContainer h4.active {
+  background: #4d4d4d;
+  border-top: 1px solid #1a1a1a;
+  border-right: 1px solid #1a1a1a;
+  border-left: 4px solid #1a1a1a;
+  color: #fff;
+  font-weight: bold;
+}
+
+#examplesListContainer .group-container {
+  border-left: 3px solid #eee;
+  border-right: 1px solid #eee;
+  margin-bottom: 0px;
+  padding: 10px 0px;
+}
+
+#examplesListContainer .example-link {
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  list-style: none;
+  padding: 5px 0px 5px 15px;
+}
+
+#examplesListContainer .active {
+  color: #222;
+  font-weight: bold;
+}
+
+#examplesBodyWrapper {
+  float: right;
+  font-size: 14px;
+  padding: 40px 0;
+  width: 665px;
+}
+
+#exampleName {
+  margin: 0;
+  font-size: 38px;
+}
+
+#exampleHtmlContainer {
+  margin-bottom: 40px;
 }

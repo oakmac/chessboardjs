@@ -1,5 +1,5 @@
 === Name
-Initialize Empty Board
+Empty Board
 
 === Description
 ChessBoard initializes to an empty board with no second argument.

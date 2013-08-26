@@ -1,5 +1,5 @@
 === Name
-Initialize Board to Start Position
+Start Position
 
 === Description
 Pass <code class="js string">'start'</code> as the second argument to initialize the board to the start position.
