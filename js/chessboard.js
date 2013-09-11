@@ -970,6 +970,7 @@ function drawPositionInstant() {
   // add the pieces
   for (var i in CURRENT_POSITION) {
     if (CURRENT_POSITION.hasOwnProperty(i) !== true) continue;
+	if (DRAGGING_A_PIECE && DRAGGED_PIECE_SOURCE == i) continue;
 
     $('#' + SQUARE_ELS_IDS[i]).append(buildPiece(CURRENT_POSITION[i]));
   }
