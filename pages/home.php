@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>chessboard.js &raquo; Home</title>
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=980px, initial-scale=1">
   <link rel="stylesheet" href="css/normalize-2.1.2.min.css" />
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" />
   <link rel="stylesheet" href="css/site2.css" />
