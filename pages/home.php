@@ -21,7 +21,7 @@
 </div><!-- end #hero -->
 </div><!-- end #heroWrapper -->
 
-<div class="nav-bar body-width" id="start">
+<div class="nav-bar body-width hover-effect" id="start">
   <a href="#start"><span class="piece">&#9823;</span> Getting Started</a>
   <a href="examples"><span class="piece">&#9819;</span> Examples</a>
   <a href="docs"><span class="piece">&#9820;</span> Documentation</a>
@@ -90,11 +90,17 @@ $('#clearBtn').on('click', board2.clear);</pre>
 <script src="js/prettify.js"></script>
 <script src="js/chessboard.js"></script>
 <script>
+function isTouchDevice() {
+  return ('ontouchstart' in document.documentElement);
+}
+
 $(document).ready(function() {
   prettyPrint();
 
+  // example 1
   var board1 = new ChessBoard('board1', 'start');
 
+  // example 2
   var board2 = new ChessBoard('board2', {
     draggable: true,
     dropOffBoard: 'trash',
@@ -105,6 +111,11 @@ $(document).ready(function() {
 
   // prevent "browser drag" of the black king
   $('#hero img').on('mousedown', function(e) { e.preventDefault(); });
+
+  // prevent hover problems on touch devices
+  if (isTouchDevice() === true) {
+    $('#start').removeClass('hover-effect');
+  }
 });
 </script>
 </body>

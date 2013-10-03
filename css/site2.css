@@ -296,7 +296,7 @@ pre.prettyprint {
   visibility: hidden;
 }
 
-.nav-bar a:hover .piece {
+.hover-effect a:hover .piece {
   visibility: visible;
 }
 
