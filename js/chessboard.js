@@ -1628,8 +1628,8 @@ function addEvents() {
     mousedownSparePiece);
 
   // mouse enter / leave square
-  boardEl.on('mouseenter', '.' + CSS.square, mouseenterSquare);
-  boardEl.on('mouseleave', '.' + CSS.square, mouseleaveSquare);
+  boardEl.on('mouseenter', '.' + CSS.square, mouseenterSquare)
+    .on('mouseleave', '.' + CSS.square, mouseleaveSquare);
 
   // IE doesn't like the events on the window object, but other browsers
   // perform better that way
@@ -1637,12 +1637,12 @@ function addEvents() {
     // IE-specific prevent browser "image drag"
     document.ondragstart = function() { return false; };
 
-    $('body').on('mousemove', mousemoveWindow);
-    $('body').on('mouseup', mouseupWindow);
+    $('body').on('mousemove', mousemoveWindow)
+      .on('mouseup', mouseupWindow);
   }
   else {
-    $(window).on('mousemove', mousemoveWindow);
-    $(window).on('mouseup', mouseupWindow);
+    $(window).on('mousemove', mousemoveWindow)
+      .on('mouseup', mouseupWindow);
   }
 
   // touch drag pieces
@@ -1650,8 +1650,8 @@ function addEvents() {
     boardEl.on('touchstart', '.' + CSS.square, touchstartSquare);
     containerEl.on('touchstart', '.' + CSS.sparePieces + ' .' + CSS.piece,
       touchstartSparePiece);
-    $(window).on('touchmove', touchmoveWindow);
-    $(window).on('touchend', touchendWindow);
+    $(window).on('touchmove', touchmoveWindow)
+      .on('touchend', touchendWindow);
   }
 }
 
