@@ -1311,7 +1311,7 @@ widget.fen = function() {
 
 // flip orientation
 widget.flip = function() {
-  widget.orientation('flip');
+  return widget.orientation('flip');
 };
 
 /*
@@ -1367,14 +1367,14 @@ widget.orientation = function(arg) {
   if (arg === 'white' || arg === 'black') {
     CURRENT_ORIENTATION = arg;
     drawBoard();
-    return;
+    return CURRENT_ORIENTATION;
   }
 
   // flip orientation
   if (arg === 'flip') {
     CURRENT_ORIENTATION = (CURRENT_ORIENTATION === 'white') ? 'black' : 'white';
     drawBoard();
-    return;
+    return CURRENT_ORIENTATION;
   }
 
   error(5482, 'Invalid value passed to the orientation method.', arg);
