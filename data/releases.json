@@ -1,6 +1,18 @@
 [
 "-----------------------------------------------------------------",
 {
+  "released":false,
+  "version":"0.3.1",
+  "date":"10 Aug 2013",
+  "changes":[
+    "Orientation methods now return current orientation (GitHub Issue #64)"
+  ],
+  "files":[
+    { "name":"chessboardjs-0.3.1.zip", "size":"44.6 KB" }
+  ]
+},
+"-----------------------------------------------------------------",
+{
   "version":"0.3.0",
   "date":"10 Aug 2013",
   "changes":[
