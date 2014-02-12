@@ -254,8 +254,8 @@ var ANIMATION_HAPPENING = false,
 // JS Util Functions
 //------------------------------------------------------------------------------
 
-// http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
-function createId() {
+// http://tinyurl.com/3ttloxj
+function uuid() {
   return 'xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/x/g, function(c) {
     var r = Math.random() * 16 | 0;
     return r.toString(16);
@@ -522,7 +522,7 @@ function createElIds() {
   for (var i = 0; i < COLUMNS.length; i++) {
     for (var j = 1; j <= 8; j++) {
       var square = COLUMNS[i] + j;
-      SQUARE_ELS_IDS[square] = square + '-' + createId();
+      SQUARE_ELS_IDS[square] = square + '-' + uuid();
     }
   }
 
@@ -531,8 +531,8 @@ function createElIds() {
   for (var i = 0; i < pieces.length; i++) {
     var whitePiece = 'w' + pieces[i];
     var blackPiece = 'b' + pieces[i];
-    SPARE_PIECE_ELS_IDS[whitePiece] = whitePiece + '-' + createId();
-    SPARE_PIECE_ELS_IDS[blackPiece] = blackPiece + '-' + createId();
+    SPARE_PIECE_ELS_IDS[whitePiece] = whitePiece + '-' + uuid();
+    SPARE_PIECE_ELS_IDS[blackPiece] = blackPiece + '-' + uuid();
   }
 }
 
@@ -696,7 +696,7 @@ function animateSquareToSquare(src, dest, piece, completeFn) {
 
   // create the animated piece and absolutely position it
   // over the source square
-  var animatedPieceId = createId();
+  var animatedPieceId = uuid();
   $('body').append(buildPiece(piece, true, animatedPieceId));
   var animatedPieceEl = $('#' + animatedPieceId);
   animatedPieceEl.css({
@@ -737,7 +737,7 @@ function animateSparePieceToSquare(piece, dest, completeFn) {
   var destOffset = destSquareEl.offset();
 
   // create the animate piece
-  var pieceId = createId();
+  var pieceId = uuid();
   $('body').append(buildPiece(piece, true, pieceId));
   var animatedPieceEl = $('#' + pieceId);
   animatedPieceEl.css({
@@ -1669,7 +1669,7 @@ function initDom() {
   }
 
   // create the drag piece
-  var draggedPieceId = createId();
+  var draggedPieceId = uuid();
   $('body').append(buildPiece('wP', true, draggedPieceId));
   draggedPieceEl = $('#' + draggedPieceId);
 
