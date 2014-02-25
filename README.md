@@ -22,7 +22,7 @@ Here is a list of things that chessboard.js is **not**:
 - A legal move validator
 - A PGN parser
 
-chessboard.js is designed to work well with any of those things, but the idea behind chessboard.js is that the logic that controls the board should be indepenent of those other problems.
+chessboard.js is designed to work well with any of those things, but the idea behind chessboard.js is that the logic that controls the board should be independent of those other problems.
 
 Docs and Examples
 --------------------------------------
