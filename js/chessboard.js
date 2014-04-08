@@ -772,6 +772,10 @@ function animateSparePieceToSquare(piece, dest, completeFn) {
 
 // execute an array of animations
 function doAnimations(a, oldPos, newPos) {
+  if (a.length == 0) {
+    return;
+  }
+
   ANIMATION_HAPPENING = true;
 
   var numFinished = 0;
