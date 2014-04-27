@@ -495,9 +495,9 @@ function expandConfig() {
 
 // calculates square size based on the width of the container
 // got a little CSS black magic here, so let me explain:
-// get the width of the container element (could be anything), reduce by 1 for
-// fudge factor, and then keep reducing until we find an exact mod 8 for
-// our square size
+// get the width of the container element (could be anything), reduce by border
+// size, and then keep reducing until we find an exact mod 8 for our square
+// size
 function calculateSquareSize() {
   var containerWidth = parseInt(containerEl.css('width'), 10);
 
@@ -507,7 +507,7 @@ function calculateSquareSize() {
   }
 
   // pad one pixel
-  var boardWidth = containerWidth - 1;
+  var boardWidth = containerWidth - BOARD_BORDER_SIZE * 2;
 
   while (boardWidth % 8 !== 0 && boardWidth > 0) {
     boardWidth--;
