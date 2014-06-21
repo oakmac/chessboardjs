@@ -1341,6 +1341,11 @@ widget.move = function() {
       continue;
     }
 
+    // Allow user to input something like this: c5-c6# or even Bc6-Bd5+
+    var move = arguments[i].split('-');
+    move.forEach(function(s, index) { if (s.length === 3) move[index] = s.substr(1); else if (s.length === 4) move[index] = s.substr(1, 2); });
+    arguments[i] = move.join('-');
+
     // skip invalid arguments
     if (validMove(arguments[i]) !== true) {
       error(2826, 'Invalid move passed to the move method.', arguments[i]);
