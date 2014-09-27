@@ -9,7 +9,7 @@
  */
 
 // start anonymous scope
-;(function() {
+;var Chessboard = (function() {
 'use strict';
 
 //------------------------------------------------------------------------------
@@ -1705,3 +1705,6 @@ window.ChessBoard.fenToObj = fenToObj;
 window.ChessBoard.objToFen = objToFen;
 
 })(); // end anonymous wrapper
+
+// Support for RequireJS enviroenments
+if (typeof define !== 'undefined') define(function () { return Chessboard; });
