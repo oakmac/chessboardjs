@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>chessboard.js &raquo; Home</title>
   <meta name="viewport" content="width=980px, initial-scale=1">
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="css/normalize-2.1.2.min.css" />
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" />
   <link rel="stylesheet" href="css/site2.css" />

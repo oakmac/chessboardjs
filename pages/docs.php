@@ -119,6 +119,8 @@ var clickAnchor = function(e) {
 var init = function() {
   $('body').on('click', 'a', clickAnchor);
 
+  window.location.hash = window.location.hash.replace('%3a', ':');
+
   // give it just a smidge more time to load
   setTimeout(function() {
     if (isRow(window.location.hash) === true) {
