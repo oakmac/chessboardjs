@@ -975,7 +975,8 @@ function drawPositionInstant() {
   for (var i in CURRENT_POSITION) {
     if (CURRENT_POSITION.hasOwnProperty(i) !== true) continue;
 
-    $('#' + SQUARE_ELS_IDS[i]).append(buildPiece(CURRENT_POSITION[i]));
+    if(!DRAGGING_A_PIECE || i !== DRAGGED_PIECE_SOURCE)
+      $('#' + SQUARE_ELS_IDS[i]).append(buildPiece(CURRENT_POSITION[i]));
   }
 }
 
