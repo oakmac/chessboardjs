@@ -16,9 +16,9 @@
   :source-paths ["src"]
 
   :clean-targets [
-    "out"
-    "public/js/cheatsheet.js"
-    "public/js/cheatsheet.min.js"]
+    "public/js/chessboard-dev.js"
+    "public/js/chessboard-release.js"
+    "target"]
 
   :cljsbuild {
     :builds {
@@ -31,7 +31,7 @@
       :release {
         :source-paths ["src-cljs"]
         :compiler {
-          :output-to "public/js/cheatsheet-release.js"
+          :output-to "public/js/chessboard-release.js"
           :optimizations :advanced
           :pretty-print false }}
 

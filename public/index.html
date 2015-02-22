@@ -12,10 +12,11 @@
   </style>
 </head>
 <body>
-<div id="board"></div>
+<div id="myBoard"></div>
 <script src="js/chessboard-dev.js"></script>
 <script>
-var board = ChessBoard('board');
+var board = ChessBoard('myBoard');
+setTimeout( board.flip, 500 );
 </script>
 </body>
 </html>
