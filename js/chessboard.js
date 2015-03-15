@@ -54,7 +54,7 @@ function validFen(fen) {
   for (var i = 0; i < 8; i++) {
     if (chunks[i] === '' ||
         chunks[i].length > 8 ||
-        chunks[i].search(/[^kqrbnpKQRNBP1-8]/) !== -1) {
+        chunks[i].search(/[^kqrnbpKQRNBP1-8]/) !== -1) {
       return false;
     }
   }
@@ -527,7 +527,7 @@ function createElIds() {
   }
 
   // spare pieces
-  var pieces = 'KQRBNP'.split('');
+  var pieces = 'KQRNBP'.split('');
   for (var i = 0; i < pieces.length; i++) {
     var whitePiece = 'w' + pieces[i];
     var blackPiece = 'b' + pieces[i];
