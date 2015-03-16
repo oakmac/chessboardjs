@@ -54,7 +54,7 @@ function validFen(fen) {
   for (var i = 0; i < 8; i++) {
     if (chunks[i] === '' ||
         chunks[i].length > 8 ||
-        chunks[i].search(/[^kqrbnpKQRNBP1-8]/) !== -1) {
+        chunks[i].search(/[^kqrnbpKQRNBP1-8]/) !== -1) {
       return false;
     }
   }
@@ -78,32 +78,33 @@ function validPositionObject(pos) {
 
 // convert FEN piece code to bP, wK, etc
 function fenToPieceCode(piece) {
-  // black piece
-  if (piece.toLowerCase() === piece) {
+  if (piece.toLowerCase() === piece) { // black piecce
     return 'b' + piece.toUpperCase();
+  } 
+  else if (piece.toUpperCase() === piece) { // white piece
+    return 'w' + piece.toUpperCase();
+  } 
+  else {
+    return false;
   }
-
-  // white piece
-  return 'w' + piece.toUpperCase();
 }
 
 // convert bP, wK, etc code to FEN structure
 function pieceCodeToFen(piece) {
-  var tmp = piece.split('');
+  var pieceCodeLetters = piece.split('');
 
   // white piece
-  if (tmp[0] === 'w') {
-    return tmp[1].toUpperCase();
+  if (pieceCodeLetters[0] === 'w') {
+    return pieceCodeLetters[1].toUpperCase();
   }
 
   // black piece
-  return tmp[1].toLowerCase();
+  return pieceCodeLetters[1].toLowerCase();
 }
 
 // convert FEN string to position object
-// returns false if the FEN string is invalid
 function fenToObj(fen) {
-  if (validFen(fen) !== true) {
+  if (!validFen(fen)) {
     return false;
   }
 
@@ -143,7 +144,7 @@ function fenToObj(fen) {
 // position object to FEN string
 // returns false if the obj is not a valid position object
 function objToFen(obj) {
-  if (validPositionObject(obj) !== true) {
+  if (!validPositionObject(obj)) {
     return false;
   }
 
@@ -155,7 +156,7 @@ function objToFen(obj) {
       var square = COLUMNS[j] + currentRow;
 
       // piece exists
-      if (obj.hasOwnProperty(square) === true) {
+      if (obj.hasOwnProperty(square)) {
         fen += pieceCodeToFen(obj[square]);
       }
 
@@ -527,7 +528,7 @@ function createElIds() {
   }
 
   // spare pieces
-  var pieces = 'KQRBNP'.split('');
+  var pieces = 'KQRNBP'.split('');
   for (var i = 0; i < pieces.length; i++) {
     var whitePiece = 'w' + pieces[i];
     var blackPiece = 'b' + pieces[i];
@@ -559,22 +560,6 @@ function buildBoardContainer() {
 
   return html;
 }
-
-/*
-var buildSquare = function(color, size, id) {
-  var html = '<div class="' + CSS.square + ' ' + CSS[color] + '" ' +
-  'style="width: ' + size + 'px; height: ' + size + 'px" ' +
-  'id="' + id + '">';
-
-  if (cfg.showNotation === true) {
-
-  }
-
-  html += '</div>';
-
-  return html;
-};
-*/
 
 function buildBoard(orientation) {
   if (orientation !== 'black') {
@@ -865,12 +850,12 @@ function createRadius(square) {
   });
 
   // just return the square code
-  var squares2 = [];
+  var surroundingSquares = [];
   for (var i = 0; i < squares.length; i++) {
-    squares2.push(squares[i].square);
+    surroundingSquares.push(squares[i].square);
   }
 
-  return squares2;
+  return surroundingSquares;
 }
 
 // returns the square of the closest instance of piece
