@@ -200,6 +200,7 @@ var MINIMUM_JQUERY_VERSION = '1.7.0',
 
 // use unique class names to prevent clashing with anything else on the page
 // and simplify selectors
+// NOTE: these should never change
 var CSS = {
   alpha: 'alpha-d2270',
   black: 'black-3c85d',
@@ -254,8 +255,8 @@ var ANIMATION_HAPPENING = false,
 // JS Util Functions
 //------------------------------------------------------------------------------
 
-// http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
-function createId() {
+// http://tinyurl.com/3ttloxj
+function uuid() {
   return 'xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/x/g, function(c) {
     var r = Math.random() * 16 | 0;
     return r.toString(16);
@@ -317,7 +318,7 @@ function error(code, msg, obj) {
     if (obj) {
       errorText += '\n\n' + JSON.stringify(obj);
     }
-    console.log(errorText);
+    window.alert(errorText);
     return;
   }
 
@@ -333,7 +334,7 @@ function checkDeps() {
   if (typeof containerElOrId === 'string') {
     // cannot be empty
     if (containerElOrId === '') {
-      console.log('ChessBoard Error 1001: ' +
+      window.alert('ChessBoard Error 1001: ' +
         'The first argument to ChessBoard() cannot be an empty string.' +
         '\n\nExiting...');
       return false;
@@ -342,7 +343,7 @@ function checkDeps() {
     // make sure the container element exists in the DOM
     var el = document.getElementById(containerElOrId);
     if (! el) {
-      console.log('ChessBoard Error 1002: Element with id "' +
+      window.alert('ChessBoard Error 1002: Element with id "' +
         containerElOrId + '" does not exist in the DOM.' +
         '\n\nExiting...');
       return false;
@@ -359,7 +360,7 @@ function checkDeps() {
     containerEl = $(containerElOrId);
 
     if (containerEl.length !== 1) {
-      console.log('ChessBoard Error 1003: The first argument to ' +
+      window.alert('ChessBoard Error 1003: The first argument to ' +
         'ChessBoard() must be an ID or a single DOM node.' +
         '\n\nExiting...');
       return false;
@@ -370,7 +371,7 @@ function checkDeps() {
   if (! window.JSON ||
       typeof JSON.stringify !== 'function' ||
       typeof JSON.parse !== 'function') {
-    console.log('ChessBoard Error 1004: JSON does not exist. ' +
+    window.alert('ChessBoard Error 1004: JSON does not exist. ' +
       'Please include a JSON polyfill.\n\nExiting...');
     return false;
   }
@@ -378,7 +379,7 @@ function checkDeps() {
   // check for a compatible version of jQuery
   if (! (typeof window.$ && $.fn && $.fn.jquery &&
       compareSemVer($.fn.jquery, MINIMUM_JQUERY_VERSION) === true)) {
-    console.log('ChessBoard Error 1005: Unable to find a valid version ' +
+    window.alert('ChessBoard Error 1005: Unable to find a valid version ' +
       'of jQuery. Please include jQuery ' + MINIMUM_JQUERY_VERSION + ' or ' +
       'higher on the page.\n\nExiting...');
     return false;
@@ -499,7 +500,7 @@ function expandConfig() {
 // fudge factor, and then keep reducing until we find an exact mod 8 for
 // our square size
 function calculateSquareSize() {
-  var containerWidth = parseInt(containerEl.css('width'), 10);
+  var containerWidth = parseInt(containerEl.width(), 10);
 
   // defensive, prevent infinite loop
   if (! containerWidth || containerWidth <= 0) {
@@ -522,7 +523,7 @@ function createElIds() {
   for (var i = 0; i < COLUMNS.length; i++) {
     for (var j = 1; j <= 8; j++) {
       var square = COLUMNS[i] + j;
-      SQUARE_ELS_IDS[square] = square + '-' + createId();
+      SQUARE_ELS_IDS[square] = square + '-' + uuid();
     }
   }
 
@@ -531,8 +532,8 @@ function createElIds() {
   for (var i = 0; i < pieces.length; i++) {
     var whitePiece = 'w' + pieces[i];
     var blackPiece = 'b' + pieces[i];
-    SPARE_PIECE_ELS_IDS[whitePiece] = whitePiece + '-' + createId();
-    SPARE_PIECE_ELS_IDS[blackPiece] = blackPiece + '-' + createId();
+    SPARE_PIECE_ELS_IDS[whitePiece] = whitePiece + '-' + uuid();
+    SPARE_PIECE_ELS_IDS[blackPiece] = blackPiece + '-' + uuid();
   }
 }
 
@@ -723,7 +724,7 @@ function animateSquareToSquare(src, dest, piece, completeFn) {
 
   // create the animated piece and absolutely position it
   // over the source square
-  var animatedPieceId = createId();
+  var animatedPieceId = uuid();
   $('body').append(buildPiece(piece, true, animatedPieceId));
   var animatedPieceEl = $('#' + animatedPieceId);
   animatedPieceEl.css({
@@ -764,7 +765,7 @@ function animateSparePieceToSquare(piece, dest, completeFn) {
   var destOffset = destSquareEl.offset();
 
   // create the animate piece
-  var pieceId = createId();
+  var pieceId = uuid();
   $('body').append(buildPiece(piece, true, pieceId));
   var animatedPieceEl = $('#' + pieceId);
   animatedPieceEl.css({
@@ -1349,7 +1350,7 @@ widget.fen = function() {
 
 // flip orientation
 widget.flip = function() {
-  widget.orientation('flip');
+  return widget.orientation('flip');
 };
 
 /*
@@ -1405,14 +1406,14 @@ widget.orientation = function(arg) {
   if (arg === 'white' || arg === 'black') {
     CURRENT_ORIENTATION = arg;
     drawBoard();
-    return;
+    return CURRENT_ORIENTATION;
   }
 
   // flip orientation
   if (arg === 'flip') {
     CURRENT_ORIENTATION = (CURRENT_ORIENTATION === 'white') ? 'black' : 'white';
     drawBoard();
-    return;
+    return CURRENT_ORIENTATION;
   }
 
   error(5482, 'Invalid value passed to the orientation method.', arg);
@@ -1666,8 +1667,8 @@ function addEvents() {
     mousedownSparePiece);
 
   // mouse enter / leave square
-  boardEl.on('mouseenter', '.' + CSS.square, mouseenterSquare);
-  boardEl.on('mouseleave', '.' + CSS.square, mouseleaveSquare);
+  boardEl.on('mouseenter', '.' + CSS.square, mouseenterSquare)
+    .on('mouseleave', '.' + CSS.square, mouseleaveSquare);
 
   // IE doesn't like the events on the window object, but other browsers
   // perform better that way
@@ -1675,12 +1676,12 @@ function addEvents() {
     // IE-specific prevent browser "image drag"
     document.ondragstart = function() { return false; };
 
-    $('body').on('mousemove', mousemoveWindow);
-    $('body').on('mouseup', mouseupWindow);
+    $('body').on('mousemove', mousemoveWindow)
+      .on('mouseup', mouseupWindow);
   }
   else {
-    $(window).on('mousemove', mousemoveWindow);
-    $(window).on('mouseup', mouseupWindow);
+    $(window).on('mousemove', mousemoveWindow)
+      .on('mouseup', mouseupWindow);
   }
 
   // touch drag pieces
@@ -1688,12 +1689,15 @@ function addEvents() {
     boardEl.on('touchstart', '.' + CSS.square, touchstartSquare);
     containerEl.on('touchstart', '.' + CSS.sparePieces + ' .' + CSS.piece,
       touchstartSparePiece);
-    $(window).on('touchmove', touchmoveWindow);
-    $(window).on('touchend', touchendWindow);
+    $(window).on('touchmove', touchmoveWindow)
+      .on('touchend', touchendWindow);
   }
 }
 
 function initDom() {
+  // create unique IDs for all the elements we will create
+  createElIds();
+
   // build board and save it in memory
   cacheImages();
   containerEl.html(buildBoardContainer());
@@ -1705,7 +1709,7 @@ function initDom() {
   }
 
   // create the drag piece
-  var draggedPieceId = createId();
+  var draggedPieceId = uuid();
   $('body').append(buildPiece('wP', true, draggedPieceId));
   draggedPieceEl = $('#' + draggedPieceId);
 
@@ -1719,9 +1723,6 @@ function initDom() {
 function init() {
   if (checkDeps() !== true ||
       expandConfig() !== true) return;
-
-  // create unique IDs for all the elements we will create
-  createElIds();
 
   initDom();
   addEvents();
