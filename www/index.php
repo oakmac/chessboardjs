@@ -4,17 +4,17 @@
 if (get_magic_quotes_gpc()) { $_REQUEST = array_map('stripslashes', $_REQUEST); $_GET = array_map('stripslashes', $_GET); $_POST = array_map('stripslashes', $_POST); $_COOKIE = array_map('stripslashes', $_COOKIE); }
 
 // config
-require('php/config.php');
+require('.config.php');
 
 // load ChessBoard class
-require('php/ChessBoard.php');
+require(APP_PATH.'php/ChessBoard.php');
 
 // poor man's routing :)
 $URI = explode('/', $_SERVER['REQUEST_URI']);
 if ($URI[0] === '') {
   array_shift($URI);
 }
-if ($URI[0] === 'chessboardjs') {
+if ($URI[0] === 'chessboardjs.com') {
   array_shift($URI);
 }
 
