@@ -66,7 +66,7 @@ if ($URI[0] === 'download') {
 if ($URI[0] === 'license') {
   // just redirect them to the GitHub page for now
   header('HTTP/1.1 307 Temporary Redirect');
-  header('Location: https://github.com/oakmac/chessboardjs/blob/master/LICENSE');
+  header('Location: https://github.com/oakmac/chessboardjs/blob/master/LICENSE.md');
   die;
 }
 
