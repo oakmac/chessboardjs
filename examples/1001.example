@@ -8,4 +8,4 @@ Pass <code class="js string">'start'</code> as the second argument to initialize
 <div id="board" style="width: 400px"></div>
 
 === JS
-var board = new ChessBoard('board', 'start');
+var board = ChessBoard('board', 'start');

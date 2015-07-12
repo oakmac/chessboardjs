@@ -24,4 +24,4 @@ var cfg = {
   onDrop: onDrop,
   sparePieces: true
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);

@@ -11,7 +11,7 @@ Use the <a href="docs#methods:start"><code class="js plain">start</code></a> and
 <input type="button" id="setRookCheckmateBtn" value="Rook Checkmate" />
 
 === JS
-var board = new ChessBoard('board');
+var board = ChessBoard('board');
 
 $('#setStartBtn').on('click', board.start);
 

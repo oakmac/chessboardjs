@@ -15,4 +15,4 @@ var cfg = {
     e4: 'wK'
   }
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);

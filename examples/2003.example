@@ -13,4 +13,4 @@ var cfg = {
   dropOffBoard: 'snapback', // this is the default
   position: 'start'
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);

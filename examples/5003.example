@@ -87,4 +87,4 @@ var cfg = {
   onMouseoverSquare: onMouseoverSquare,
   onSnapEnd: onSnapEnd
 };
-board = new ChessBoard('board', cfg);
+board = ChessBoard('board', cfg);

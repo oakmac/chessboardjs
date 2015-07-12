@@ -13,12 +13,14 @@ var cfg = {
   draggable: true,
   position: 'start'
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);
 
-$('#getPositionBtn').on('click', function() {
+function clickGetPositionBtn() {
   console.log("Current position as an Object:");
   console.log(board.position());
 
   console.log("Current position as a FEN string:");
   console.log(board.fen());
-});
+}
+
+$('#getPositionBtn').on('click', clickGetPositionBtn);

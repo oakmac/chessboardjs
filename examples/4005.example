@@ -20,4 +20,4 @@ var cfg = {
   position: 'start',
   onDrop: onDrop
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);

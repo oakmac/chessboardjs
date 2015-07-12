@@ -1,2 +1,3 @@
 www/.htaccess
 www/.config.php
+*.diff

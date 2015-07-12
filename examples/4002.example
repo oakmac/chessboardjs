@@ -23,6 +23,6 @@ var cfg = {
   position: 'start',
   onDragStart: onDragStart
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);
 
 $('#flipOrientationBtn').on('click', board.flip);

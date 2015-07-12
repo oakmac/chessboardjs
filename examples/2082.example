@@ -13,4 +13,4 @@ var cfg = {
   dropOffBoard: 'trash',
   position: 'start'
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);

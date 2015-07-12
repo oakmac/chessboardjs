@@ -10,12 +10,11 @@ Set <a href="docs#config:sparePieces"><code class="js plain">sparePieces</code><
 <input type="button" id="clearBtn" value="Clear" />
 
 === JS
-var board = new ChessBoard('board', {
+var board = ChessBoard('board', {
   draggable: true,
   dropOffBoard: 'trash',
   sparePieces: true
 });
 
 $('#startBtn').on('click', board.start);
-
 $('#clearBtn').on('click', board.clear);

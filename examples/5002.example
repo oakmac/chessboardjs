@@ -27,6 +27,6 @@ var makeRandomMove = function() {
   window.setTimeout(makeRandomMove, 500);
 };
 
-board = new ChessBoard('board', 'start');
+board = ChessBoard('board', 'start');
 
 window.setTimeout(makeRandomMove, 500);

@@ -21,6 +21,6 @@ var cfg = {
   position: 'start',
   onChange: onChange
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);
 
 $('#startPositionBtn').on('click', board.start);

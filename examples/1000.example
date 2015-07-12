@@ -8,4 +8,4 @@ ChessBoard initializes to an empty board with no second argument.
 <div id="board" style="width: 400px"></div>
 
 === JS
-var board = new ChessBoard('board');
+var board = ChessBoard('board');

@@ -11,7 +11,7 @@ Use the <a href="docs#methods:clear"><code class="js plain">clear</code></a> met
 <input type="button" id="clearBoardInstantBtn" value="Clear Board Instant" />
 
 === JS
-var board = new ChessBoard('board', 'start');
+var board = ChessBoard('board', 'start');
 
 $('#startPositionBtn').on('click', board.start);
 

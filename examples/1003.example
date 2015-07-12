@@ -13,4 +13,4 @@ var position = {
   d4: 'wP',
   e4: 'wK'
 };
-var board = new ChessBoard('board', position);
+var board = ChessBoard('board', position);

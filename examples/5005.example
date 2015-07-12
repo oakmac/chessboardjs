@@ -100,4 +100,4 @@ var cfg = {
   onMoveEnd: onMoveEnd,
   onSnapEnd: onSnapEnd
 };
-board = new ChessBoard('board', cfg);
+board = ChessBoard('board', cfg);

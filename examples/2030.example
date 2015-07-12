@@ -8,18 +8,18 @@ Piece Theme Function
 <div id="board" style="width: 400px"></div>
 
 === JS
-var pieceTheme = function(piece) {
+function pieceTheme(piece) {
   // wikipedia theme for white pieces
   if (piece.search(/w/) !== -1) {
     return 'img/chesspieces/wikipedia/' + piece + '.png';
   }
-  
+
   // alpha theme for black pieces
   return 'img/chesspieces/alpha/' + piece + '.png';
-};
+}
 
 var cfg = {
   pieceTheme: pieceTheme,
   position: 'start'
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);

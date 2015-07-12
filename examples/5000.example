@@ -88,6 +88,6 @@ var cfg = {
   onDrop: onDrop,
   onSnapEnd: onSnapEnd
 };
-board = new ChessBoard('board', cfg);
+board = ChessBoard('board', cfg);
 
 updateStatus();

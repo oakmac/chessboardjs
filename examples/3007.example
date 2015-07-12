@@ -7,8 +7,7 @@ Use the <a href="docs#methods:resize"><code class="js plain">resize</code></a> m
 === HTML
 <div id="board" style="width: 60%"></div>
 
-
 === JS
 // NOTE: click "View example in new window." to see the full effect of this example
-var board = new ChessBoard('board', 'start');
+var board = ChessBoard('board', 'start');
 $(window).resize(board.resize);

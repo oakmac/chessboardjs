@@ -25,4 +25,4 @@ var cfg = {
   onDragMove: onDragMove,
   sparePieces: true
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);

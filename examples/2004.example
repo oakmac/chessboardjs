@@ -12,4 +12,4 @@ var cfg = {
   pieceTheme: 'img/chesspieces/alpha/{piece}.png',
   position: 'start'
 };
-var board = new ChessBoard('board', cfg);
+var board = ChessBoard('board', cfg);
