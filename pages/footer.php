@@ -3,7 +3,7 @@
 <div id="footer">
 <div class="row">
   <div class="six columns" id="left_footer">
-    <p><?php echo PROJECT_NAME; ?> is released under the <a href="https://github.com/oakmac/chessboardjs/blob/master/LICENSE">MIT License</a></p>
+    <p><?php echo PROJECT_NAME; ?> is released under the <a href="https://github.com/oakmac/chessboardjs/blob/master/LICENSE.md">MIT License</a></p>
     <p><a href="https://github.com/oakmac/chessboardjs/">GitHub</a></p>
   </div>
   <div class="six columns" id="right_footer">

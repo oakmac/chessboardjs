@@ -39,7 +39,7 @@
   <h4>HTML</h4>
   <pre class="prettyprint">&lt;div id="board1" style="width: 400px"&gt;&lt;/div&gt;</pre>
   <h4>JavaScript</h4>
-  <pre class="prettyprint">var board1 = new ChessBoard('board1', 'start');</pre>  
+  <pre class="prettyprint">var board1 = ChessBoard('board1', 'start');</pre>
 </div>
 <div class="col">
   <div id="board1" style="width: 400px"></div>
@@ -53,7 +53,7 @@
 &lt;input type="button" id="startBtn" value="Start" /&gt;
 &lt;input type="button" id="clearBtn" value="Clear" /&gt;</pre>
   <h4>JavaScript</h4>
-  <pre class="prettyprint">var board2 = new ChessBoard('board2', {
+  <pre class="prettyprint">var board2 = ChessBoard('board2', {
   draggable: true,
   dropOffBoard: 'trash',
   sparePieces: true
@@ -73,7 +73,7 @@ $('#clearBtn').on('click', board2.clear);</pre>
 <div id="footerWrapper">
   <div class="body-width">
     <div class="left-col">
-      <p>chessboard.js is released under the <a href="https://github.com/oakmac/chessboardjs/blob/master/LICENSE">MIT License</a></p>
+      <p>chessboard.js is released under the <a href="https://github.com/oakmac/chessboardjs/blob/master/LICENSE.md">MIT License</a></p>
       <p>the code can be found on <a href="https://github.com/oakmac/chessboardjs/">GitHub</a></p>
     </div>
     <div class="right-col">
@@ -99,10 +99,10 @@ $(document).ready(function() {
   prettyPrint();
 
   // example 1
-  var board1 = new ChessBoard('board1', 'start');
+  var board1 = ChessBoard('board1', 'start');
 
   // example 2
-  var board2 = new ChessBoard('board2', {
+  var board2 = ChessBoard('board2', {
     draggable: true,
     dropOffBoard: 'trash',
     sparePieces: true
