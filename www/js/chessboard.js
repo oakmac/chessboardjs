@@ -1023,14 +1023,15 @@ function setCurrentPosition(position) {
   // do nothing if no change in position
   if (oldFen === newFen) return;
 
+  // update state
+  CURRENT_POSITION = position;
+  
   // run their onChange function
   if (cfg.hasOwnProperty('onChange') === true &&
     typeof cfg.onChange === 'function') {
     cfg.onChange(oldPos, newPos);
   }
-
-  // update state
-  CURRENT_POSITION = position;
+  
 }
 
 function isXYOnSquare(x, y) {
@@ -1286,11 +1287,6 @@ function stopDraggedPiece(location) {
   }
   else if (action === 'drop') {
     dropDraggedPieceOnSquare(location);
-  }
-  // run their onMoveEnd function
-  if (cfg.hasOwnProperty('onMoveEnd') === true &&
-    typeof cfg.onMoveEnd === 'function') {
-    cfg.onMoveEnd(deepCopy(deepCopy(CURRENT_POSITION)), deepCopy(newPosition));
   }
 }
 
