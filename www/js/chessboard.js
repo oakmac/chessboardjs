@@ -1015,8 +1015,8 @@ function calculatePositionFromMoves(position, moves) {
 }
 
 function setCurrentPosition(position) {
-  var oldPos = deepCopy(position);
-  var newPos = deepCopy(CURRENT_POSITION);
+  var oldPos = deepCopy(CURRENT_POSITION);
+  var newPos = deepCopy(position);
   var oldFen = objToFen(oldPos);
   var newFen = objToFen(newPos);
 
