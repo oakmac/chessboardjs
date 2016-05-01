@@ -230,6 +230,9 @@ var containerEl,
   sparePiecesTopEl,
   sparePiecesBottomEl;
 
+// Cache the piece images
+var imgCache = {};
+
 // constructor return object
 var widget = {};
 
@@ -286,6 +289,23 @@ function compareSemVer(version, minimum) {
     (minimum.minor * 10000) + minimum.patch;
 
   return (versionNum >= minimumNum);
+}
+
+function getBase64Image(url, callback) {
+    var img = new Image();
+
+    img.onload = function () {
+        var canvas = document.createElement("canvas");
+        canvas.width = this.width;
+        canvas.height = this.height;
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(this, 0, 0);
+
+        callback(canvas.toDataURL("image/png"));
+    };
+
+    img.src = url;
 }
 
 //------------------------------------------------------------------------------
@@ -638,6 +658,10 @@ function buildBoard(orientation) {
 }
 
 function buildPieceImgSrc(piece) {
+  if (piece in imgCache) {
+      return imgCache[piece];
+  }
+
   if (typeof cfg.pieceTheme === 'function') {
     return cfg.pieceTheme(piece);
   }
@@ -648,6 +672,7 @@ function buildPieceImgSrc(piece) {
 
   // NOTE: this should never happen
   error(8272, 'Unable to build image source for cfg.pieceTheme.');
+
   return '';
 }
 
@@ -1432,6 +1457,7 @@ widget.position = function(position, useAnimation) {
 };
 
 widget.resize = function() {
+
   // calulate the new square size
   SQUARE_SIZE = calculateSquareSize();
 
@@ -1622,6 +1648,17 @@ function mouseleaveSquare(e) {
 // Initialization
 //------------------------------------------------------------------------------
 
+function preloadImages() {
+  var pieces = ['wK', 'wQ', 'wR', 'wB', 'wN', 'wP',
+                'bK', 'bQ', 'bR', 'bB', 'bN', 'bP'];
+  pieces.forEach(function(piece) {
+      var src = buildPieceImgSrc(piece);
+      getBase64Image(src, function(dataURI) {
+          imgCache[piece] = dataURI;
+      });
+  });
+}
+
 function addEvents() {
   // prevent browser "image drag"
   $('body').on('mousedown mousemove', '.' + CSS.piece, stopDefault);
@@ -1688,6 +1725,7 @@ function init() {
   if (checkDeps() !== true ||
       expandConfig() !== true) return;
 
+  preloadImages();
   initDom();
   addEvents();
 }
