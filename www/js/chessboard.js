@@ -247,6 +247,7 @@ var ANIMATION_HAPPENING = false,
   DRAGGED_PIECE_SOURCE,
   DRAGGING_A_PIECE = false,
   SPARE_PIECE_ELS_IDS = {},
+  SPARE_COUNT_ELS_IDS = {},
   SQUARE_ELS_IDS = {},
   SQUARE_ELS_OFFSETS;
 
@@ -399,6 +400,19 @@ function validAnimationSpeed(speed) {
   return (speed >= 0);
 }
 
+function validSpareCounts(counts) {
+  if (typeof counts !== 'object') {
+    return false;
+  }
+
+  for (var i in counts) {
+    if (isNaN(counts[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
 // validate config / set default options
 function expandConfig() {
   if (typeof cfg === 'string' || validPositionObject(cfg) === true) {
@@ -485,6 +499,28 @@ function expandConfig() {
       error(7263, 'Invalid value passed to config.position.', cfg.position);
     }
   }
+  
+  //space pieces counts
+  if (cfg.sparePieces && cfg.hasOwnProperty('spareCounts') === true) {
+	if (cfg.spareCounts === 'default') {
+	  cfg.spareCounts = {
+		'wK': 1,
+		'wQ': 1,
+		'wR': 2,
+		'wB': 2,
+		'wN': 2,
+		'wP': 8,
+		'bK': 1,
+		'bQ': 1,
+		'bR': 2,
+		'bB': 2,
+		'bN': 2,
+		'bP': 8
+	  }
+	} else if (!validSpareCounts(cfg.spareCounts)) {
+	  cfg.spareCounts = false;
+	}
+  }
 
   return true;
 }
@@ -533,6 +569,8 @@ function createElIds() {
     var blackPiece = 'b' + pieces[i];
     SPARE_PIECE_ELS_IDS[whitePiece] = whitePiece + '-' + uuid();
     SPARE_PIECE_ELS_IDS[blackPiece] = blackPiece + '-' + uuid();
+	SPARE_COUNT_ELS_IDS[whitePiece] = whitePiece + '-' + uuid();
+    SPARE_COUNT_ELS_IDS[blackPiece] = blackPiece + '-' + uuid();
   }
 }
 
@@ -544,8 +582,8 @@ function buildBoardContainer() {
   var html = '<div class="' + CSS.chessboard + '">';
 
   if (cfg.sparePieces === true) {
-    html += '<div class="' + CSS.sparePieces + ' ' +
-      CSS.sparePiecesTop + '"></div>';
+    html += '<div style="height: ' + SQUARE_SIZE + 'px;" class="' +
+	  CSS.sparePieces + ' ' + CSS.sparePiecesTop + '"></div>';
   }
 
   html += '<div class="' + CSS.board + '"></div>';
@@ -669,6 +707,13 @@ function buildPiece(piece, hidden, id) {
   return html;
 }
 
+function spareCountHtml(piece) {
+	if(typeof cfg.spareCounts !== 'object') {
+		return "";
+	}
+	return '<span id="'+ SPARE_COUNT_ELS_IDS[piece] +'" style="font-weight:bold; position: absolute;bottom: -2px;right: -2px;">'+ cfg.spareCounts[piece] +'</span>';
+}
+
 function buildSparePieces(color) {
   var pieces = ['wK', 'wQ', 'wR', 'wB', 'wN', 'wP'];
   if (color === 'black') {
@@ -677,7 +722,10 @@ function buildSparePieces(color) {
 
   var html = '';
   for (var i = 0; i < pieces.length; i++) {
-    html += buildPiece(pieces[i], false, SPARE_PIECE_ELS_IDS[pieces[i]]);
+    html += '<div style="width: ' + SQUARE_SIZE + 'px;' +
+	  'height: ' + SQUARE_SIZE + 'px;float:left;position:relative;">' +
+	  buildPiece(pieces[i], false, SPARE_PIECE_ELS_IDS[pieces[i]]) +
+	  spareCountHtml(pieces[i]) + '</div>';
   }
 
   return html;
@@ -1158,7 +1206,8 @@ function beginDraggingPiece(source, piece, x, y) {
   // their custom onDragStart function can cancel drag start
   if (typeof cfg.onDragStart === 'function' &&
       cfg.onDragStart(source, piece,
-        deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION) === false) {
+        deepCopy(CURRENT_POSITION), CURRENT_ORIENTATION) === false || 
+		 (source === 'spare' && cfg.spareCounts && cfg.spareCounts[piece] <= 0)) {
     return;
   }
 
@@ -1286,6 +1335,10 @@ function stopDraggedPiece(location) {
   }
   else if (action === 'drop') {
     dropDraggedPieceOnSquare(location);
+  }
+  
+  if(cfg.spareCounts && DRAGGED_PIECE_SOURCE === 'spare' && action === 'drop'){
+	$("#" + SPARE_COUNT_ELS_IDS[DRAGGED_PIECE]).html(--cfg.spareCounts[DRAGGED_PIECE]);
   }
 }
 
@@ -1448,6 +1501,10 @@ widget.resize = function() {
   if (cfg.sparePieces === true) {
     containerEl.find('.' + CSS.sparePieces)
       .css('paddingLeft', (SQUARE_SIZE + BOARD_BORDER_SIZE) + 'px');
+	containerEl.find('.' + CSS.sparePieces)
+      .css('height', SQUARE_SIZE + 'px');
+	containerEl.find('.' + CSS.sparePieces)
+      .css('position', 'relative');
   }
 
   // redraw the board
