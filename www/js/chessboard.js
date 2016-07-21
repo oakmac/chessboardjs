@@ -500,7 +500,7 @@ function expandConfig() {
     }
   }
   
-  //space pieces counts
+  //spare piece counts
   if (cfg.sparePieces && cfg.hasOwnProperty('spareCounts') === true) {
 	if (cfg.spareCounts === 'default') {
 	  cfg.spareCounts = {
@@ -582,15 +582,15 @@ function buildBoardContainer() {
   var html = '<div class="' + CSS.chessboard + '">';
 
   if (cfg.sparePieces === true) {
-    html += '<div style="height: ' + SQUARE_SIZE + 'px;" class="' +
-	  CSS.sparePieces + ' ' + CSS.sparePiecesTop + '"></div>';
+    html += '<div style="text-align:center;"><div style="display:inline-block;" class="' +
+	  CSS.sparePieces + ' ' + CSS.sparePiecesTop + '"></div></div>';
   }
 
   html += '<div class="' + CSS.board + '"></div>';
 
   if (cfg.sparePieces === true) {
-    html += '<div class="' + CSS.sparePieces + ' ' +
-      CSS.sparePiecesBottom + '"></div>';
+    html += '<div style="text-align:center;"><div style="display:inline-block;" class="' + 
+	  CSS.sparePieces + ' ' + CSS.sparePiecesBottom + '"></div></div>';
   }
 
   html += '</div>';
@@ -708,7 +708,7 @@ function buildPiece(piece, hidden, id) {
 }
 
 function spareCountHtml(piece) {
-	if(typeof cfg.spareCounts !== 'object') {
+	if(typeof cfg.spareCounts !== 'object' || cfg.spareCounts[piece] === 0) {
 		return "";
 	}
 	return '<span id="'+ SPARE_COUNT_ELS_IDS[piece] +'" style="font-weight:bold; position: absolute;bottom: -2px;right: -2px;">'+ cfg.spareCounts[piece] +'</span>';
@@ -722,12 +722,12 @@ function buildSparePieces(color) {
 
   var html = '';
   for (var i = 0; i < pieces.length; i++) {
+  	if(typeof cfg.spareCounts === 'object' && cfg.spareCounts[pieces[i]] <= 0) {
+  		continue;
+  	}
     html += '<div style="width: ' + SQUARE_SIZE + 'px;' +
-	  'height: ' + SQUARE_SIZE + 'px;float:left;position:relative;">' +
-	  buildPiece(pieces[i], false, SPARE_PIECE_ELS_IDS[pieces[i]]) +
-	  spareCountHtml(pieces[i]) + '</div>';
+    'height: ' + SQUARE_SIZE + 'px;float:left;position:relative;">' + buildPiece(pieces[i], false, SPARE_PIECE_ELS_IDS[pieces[i]]) + spareCountHtml(pieces[i]) + '</div>';
   }
-
   return html;
 }
 
@@ -1338,7 +1338,11 @@ function stopDraggedPiece(location) {
   }
   
   if(cfg.spareCounts && DRAGGED_PIECE_SOURCE === 'spare' && action === 'drop'){
-	$("#" + SPARE_COUNT_ELS_IDS[DRAGGED_PIECE]).html(--cfg.spareCounts[DRAGGED_PIECE]);
+    if(--cfg.spareCounts[DRAGGED_PIECE] <= 0){
+  		$("#" + SPARE_COUNT_ELS_IDS[DRAGGED_PIECE]).parent().remove();
+  	} else {
+  		$("#" + SPARE_COUNT_ELS_IDS[DRAGGED_PIECE]).html(cfg.spareCounts[DRAGGED_PIECE]);
+  	}
   }
 }
 
@@ -1499,8 +1503,6 @@ widget.resize = function() {
 
   // spare pieces
   if (cfg.sparePieces === true) {
-    containerEl.find('.' + CSS.sparePieces)
-      .css('paddingLeft', (SQUARE_SIZE + BOARD_BORDER_SIZE) + 'px');
 	containerEl.find('.' + CSS.sparePieces)
       .css('height', SQUARE_SIZE + 'px');
 	containerEl.find('.' + CSS.sparePieces)
