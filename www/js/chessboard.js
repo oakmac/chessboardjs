@@ -401,7 +401,7 @@ function validAnimationSpeed(speed) {
 }
 
 function validSpareCounts(counts) {
-  if (typeof counts !== 'object') {
+  if (typeof counts !== 'object' || Object.getOwnPropertyNames(counts).length === 0) {
     return false;
   }
 
