@@ -1458,7 +1458,13 @@ widget.resize = function() {
 widget.start = function(useAnimation) {
   widget.position('start', useAnimation);
 };
-
+  
+// turn notation on or off
+widget.showNotation = function(show) {
+  cfg.showNotation = show;
+  drawBoard();
+}
+  
 //------------------------------------------------------------------------------
 // Browser Events
 //------------------------------------------------------------------------------
