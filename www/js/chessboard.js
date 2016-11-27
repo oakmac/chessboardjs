@@ -1287,6 +1287,11 @@ function stopDraggedPiece(location) {
   else if (action === 'drop') {
     dropDraggedPieceOnSquare(location);
   }
+  // run their onMoveEnd function
+  if (cfg.hasOwnProperty('onMoveEnd') === true &&
+    typeof cfg.onMoveEnd === 'function') {
+    cfg.onMoveEnd(deepCopy(deepCopy(CURRENT_POSITION)), deepCopy(newPosition));
+  }
 }
 
 //------------------------------------------------------------------------------
