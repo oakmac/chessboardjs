@@ -77,7 +77,7 @@
   }
 
   // returns true if version is >= minimum
-  function compareSemVer (version, minimum) {
+  function validSemanticVersion (version, minimum) {
     version = parseSemVer(version)
     minimum = parseSemVer(minimum)
 
@@ -89,6 +89,23 @@
                      minimum.patch
 
     return versionNum >= minimumNum
+  }
+
+  function interpolateTemplate (str, obj) {
+    for (var key in obj) {
+      if (!obj.hasOwnProperty(key)) continue
+      var keyTemplateStr = '{' + key + '}'
+      var value = obj[key]
+      while (str.indexOf(keyTemplateStr) !== -1) {
+        str = str.replace(keyTemplateStr, value)
+      }
+    }
+    return str
+  }
+
+  if (RUN_ASSERTS) {
+    console.assert(interpolateTemplate('{a}{a}', {a: 'z'}) === 'zz')
+    console.assert(interpolateTemplate('{a}{a}{b}', {a: 'z', b: 'y'}) === 'zzy')
   }
 
   // ---------------------------------------------------------------------------
@@ -186,11 +203,13 @@
   if (RUN_ASSERTS) {
     console.assert(validFen(START_FEN))
     console.assert(validFen('8/8/8/8/8/8/8/8'))
+    console.assert(validFen('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'))
     console.assert(!validFen('anbqkbnr/8/8/8/8/8/PPPPPPPP/8'))
     console.assert(!validFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/'))
     console.assert(!validFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBN'))
     console.assert(!validFen('888888/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'))
     console.assert(!validFen('888888/pppppppp/74/8/8/8/PPPPPPPP/RNBQKBNR'))
+    console.assert(!validFen({}))
   }
 
   function validPositionObject (pos) {
@@ -216,6 +235,7 @@
     console.assert(!validPositionObject({y2: 'wP'}))
     console.assert(!validPositionObject(null))
     console.assert(!validPositionObject('start'))
+    console.assert(!validPositionObject(START_FEN))
   }
 
   function isTouchDevice () {
@@ -226,6 +246,13 @@
     return navigator &&
            navigator.userAgent &&
            navigator.userAgent.search(/MSIE/) !== -1
+  }
+
+  function validJQueryVersion () {
+    return typeof window.$ &&
+           $.fn &&
+           $.fn.jquery &&
+           validSemanticVersion($.fn.jquery, MINIMUM_JQUERY_VERSION)
   }
 
   // ---------------------------------------------------------------------------
@@ -422,18 +449,142 @@
   }
 
   // ---------------------------------------------------------------------------
+  // HTML
+  // ---------------------------------------------------------------------------
+
+  function buildContainerHTML (hasSparePieces) {
+    var html = '<div class="{chessboard}">'
+
+    if (hasSparePieces) {
+      html += '<div class="{sparePieces} {sparePiecesTop}"></div>'
+    }
+
+    html += '<div class="{board}"></div>'
+
+    if (hasSparePieces) {
+      html += '<div class="{sparePieces} {sparePiecesBottom}"></div>'
+    }
+
+    html += '</div>'
+
+    return interpolateTemplate(html, CSS)
+  }
+
+  // ---------------------------------------------------------------------------
+  // Config
+  // ---------------------------------------------------------------------------
+
+  function expandConfigShorthand (config) {
+    if (config === 'start') {
+      config = {position: deepCopy(START_POSITION)}
+    } else if (validFen(config)) {
+      config = {position: fenToObj(config)}
+    } else if (validPositionObject(config)) {
+      config = {position: deepCopy(config)}
+    }
+
+    // config must be an object
+    if (!$.isPlainObject(config)) config = {}
+
+    return config
+  }
+
+  // validate config / set default options
+  function expandConfig (config) {
+    // default for orientation is white
+    if (config.orientation !== 'black') config.orientation = 'white'
+
+    // default for showNotation is true
+    if (config.showNotation !== false) config.showNotation = true
+
+    // default for draggable is false
+    if (config.draggable !== true) config.draggable = false
+
+    // default for dropOffBoard is 'snapback'
+    if (config.dropOffBoard !== 'trash') config.dropOffBoard = 'snapback'
+
+    // default for sparePieces is false
+    if (config.sparePieces !== true) config.sparePieces = false
+
+    // draggable must be true if sparePieces is enabled
+    if (config.sparePieces) config.draggable = true
+
+    // default piece theme is wikipedia
+    if (!config.hasOwnProperty('pieceTheme') ||
+        (!isString(config.pieceTheme) && !isFunction(config.pieceTheme))) {
+      config.pieceTheme = 'img/chesspieces/wikipedia/{piece}.png'
+    }
+
+    // animation speeds
+    if (!validAnimationSpeed(config.appearSpeed)) config.appearSpeed = DEFAULT_APPEAR_SPEED
+    if (!validAnimationSpeed(config.moveSpeed)) config.moveSpeed = DEFAULT_MOVE_SPEED
+    if (!validAnimationSpeed(config.snapbackSpeed)) config.snapbackSpeed = DEFAULT_SNAPBACK_SPEED
+    if (!validAnimationSpeed(config.snapSpeed)) config.snapSpeed = DEFAULT_SNAP_SPEED
+    if (!validAnimationSpeed(config.trashSpeed)) config.trashSpeed = DEFAULT_TRASH_SPEED
+
+    return config
+  }
+
+  // ---------------------------------------------------------------------------
+  // Dependencies
+  // ---------------------------------------------------------------------------
+
+  // check for a compatible version of jQuery
+  function checkJQuery () {
+    if (!validJQueryVersion()) {
+      var errorMsg = 'Chessboard Error 1005: Unable to find a valid version of jQuery. ' +
+        'Please include jQuery ' + MINIMUM_JQUERY_VERSION + ' or higher on the page' +
+        '\n\n' +
+        'Exiting...'
+      window.alert(errorMsg)
+      return false
+    }
+
+    return true
+  }
+
+  // NOTE: this function returns either boolean false or the $container element
+  function checkContainerArg (containerElOrString) {
+    // convert containerEl to query selector if it is a string
+    if (isString(containerElOrString) &&
+        containerElOrString.charAt(0) !== '#') {
+      containerElOrString = '#' + containerElOrString
+    }
+
+    // containerEl must be something that becomes a jQuery collection of size 1
+    var $container = $(containerElOrString)
+    if ($container.length !== 1) {
+      var errorMsg = 'Chessboard Error 1003: ' +
+        'The first argument to Chessboard() must be the ID of a DOM node, ' +
+        'an ID query selector, or a single DOM node.' +
+        '\n\n' +
+        'Exiting...'
+      window.alert(errorMsg)
+      return false
+    }
+
+    return $container
+  }
+
+  // ---------------------------------------------------------------------------
   // Constructor
   // ---------------------------------------------------------------------------
 
-  function constructor (containerElOrId, cfg) {
-    if (!$.isPlainObject(cfg)) cfg = {}
+  function constructor (containerElOrString, cfg) {
+    // first things first: check basic dependencies
+    if (!checkJQuery()) return null
+    var $container = checkContainerArg(containerElOrString)
+    if (!$container) return null
+
+    // ensure the config object is what we expect
+    cfg = expandConfigShorthand(cfg)
+    cfg = expandConfig(cfg)
 
     // DOM elements
-    var containerEl = null
-    var boardEl = null
-    var draggedPieceEl = null
-    var sparePiecesTopEl = null
-    var sparePiecesBottomEl = null
+    var $board = null
+    var $draggedPieceEl = null
+    var $sparePiecesTop = null
+    var $sparePiecesBottom = null
 
     // constructor return object
     var widget = {}
@@ -445,14 +596,14 @@
     var BOARD_BORDER_SIZE = 2
     var CURRENT_ORIENTATION = 'white'
     var CURRENT_POSITION = {}
-    var SQUARE_SIZE
+    var squareSize
     var DRAGGED_PIECE
     var DRAGGED_PIECE_LOCATION
     var DRAGGED_PIECE_SOURCE
     var DRAGGING_A_PIECE = false
-    var SPARE_PIECE_ELS_IDS = {}
-    var SQUARE_ELS_IDS = {}
-    var SQUARE_ELS_OFFSETS = {}
+    var sparePiecesElsIds = {}
+    var squareElsIds = {}
+    var squareElsOffsets = {}
 
     // -------------------------------------------------------------------------
     // Validation / Errors
@@ -467,7 +618,7 @@
         return
       }
 
-      var errorText = 'ChessBoard Error ' + code + ': ' + msg
+      var errorText = 'Chessboard Error ' + code + ': ' + msg
 
         // print to console
       if (
@@ -497,132 +648,17 @@
       }
     }
 
-    // check dependencies
-    function checkDeps () {
-      // if containerId is a string, it must be the ID of a DOM node
-      if (isString(containerElOrId)) {
-        // cannot be empty
-        if (containerElOrId === '') {
-          window.alert(
-              'ChessBoard Error 1001: ' +
-                'The first argument to ChessBoard() cannot be an empty string.' +
-                '\n\nExiting...'
-            )
-          return false
-        }
-
-          // make sure the container element exists in the DOM
-        var el = document.getElementById(containerElOrId)
-        if (!el) {
-          window.alert(
-              'ChessBoard Error 1002: Element with id "' +
-                containerElOrId +
-                '" does not exist in the DOM.' +
-                '\n\nExiting...'
-            )
-          return false
-        }
-
-          // set the containerEl
-        containerEl = $(el)
-      } else {
-          // else it must be something that becomes a jQuery collection
-          // with size 1
-          // ie: a single DOM node or jQuery object
-        containerEl = $(containerElOrId)
-
-        if (containerEl.length !== 1) {
-          window.alert(
-              'ChessBoard Error 1003: The first argument to ' +
-                'ChessBoard() must be an ID or a single DOM node.' +
-                '\n\nExiting...'
-            )
-          return false
-        }
-      }
-
-        // JSON must exist
-      if (
-          !window.JSON ||
-          typeof JSON.stringify !== 'function' ||
-          typeof JSON.parse !== 'function'
-        ) {
-        window.alert(
-            'ChessBoard Error 1004: JSON does not exist. ' +
-              'Please include a JSON polyfill.\n\nExiting...'
-          )
-        return false
-      }
-
-        // check for a compatible version of jQuery
-      if (
-          !(
-            typeof window.$ &&
-            $.fn &&
-            $.fn.jquery &&
-            compareSemVer($.fn.jquery, MINIMUM_JQUERY_VERSION) === true
-          )
-        ) {
-        window.alert(
-            'ChessBoard Error 1005: Unable to find a valid version ' +
-              'of jQuery. Please include jQuery ' +
-              MINIMUM_JQUERY_VERSION +
-              ' or ' +
-              'higher on the page.\n\nExiting...'
-          )
-        return false
-      }
-
-      return true
-    }
-
-    // validate config / set default options
-    function expandConfig () {
-      if (isString(cfg) || validPositionObject(cfg)) {
-        cfg = {
-          position: cfg
-        }
-      }
-
-      // default for orientation is white
-      if (cfg.orientation !== 'black') cfg.orientation = 'white'
+    // TODO: rename this
+    function expandConfig2 () {
       CURRENT_ORIENTATION = cfg.orientation
-
-      // default for showNotation is true
-      if (cfg.showNotation !== false) cfg.showNotation = true
-
-      // default for draggable is false
-      if (cfg.draggable !== true) cfg.draggable = false
-
-      // default for dropOffBoard is 'snapback'
-      if (cfg.dropOffBoard !== 'trash') cfg.dropOffBoard = 'snapback'
-
-      // default for sparePieces is false
-      if (cfg.sparePieces !== true) cfg.sparePieces = false
-
-      // draggable must be true if sparePieces is enabled
-      if (cfg.sparePieces) cfg.draggable = true
-
-      // default piece theme is wikipedia
-      if (!cfg.hasOwnProperty('pieceTheme') ||
-          (!isString(cfg.pieceTheme) && !isFunction(cfg.pieceTheme))) {
-        cfg.pieceTheme = 'img/chesspieces/wikipedia/{piece}.png'
-      }
-
-      // animation speeds
-      if (!validAnimationSpeed(cfg.appearSpeed)) cfg.appearSpeed = DEFAULT_APPEAR_SPEED
-      if (!validAnimationSpeed(cfg.moveSpeed)) cfg.moveSpeed = DEFAULT_MOVE_SPEED
-      if (!validAnimationSpeed(cfg.snapbackSpeed)) cfg.snapbackSpeed = DEFAULT_SNAPBACK_SPEED
-      if (!validAnimationSpeed(cfg.snapSpeed)) cfg.snapSpeed = DEFAULT_SNAP_SPEED
-      if (!validAnimationSpeed(cfg.trashSpeed)) cfg.trashSpeed = DEFAULT_TRASH_SPEED
 
       // make sure position is valid
       if (cfg.hasOwnProperty('position')) {
         if (cfg.position === 'start') {
           CURRENT_POSITION = deepCopy(START_POSITION)
-        } else if (validFen(cfg.position) === true) {
+        } else if (validFen(cfg.position)) {
           CURRENT_POSITION = fenToObj(cfg.position)
-        } else if (validPositionObject(cfg.position) === true) {
+        } else if (validPositionObject(cfg.position)) {
           CURRENT_POSITION = deepCopy(cfg.position)
         } else {
           error(
@@ -632,8 +668,6 @@
             )
         }
       }
-
-      return true
     }
 
     // -------------------------------------------------------------------------
@@ -646,7 +680,7 @@
     // fudge factor, and then keep reducing until we find an exact mod 8 for
     // our square size
     function calculateSquareSize () {
-      var containerWidth = parseInt(containerEl.width(), 10)
+      var containerWidth = parseInt($container.width(), 10)
 
       // defensive, prevent infinite loop
       if (!containerWidth || containerWidth <= 0) {
@@ -669,7 +703,7 @@
       for (var i = 0; i < COLUMNS.length; i++) {
         for (var j = 1; j <= 8; j++) {
           var square = COLUMNS[i] + j
-          SQUARE_ELS_IDS[square] = square + '-' + uuid()
+          squareElsIds[square] = square + '-' + uuid()
         }
       }
 
@@ -678,8 +712,8 @@
       for (i = 0; i < pieces.length; i++) {
         var whitePiece = 'w' + pieces[i]
         var blackPiece = 'b' + pieces[i]
-        SPARE_PIECE_ELS_IDS[whitePiece] = whitePiece + '-' + uuid()
-        SPARE_PIECE_ELS_IDS[blackPiece] = blackPiece + '-' + uuid()
+        sparePiecesElsIds[whitePiece] = whitePiece + '-' + uuid()
+        sparePiecesElsIds[blackPiece] = blackPiece + '-' + uuid()
       }
     }
 
@@ -687,36 +721,10 @@
     // Markup Building
     // -------------------------------------------------------------------------
 
-    function buildBoardContainer () {
-      var html = '<div class="' + CSS.chessboard + '">'
-
-      if (cfg.sparePieces) {
-        html +=
-            '<div class="' +
-            CSS.sparePieces +
-            ' ' +
-            CSS.sparePiecesTop +
-            '"></div>'
+    function buildBoardHTML (orientation) {
+      if (orientation !== 'black') {
+        orientation = 'white'
       }
-
-      html += '<div class="' + CSS.board + '"></div>'
-
-      if (cfg.sparePieces) {
-        html +=
-            '<div class="' +
-            CSS.sparePieces +
-            ' ' +
-            CSS.sparePiecesBottom +
-            '"></div>'
-      }
-
-      html += '</div>'
-
-      return html
-    }
-
-    function buildBoard (orientation) {
-      if (orientation !== 'black') orientation = 'white'
 
       var html = ''
 
@@ -730,67 +738,36 @@
 
       var squareColor = 'white'
       for (var i = 0; i < 8; i++) {
-        html += '<div class="' + CSS.row + '">'
+        html += '<div class="{row}">'
         for (var j = 0; j < 8; j++) {
           var square = alpha[j] + row
 
-          html +=
-              '<div class="' +
-              CSS.square +
-              ' ' +
-              CSS[squareColor] +
-              ' ' +
-              'square-' +
-              square +
-              '" ' +
-              'style="width: ' +
-              SQUARE_SIZE +
-              'px; height: ' +
-              SQUARE_SIZE +
-              'px" ' +
-              'id="' +
-              SQUARE_ELS_IDS[square] +
-              '" ' +
-              'data-square="' +
-              square +
-              '">'
+          html += '<div class="{square} ' + CSS[squareColor] + ' ' +
+            'square-' + square + '" ' +
+            'style="width: ' + squareSize + 'px; height: ' + squareSize + 'px" ' +
+            'id="' + squareElsIds[square] + '" ' +
+            'data-square="' + square + '">'
 
-          if (cfg.showNotation === true) {
-              // alpha notation
-            if (
-                (orientation === 'white' && row === 1) ||
-                (orientation === 'black' && row === 8)
-              ) {
-              html +=
-                  '<div class="' +
-                  CSS.notation +
-                  ' ' +
-                  CSS.alpha +
-                  '">' +
-                  alpha[j] +
-                  '</div>'
+          if (cfg.showNotation) {
+            // alpha notation
+            if ((orientation === 'white' && row === 1) ||
+                (orientation === 'black' && row === 8)) {
+              html += '<div class="{notation} {alpha}">' + alpha[j] + '</div>'
             }
 
-              // numeric notation
+            // numeric notation
             if (j === 0) {
-              html +=
-                  '<div class="' +
-                  CSS.notation +
-                  ' ' +
-                  CSS.numeric +
-                  '">' +
-                  row +
-                  '</div>'
+              html += '<div class="{notation} {numeric}">' + row + '</div>'
             }
           }
 
           html += '</div>' // end .square
 
-          squareColor = squareColor === 'white' ? 'black' : 'white'
+          squareColor = (squareColor === 'white' ? 'black' : 'white')
         }
-        html += '<div class="' + CSS.clearfix + '"></div></div>'
+        html += '<div class="{clearfix}"></div></div>'
 
-        squareColor = squareColor === 'white' ? 'black' : 'white'
+        squareColor = (squareColor === 'white' ? 'black' : 'white')
 
         if (orientation === 'white') {
           row = row - 1
@@ -799,7 +776,7 @@
         }
       }
 
-      return html
+      return interpolateTemplate(html, CSS)
     }
 
     function buildPieceImgSrc (piece) {
@@ -830,10 +807,10 @@
           piece +
           '" ' +
           'style="width: ' +
-          SQUARE_SIZE +
+          squareSize +
           'px;' +
           'height: ' +
-          SQUARE_SIZE +
+          squareSize +
           'px;'
       if (hidden === true) {
         html += 'display:none;'
@@ -851,7 +828,7 @@
 
       var html = ''
       for (var i = 0; i < pieces.length; i++) {
-        html += buildPiece(pieces[i], false, SPARE_PIECE_ELS_IDS[pieces[i]])
+        html += buildPiece(pieces[i], false, sparePiecesElsIds[pieces[i]])
       }
 
       return html
@@ -863,9 +840,9 @@
 
     function animateSquareToSquare (src, dest, piece, completeFn) {
       // get information about the source and destination squares
-      var srcSquareEl = $('#' + SQUARE_ELS_IDS[src])
+      var srcSquareEl = $('#' + squareElsIds[src])
       var srcSquarePosition = srcSquareEl.offset()
-      var destSquareEl = $('#' + SQUARE_ELS_IDS[dest])
+      var destSquareEl = $('#' + squareElsIds[dest])
       var destSquarePosition = destSquareEl.offset()
 
       // create the animated piece and absolutely position it
@@ -905,8 +882,8 @@
     }
 
     function animateSparePieceToSquare (piece, dest, completeFn) {
-      var srcOffset = $('#' + SPARE_PIECE_ELS_IDS[piece]).offset()
-      var destSquareEl = $('#' + SQUARE_ELS_IDS[dest])
+      var srcOffset = $('#' + sparePiecesElsIds[piece]).offset()
+      var destSquareEl = $('#' + squareElsIds[dest])
       var destOffset = destSquareEl.offset()
 
       // create the animate piece
@@ -965,7 +942,7 @@
       for (var i = 0; i < a.length; i++) {
         // clear a piece
         if (a[i].type === 'clear') {
-          $('#' + SQUARE_ELS_IDS[a[i].square] + ' .' + CSS.piece).fadeOut(
+          $('#' + squareElsIds[a[i].square] + ' .' + CSS.piece).fadeOut(
               cfg.trashSpeed,
               onFinish
             )
@@ -973,7 +950,7 @@
 
         // add a piece (no spare pieces)
         if (a[i].type === 'add' && !cfg.sparePieces) {
-          $('#' + SQUARE_ELS_IDS[a[i].square])
+          $('#' + squareElsIds[a[i].square])
             .append(buildPiece(a[i].piece, true))
             .find('.' + CSS.piece)
             .fadeIn(cfg.appearSpeed, onFinish)
@@ -1074,27 +1051,27 @@
 
     function drawPositionInstant () {
       // clear the board
-      boardEl.find('.' + CSS.piece).remove()
+      $board.find('.' + CSS.piece).remove()
 
       // add the pieces
       for (var i in CURRENT_POSITION) {
         if (!CURRENT_POSITION.hasOwnProperty(i)) continue
 
-        $('#' + SQUARE_ELS_IDS[i]).append(buildPiece(CURRENT_POSITION[i]))
+        $('#' + squareElsIds[i]).append(buildPiece(CURRENT_POSITION[i]))
       }
     }
 
     function drawBoard () {
-      boardEl.html(buildBoard(CURRENT_ORIENTATION))
+      $board.html(buildBoardHTML(CURRENT_ORIENTATION, squareSize, cfg.showNotation))
       drawPositionInstant()
 
       if (cfg.sparePieces) {
         if (CURRENT_ORIENTATION === 'white') {
-          sparePiecesTopEl.html(buildSparePieces('black'))
-          sparePiecesBottomEl.html(buildSparePieces('white'))
+          $sparePiecesTop.html(buildSparePieces('black'))
+          $sparePiecesBottom.html(buildSparePieces('white'))
         } else {
-          sparePiecesTopEl.html(buildSparePieces('white'))
-          sparePiecesBottomEl.html(buildSparePieces('black'))
+          $sparePiecesTop.html(buildSparePieces('white'))
+          $sparePiecesBottom.html(buildSparePieces('black'))
         }
       }
     }
@@ -1137,14 +1114,14 @@
     }
 
     function isXYOnSquare (x, y) {
-      for (var i in SQUARE_ELS_OFFSETS) {
-        if (!SQUARE_ELS_OFFSETS.hasOwnProperty(i)) continue
+      for (var i in squareElsOffsets) {
+        if (!squareElsOffsets.hasOwnProperty(i)) continue
 
-        var s = SQUARE_ELS_OFFSETS[i]
+        var s = squareElsOffsets[i]
         if (x >= s.left &&
-            x < s.left + SQUARE_SIZE &&
+            x < s.left + squareSize &&
             y >= s.top &&
-            y < s.top + SQUARE_SIZE) {
+            y < s.top + squareSize) {
           return i
         }
       }
@@ -1154,17 +1131,18 @@
 
     // records the XY coords of every square into memory
     function captureSquareOffsets () {
-      SQUARE_ELS_OFFSETS = {}
+      squareElsOffsets = {}
 
-      for (var i in SQUARE_ELS_IDS) {
-        if (!SQUARE_ELS_IDS.hasOwnProperty(i)) continue
+      for (var i in squareElsIds) {
+        if (!squareElsIds.hasOwnProperty(i)) continue
 
-        SQUARE_ELS_OFFSETS[i] = $('#' + SQUARE_ELS_IDS[i]).offset()
+        squareElsOffsets[i] = $('#' + squareElsIds[i]).offset()
       }
     }
 
     function removeSquareHighlights () {
-      boardEl.find('.' + CSS.square)
+      $board
+        .find('.' + CSS.square)
         .removeClass(CSS.highlight1 + ' ' + CSS.highlight2)
     }
 
@@ -1180,7 +1158,7 @@
       // animation complete
       function complete () {
         drawPositionInstant()
-        draggedPieceEl.css('display', 'none')
+        $draggedPieceEl.css('display', 'none')
 
         // run their onSnapbackEnd function
         if (isFunction(cfg.onSnapbackEnd)) {
@@ -1194,14 +1172,14 @@
       }
 
       // get source square position
-      var sourceSquarePosition = $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_SOURCE]).offset()
+      var sourceSquarePosition = $('#' + squareElsIds[DRAGGED_PIECE_SOURCE]).offset()
 
       // animate the piece to the target square
       var opts = {
         duration: cfg.snapbackSpeed,
         complete: complete
       }
-      draggedPieceEl.animate(sourceSquarePosition, opts)
+      $draggedPieceEl.animate(sourceSquarePosition, opts)
 
       // set state
       DRAGGING_A_PIECE = false
@@ -1219,7 +1197,7 @@
       drawPositionInstant()
 
       // hide the dragged piece
-      draggedPieceEl.fadeOut(cfg.trashSpeed)
+      $draggedPieceEl.fadeOut(cfg.trashSpeed)
 
       // set state
       DRAGGING_A_PIECE = false
@@ -1235,12 +1213,12 @@
       setCurrentPosition(newPosition)
 
       // get target square information
-      var targetSquarePosition = $('#' + SQUARE_ELS_IDS[square]).offset()
+      var targetSquarePosition = $('#' + squareElsIds[square]).offset()
 
       // animation complete
       function onAnimationComplete () {
         drawPositionInstant()
-        draggedPieceEl.css('display', 'none')
+        $draggedPieceEl.css('display', 'none')
 
         // execute their onSnapEnd function
         if (isFunction(cfg.onSnapEnd)) {
@@ -1253,7 +1231,7 @@
         duration: cfg.snapSpeed,
         complete: onAnimationComplete
       }
-      draggedPieceEl.animate(targetSquarePosition, opts)
+      $draggedPieceEl.animate(targetSquarePosition, opts)
 
       // set state
       DRAGGING_A_PIECE = false
@@ -1283,16 +1261,16 @@
       captureSquareOffsets()
 
       // create the dragged piece
-      draggedPieceEl.attr('src', buildPieceImgSrc(piece)).css({
+      $draggedPieceEl.attr('src', buildPieceImgSrc(piece)).css({
         display: '',
         position: 'absolute',
-        left: x - SQUARE_SIZE / 2,
-        top: y - SQUARE_SIZE / 2
+        left: x - squareSize / 2,
+        top: y - squareSize / 2
       })
 
       if (source !== 'spare') {
         // highlight the source square and hide the piece
-        $('#' + SQUARE_ELS_IDS[source])
+        $('#' + squareElsIds[source])
           .addClass(CSS.highlight1)
           .find('.' + CSS.piece)
           .css('display', 'none')
@@ -1301,9 +1279,9 @@
 
     function updateDraggedPiece (x, y) {
       // put the dragged piece over the mouse cursor
-      draggedPieceEl.css({
-        left: x - SQUARE_SIZE / 2,
-        top: y - SQUARE_SIZE / 2
+      $draggedPieceEl.css({
+        left: x - squareSize / 2,
+        top: y - squareSize / 2
       })
 
       // get location
@@ -1314,12 +1292,12 @@
 
       // remove highlight from previous square
       if (validSquare(DRAGGED_PIECE_LOCATION)) {
-        $('#' + SQUARE_ELS_IDS[DRAGGED_PIECE_LOCATION]).removeClass(CSS.highlight2)
+        $('#' + squareElsIds[DRAGGED_PIECE_LOCATION]).removeClass(CSS.highlight2)
       }
 
       // add highlight to new square
       if (validSquare(location)) {
-        $('#' + SQUARE_ELS_IDS[location]).addClass(CSS.highlight2)
+        $('#' + squareElsIds[location]).addClass(CSS.highlight2)
       }
 
       // run onDragMove
@@ -1413,11 +1391,11 @@
     // remove the widget from the page
     function destroy () {
       // remove markup
-      containerEl.html('')
-      draggedPieceEl.remove()
+      $container.html('')
+      $draggedPieceEl.remove()
 
       // remove event handlers
-      containerEl.unbind()
+      $container.unbind()
     }
     widget.destroy = destroy
 
@@ -1541,34 +1519,36 @@
       }
     }
 
-    widget.resize = function () {
+    function resize () {
       // calulate the new square size
-      SQUARE_SIZE = calculateSquareSize()
+      squareSize = calculateSquareSize()
 
       // set board width
-      boardEl.css('width', SQUARE_SIZE * 8 + 'px')
+      $board.css('width', squareSize * 8 + 'px')
 
       // set drag piece size
-      draggedPieceEl.css({
-        height: SQUARE_SIZE,
-        width: SQUARE_SIZE
+      $draggedPieceEl.css({
+        height: squareSize,
+        width: squareSize
       })
 
       // spare pieces
       if (cfg.sparePieces) {
-        containerEl
-            .find('.' + CSS.sparePieces)
-            .css('paddingLeft', SQUARE_SIZE + BOARD_BORDER_SIZE + 'px')
+        $container
+          .find('.' + CSS.sparePieces)
+          .css('paddingLeft', squareSize + BOARD_BORDER_SIZE + 'px')
       }
 
       // redraw the board
       drawBoard()
     }
+    widget.resize = resize
 
     // set the starting position
-    widget.start = function (useAnimation) {
+    function start (useAnimation) {
       widget.position('start', useAnimation)
     }
+    widget.start = start
 
     // -------------------------------------------------------------------------
     // Browser Events
@@ -1729,15 +1709,11 @@
       $('body').on('mousedown mousemove', '.' + CSS.piece, stopDefault)
 
       // mouse drag pieces
-      boardEl.on('mousedown', '.' + CSS.square, mousedownSquare)
-      containerEl.on(
-          'mousedown',
-          '.' + CSS.sparePieces + ' .' + CSS.piece,
-          mousedownSparePiece
-        )
+      $board.on('mousedown', '.' + CSS.square, mousedownSquare)
+      $container.on('mousedown', '.' + CSS.sparePieces + ' .' + CSS.piece, mousedownSparePiece)
 
       // mouse enter / leave square
-      boardEl
+      $board
         .on('mouseenter', '.' + CSS.square, mouseenterSquare)
         .on('mouseleave', '.' + CSS.square, mouseleaveSquare)
 
@@ -1760,62 +1736,57 @@
 
       // touch drag pieces
       if (isTouchDevice()) {
-        boardEl.on('touchstart', '.' + CSS.square, touchstartSquare)
-        containerEl.on(
-            'touchstart',
-            '.' + CSS.sparePieces + ' .' + CSS.piece,
-            touchstartSparePiece
-          )
+        $board.on('touchstart', '.' + CSS.square, touchstartSquare)
+        $container.on('touchstart', '.' + CSS.sparePieces + ' .' + CSS.piece, touchstartSparePiece)
         $(window)
-            .on('touchmove', touchmoveWindow)
-            .on('touchend', touchendWindow)
+          .on('touchmove', touchmoveWindow)
+          .on('touchend', touchendWindow)
       }
     }
 
-    function initDom () {
+    function initDOM () {
       // create unique IDs for all the elements we will create
       createElIds()
 
       // build board and save it in memory
-      containerEl.html(buildBoardContainer())
-      boardEl = containerEl.find('.' + CSS.board)
+      $container.html(buildContainerHTML(cfg.sparePieces))
+      $board = $container.find('.' + CSS.board)
 
       if (cfg.sparePieces) {
-        sparePiecesTopEl = containerEl.find('.' + CSS.sparePiecesTop)
-        sparePiecesBottomEl = containerEl.find('.' + CSS.sparePiecesBottom)
+        $sparePiecesTop = $container.find('.' + CSS.sparePiecesTop)
+        $sparePiecesBottom = $container.find('.' + CSS.sparePiecesBottom)
       }
 
       // create the drag piece
       var draggedPieceId = uuid()
       $('body').append(buildPiece('wP', true, draggedPieceId))
-      draggedPieceEl = $('#' + draggedPieceId)
+      $draggedPieceEl = $('#' + draggedPieceId)
 
       // get the border size
-      BOARD_BORDER_SIZE = parseInt(boardEl.css('borderLeftWidth'), 10)
+      BOARD_BORDER_SIZE = parseInt($board.css('borderLeftWidth'), 10)
 
       // set the size and draw the board
       widget.resize()
     }
 
-    function init () {
-      if (!checkDeps()) return
-      if (!expandConfig()) return
+    // -------------------------------------------------------------------------
+    // Initialization
+    // -------------------------------------------------------------------------
 
-      initDom()
-      addEvents()
-    }
-
-    // go time
-    init()
+    initDOM()
+    addEvents()
 
     // return the widget object
     return widget
   } // end constructor
 
   // TODO: do module exports here
-  window['ChessBoard'] = window['ChessBoard'] || constructor
+  window['Chessboard'] = window['Chessboard'] || constructor
+
+  // support legacy ChessBoard name
+  window['ChessBoard'] = window['Chessboard']
 
   // expose util functions
-  window['ChessBoard']['fenToObj'] = fenToObj
-  window['ChessBoard']['objToFen'] = objToFen
+  window['Chessboard']['fenToObj'] = fenToObj
+  window['Chessboard']['objToFen'] = objToFen
 })() // end anonymous wrapper

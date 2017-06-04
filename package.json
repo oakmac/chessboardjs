@@ -8,9 +8,6 @@
     "url": "git://github.com/oakmac/chessboardjs.git"
   },
   "main": "src/chessboard.js",
-  "engines": {
-    "node": "*"
-  },
   "dependencies": {
     "jquery": ">=1.8.3"
   },
@@ -20,7 +17,6 @@
     "prettier-standard": "5.0.0"
   },
   "scripts": {
-    "prettier": "./node_modules/.bin/prettier-standard 'src/*.js' '*.js'",
     "test": "mocha"
   },
   "license": "MIT"
