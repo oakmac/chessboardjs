@@ -8,7 +8,6 @@ Play Random Computer
 You can integrate ChessboardJS with the <a href="https://github.com/jhlywa/chess.js">chess.js</a> library to play against random moves.
 
 ===== HTML
-<script src="js/chess.js"></script>
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS

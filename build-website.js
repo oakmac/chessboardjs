@@ -15,9 +15,9 @@ const footerTemplate = fs.readFileSync('templates/_footer.mustache', encoding)
 const latestChessboardjs = fs.readFileSync('src/chessboard.js', encoding)
 const latestChessboardcss = fs.readFileSync('src/chessboard.css', encoding)
 
-const examples = kidif('examples/*.example')
+const examplesArr = kidif('examples/*.example')
 
-const examplesObj = examples.reduce(function (examplesObj, example, idx) {
+const examplesObj = examplesArr.reduce(function (examplesObj, example, idx) {
   examplesObj[ example.id ] = example
   return examplesObj
 }, {})
@@ -64,9 +64,10 @@ function writeExamplesPage () {
   const headerHTML = mustache.render(headerTemplate, {examplesActive: true})
 
   const html = mustache.render(examplesTemplate, {
+    examplesJavaScript: buildExamplesJS(),
     head: headHTML,
     header: headerHTML,
-    nav: buildExamplesNavHTML(examples),
+    nav: buildExamplesNavHTML(),
     footer: footerTemplate
   })
   fs.writeFileSync('website/examples.html', html, encoding)
@@ -88,21 +89,50 @@ writeWebsite()
 
 function buildExampleGroupHTML (idx, groupName, examplesInGroup) {
   const num = idx + 1
-  var html = '<h4 id="groupHeader-' + num + '">' + groupName + '</h4>' +
-    '<ul id="groupContainer-' + num + '">'
+  let html = '<h4 id="groupHeader-' + num + '">' + groupName + '</h4>' +
+    '<ul id="groupContainer-' + num + '" style="display:none">'
+
   examplesInGroup.forEach(function (exampleId) {
     const example = examplesObj[exampleId]
-    html += '<li id="example-' + exampleId + '">' + example.name + '</id>'
+    html += '<li id="exampleLink-' + exampleId + '">' + example.name + '</id>'
   })
+
   html += '</ul>'
 
   return html
 }
 
-function buildExamplesNavHTML (examples) {
+function buildExamplesNavHTML () {
   var html = ''
   examplesGroups.forEach(function (group, idx) {
     html += buildExampleGroupHTML(idx, group.name, group.examples)
   })
   return html
+}
+
+function buildExamplesJS () {
+  var txt = 'window.CHESSBOARD_EXAMPLES = {}\n\n'
+
+  examplesArr.forEach(function (ex) {
+    txt += 'CHESSBOARD_EXAMPLES["' + ex.id + '"] = {\n' +
+      '  description: ' + JSON.stringify(ex.description) + ',\n' +
+      '  html: ' + JSON.stringify(ex.html) + ',\n' +
+      '  name: ' + JSON.stringify(ex.name) + ',\n' +
+      '  jsStr: ' + JSON.stringify(ex.js) + ',\n' +
+      '  jsFn: function () {\n' + ex.js + '\n  }\n' +
+      '};\n\n'
+  })
+
+  return txt
+}
+
+function htmlEscape (str) {
+  return (str + '')
+           .replace(/&/g, '&amp;')
+           .replace(/</g, '&lt;')
+           .replace(/>/g, '&gt;')
+           .replace(/"/g, '&quot;')
+           .replace(/'/g, '&#39;')
+           .replace(/\//g, '&#x2F;')
+           .replace(/`/g, '&#x60;')
 }

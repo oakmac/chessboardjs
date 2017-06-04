@@ -12,15 +12,14 @@ Use CSS to show piece highlighting.
 .highlight-white {
   -webkit-box-shadow: inset 0 0 3px 3px yellow;
   -moz-box-shadow: inset 0 0 3px 3px yellow;
-  box-shadow: inset 0 0 3px 3px yellow;  
+  box-shadow: inset 0 0 3px 3px yellow;
 }
 .highlight-black {
   -webkit-box-shadow: inset 0 0 3px 3px blue;
   -moz-box-shadow: inset 0 0 3px 3px blue;
-  box-shadow: inset 0 0 3px 3px blue;  
+  box-shadow: inset 0 0 3px 3px blue;
 }
 </style>
-<script src="js/chess.js"></script>
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
@@ -54,7 +53,7 @@ var makeRandomMove = function() {
     boardEl.find('.square-55d63').removeClass('highlight-black');
     boardEl.find('.square-' + move.from).addClass('highlight-black');
     squareToHighlight = move.to;
-    colorToHighlight = 'black';    
+    colorToHighlight = 'black';
   }
 
   game.move(possibleMoves[randomIndex].san);

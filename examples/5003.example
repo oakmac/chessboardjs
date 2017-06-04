@@ -8,7 +8,6 @@ Highlight Legal Moves
 Use the <code class="js plain"><a href="docs#config:onMouseoverSquare">onMouseoverSquare</a></code> and <code class="js plain"><a href="docs#config:onMouseoutSquare">onMouseoutSquare</a></code> events to highlight legal squares.
 
 ===== HTML
-<script src="js/chess.js"></script>
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
@@ -21,7 +20,7 @@ var removeGreySquares = function() {
 
 var greySquare = function(square) {
   var squareEl = $('#board .square-' + square);
-  
+
   var background = '#a9a9a9';
   if (squareEl.hasClass('black-3c85d') === true) {
     background = '#696969';
