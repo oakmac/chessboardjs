@@ -20,6 +20,7 @@
 
   var COLUMNS = 'abcdefgh'.split('')
   var MINIMUM_JQUERY_VERSION = '1.8.3'
+  var RUN_ASSERTS = true
   var START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
   var START_POSITION = fenToObj(START_FEN)
 
@@ -52,7 +53,7 @@
   CSS['white'] = 'white-1e1d7'
 
   // ---------------------------------------------------------------------------
-  // JS Util Functions
+  // Misc Util Functions
   // ---------------------------------------------------------------------------
 
   function uuid () {
@@ -126,32 +127,55 @@
   }
 
   function validSquare (square) {
-    if (typeof square !== 'string') return false
-    return square.search(/^[a-h][1-8]$/) !== -1
+    return isString(square) && square.search(/^[a-h][1-8]$/) !== -1
+  }
+
+  if (RUN_ASSERTS) {
+    console.assert(validSquare('a1'))
+    console.assert(validSquare('e2'))
+    console.assert(!validSquare('D2'))
+    console.assert(!validSquare('g9'))
+    console.assert(!validSquare('a'))
+    console.assert(!validSquare(true))
+    console.assert(!validSquare(null))
+    console.assert(!validSquare({}))
   }
 
   function validPieceCode (code) {
-    if (typeof code !== 'string') return false
-    return code.search(/^[bw][KQRNBP]$/) !== -1
+    return isString(code) && code.search(/^[bw][KQRNBP]$/) !== -1
   }
 
-  // TODO: this whole function could probably be replaced with a single regex
+  if (RUN_ASSERTS) {
+    console.assert(validPieceCode('bP'))
+    console.assert(validPieceCode('bK'))
+    console.assert(validPieceCode('wK'))
+    console.assert(validPieceCode('wR'))
+    console.assert(!validPieceCode('WR'))
+    console.assert(!validPieceCode('Wr'))
+    console.assert(!validPieceCode('a'))
+    console.assert(!validPieceCode(true))
+    console.assert(!validPieceCode(null))
+    console.assert(!validPieceCode({}))
+  }
+
   function validFen (fen) {
-    if (typeof fen !== 'string') return false
+    if (!isString(fen)) return false
 
     // cut off any move, castling, etc info from the end
     // we're only interested in position information
     fen = fen.replace(/ .+$/, '')
 
+    // expand the empty square numbers to just 1s
+    fen = expandFenEmptySquares(fen)
+
     // FEN should be 8 sections separated by slashes
     var chunks = fen.split('/')
     if (chunks.length !== 8) return false
 
-    // check the piece sections
+    // check each section
     for (var i = 0; i < 8; i++) {
-      if (chunks[i] === '' ||
-          chunks[i].length > 8 ||
-          chunks[i].search(/[^kqrnbpKQRNBP1-8]/) !== -1) {
+      if (chunks[i].length !== 8 ||
+          chunks[i].search(/[^kqrnbpKQRNBP1]/) !== -1) {
         return false
       }
     }
@@ -159,8 +183,18 @@
     return true
   }
 
+  if (RUN_ASSERTS) {
+    console.assert(validFen(START_FEN))
+    console.assert(validFen('8/8/8/8/8/8/8/8'))
+    console.assert(!validFen('anbqkbnr/8/8/8/8/8/PPPPPPPP/8'))
+    console.assert(!validFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/'))
+    console.assert(!validFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBN'))
+    console.assert(!validFen('888888/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'))
+    console.assert(!validFen('888888/pppppppp/74/8/8/8/PPPPPPPP/RNBQKBNR'))
+  }
+
   function validPositionObject (pos) {
-    if (typeof pos !== 'object') return false
+    if (!$.isPlainObject(pos)) return false
 
     for (var i in pos) {
       if (!pos.hasOwnProperty(i)) continue
@@ -171,6 +205,17 @@
     }
 
     return true
+  }
+
+  if (RUN_ASSERTS) {
+    console.assert(validPositionObject(START_POSITION))
+    console.assert(validPositionObject({}))
+    console.assert(validPositionObject({e2: 'wP'}))
+    console.assert(validPositionObject({e2: 'wP', d2: 'wP'}))
+    console.assert(!validPositionObject({e2: 'BP'}))
+    console.assert(!validPositionObject({y2: 'wP'}))
+    console.assert(!validPositionObject(null))
+    console.assert(!validPositionObject('start'))
   }
 
   function isTouchDevice () {
@@ -269,22 +314,43 @@
         }
       }
 
-      if (i !== 7) fen += '/'
+      if (i !== 7) {
+        fen = fen + '/'
+      }
 
       currentRow = currentRow - 1
     }
 
-    // squeeze the numbers together
-    // haha, I love this solution...
-    fen = fen.replace(/11111111/g, '8')
-    fen = fen.replace(/1111111/g, '7')
-    fen = fen.replace(/111111/g, '6')
-    fen = fen.replace(/11111/g, '5')
-    fen = fen.replace(/1111/g, '4')
-    fen = fen.replace(/111/g, '3')
-    fen = fen.replace(/11/g, '2')
+    // squeeze the empty numbers together
+    fen = squeezeFenEmptySquares(fen)
 
     return fen
+  }
+
+  if (RUN_ASSERTS) {
+    console.assert(objToFen(START_POSITION) === START_FEN)
+    console.assert(objToFen({}) === '8/8/8/8/8/8/8/8')
+    console.assert(objToFen({a2: 'wP', 'b2': 'bP'}) === '8/8/8/8/8/8/Pp6/8')
+  }
+
+  function squeezeFenEmptySquares (fen) {
+    return fen.replace(/11111111/g, '8')
+              .replace(/1111111/g, '7')
+              .replace(/111111/g, '6')
+              .replace(/11111/g, '5')
+              .replace(/1111/g, '4')
+              .replace(/111/g, '3')
+              .replace(/11/g, '2')
+  }
+
+  function expandFenEmptySquares (fen) {
+    return fen.replace(/8/g, '11111111')
+              .replace(/7/g, '1111111')
+              .replace(/6/g, '111111')
+              .replace(/5/g, '11111')
+              .replace(/4/g, '1111')
+              .replace(/3/g, '111')
+              .replace(/2/g, '11')
   }
 
   // returns the distance between two squares
@@ -360,7 +426,7 @@
   // ---------------------------------------------------------------------------
 
   function constructor (containerElOrId, cfg) {
-    if (typeof cfg !== 'object') cfg = {}
+    if (!$.isPlainObject(cfg)) cfg = {}
 
     // DOM elements
     var containerEl = null
@@ -425,17 +491,17 @@
         return
       }
 
-        // custom function
-      if (typeof cfg.showErrors === 'function') {
+      // custom function
+      if (isFunction(cfg.showErrors)) {
         cfg.showErrors(code, msg, obj)
       }
     }
 
-      // check dependencies
+    // check dependencies
     function checkDeps () {
-        // if containerId is a string, it must be the ID of a DOM node
-      if (typeof containerElOrId === 'string') {
-          // cannot be empty
+      // if containerId is a string, it must be the ID of a DOM node
+      if (isString(containerElOrId)) {
+        // cannot be empty
         if (containerElOrId === '') {
           window.alert(
               'ChessBoard Error 1001: ' +
@@ -512,7 +578,7 @@
 
     // validate config / set default options
     function expandConfig () {
-      if (typeof cfg === 'string' || validPositionObject(cfg)) {
+      if (isString(cfg) || validPositionObject(cfg)) {
         cfg = {
           position: cfg
         }
@@ -539,8 +605,7 @@
 
       // default piece theme is wikipedia
       if (!cfg.hasOwnProperty('pieceTheme') ||
-          (typeof cfg.pieceTheme !== 'string' &&
-           typeof cfg.pieceTheme !== 'function')) {
+          (!isString(cfg.pieceTheme) && !isFunction(cfg.pieceTheme))) {
         cfg.pieceTheme = 'img/chesspieces/wikipedia/{piece}.png'
       }
 
@@ -742,7 +807,7 @@
         return cfg.pieceTheme(piece)
       }
 
-      if (typeof cfg.pieceTheme === 'string') {
+      if (isString(cfg.pieceTheme)) {
         return cfg.pieceTheme.replace(/{piece}/g, piece)
       }
 
@@ -753,7 +818,7 @@
 
     function buildPiece (piece, hidden, id) {
       var html = '<img src="' + buildPieceImgSrc(piece) + '" '
-      if (id && typeof id === 'string') {
+      if (isString(id) && id !== '') {
         html += 'id="' + id + '" '
       }
       html +=
@@ -1063,7 +1128,7 @@
       if (oldFen === newFen) return
 
       // run their onChange function
-      if (typeof cfg.onChange === 'function') {
+      if (isFunction(cfg.onChange)) {
         cfg.onChange(oldPos, newPos)
       }
 
@@ -1747,9 +1812,10 @@
     return widget
   } // end constructor
 
+  // TODO: do module exports here
   window['ChessBoard'] = window['ChessBoard'] || constructor
 
   // expose util functions
-  window.ChessBoard.fenToObj = fenToObj
-  window.ChessBoard.objToFen = objToFen
+  window['ChessBoard']['fenToObj'] = fenToObj
+  window['ChessBoard']['objToFen'] = objToFen
 })() // end anonymous wrapper
