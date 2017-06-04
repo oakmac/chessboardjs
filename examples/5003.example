@@ -1,14 +1,14 @@
 ===== Name
 Highlight Legal Moves
 
-=== Description
+===== Description
 Use the <code class="js plain"><a href="docs#config:onMouseoverSquare">onMouseoverSquare</a></code> and <code class="js plain"><a href="docs#config:onMouseoutSquare">onMouseoutSquare</a></code> events to highlight legal squares.
 
-=== HTML
+===== HTML
 <script src="js/chess.js"></script>
-<div id="board" style="width: 400px"></div>
+<div id="myBoard" style="width: 400px"></div>
 
-=== JS
+===== JS
 var board,
   game = new Chess();
 
@@ -87,4 +87,4 @@ var cfg = {
   onMouseoverSquare: onMouseoverSquare,
   onSnapEnd: onSnapEnd
 };
-board = ChessBoard('board', cfg);
+board = Chessboard('myBoard', cfg);

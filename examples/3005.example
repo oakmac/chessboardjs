@@ -1,20 +1,20 @@
 ===== Name
 Orientation
 
-=== Description
+===== Description
 Use the <a href="docs#methods:orientation"><code class="js plain">orientation</code></a> method to retrieve and set the orientation. Use the <a href="docs#methods:flip"><code class="js plain">flip</code></a> method to flip orientation.
 
-=== HTML
-<div id="board" style="width: 400px"></div>
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
 <input type="button" id="showOrientationBtn" value="Show orientation in console" />
 <input type="button" id="flipOrientationBtn" value="Flip orientation" /><br />
 <input type="button" id="whiteOrientationBtn" value="White orientation" />
 <input type="button" id="blackOrientationBtn" value="Black orientation" />
 
 
-=== JS
+===== JS
 var ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R';
-var board = ChessBoard('board', ruyLopez);
+var board = Chessboard('myBoard', ruyLopez);
 
 $('#showOrientationBtn').on('click', function() {
   console.log("Board orientation is: " + board.orientation());

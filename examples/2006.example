@@ -1,16 +1,16 @@
 ===== Name
 Spare Pieces
 
-=== Description
+===== Description
 Set <a href="docs#config:sparePieces"><code class="js plain">sparePieces</code></a> to <code class="js keyword">true</code> to show spare pieces that can be dropped onto the board.
 
-=== HTML
-<div id="board" style="width: 400px"></div>
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
 <input type="button" id="startBtn" value="Start" />
 <input type="button" id="clearBtn" value="Clear" />
 
-=== JS
-var board = ChessBoard('board', {
+===== JS
+var board = Chessboard('myBoard', {
   draggable: true,
   dropOffBoard: 'trash',
   sparePieces: true

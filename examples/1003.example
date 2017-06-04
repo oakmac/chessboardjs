@@ -1,16 +1,16 @@
 ===== Name
 Position Object
 
-=== Description
+===== Description
 Pass a <a href="docs#position_object">Position Object</a> as the second argument to initialize the board to a specific position.
 
-=== HTML
-<div id="board" style="width: 400px"></div>
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
 
-=== JS
+===== JS
 var position = {
   d6: 'bK',
   d4: 'wP',
   e4: 'wK'
 };
-var board = ChessBoard('board', position);
+var board = Chessboard('myBoard', position);

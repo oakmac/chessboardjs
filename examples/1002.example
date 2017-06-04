@@ -1,12 +1,13 @@
 ===== Name
 FEN String
 
-=== Description
-Pass a <a href="docs#fen_string">FEN String</a> as the second argument to initialize the board to a specific position.
+===== Description
+Pass a <a href="docs#fen_string">FEN String</a> as the second argument to
+initialize the board to a specific position.
 
-=== HTML
-<div id="board" style="width: 400px"></div>
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
 
-=== JS
-var ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R';
-var board = ChessBoard('board', ruyLopez);
+===== JS
+var ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
+var board = Chessboard('myBoard', ruyLopez)

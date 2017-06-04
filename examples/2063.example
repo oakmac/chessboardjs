@@ -1,13 +1,13 @@
 ===== Name
 Position Object
 
-=== Description
+===== Description
 You can set the <a href="docs#config:position"><code class="js plain">position</code></a> property with a <a href="docs#position_object">Position Object</a>.
 
-=== HTML
-<div id="board" style="width: 400px"></div>
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
 
-=== JS
+===== JS
 var cfg = {
   position: {
     d4: 'wP',
@@ -15,4 +15,4 @@ var cfg = {
     e4: 'wK'
   }
 };
-var board = ChessBoard('board', cfg);
+var board = Chessboard('myBoard', cfg);

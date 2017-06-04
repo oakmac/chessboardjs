@@ -1,17 +1,17 @@
 ===== Name
 Set Position Instantly
 
-=== Description
+===== Description
 Pass <code class="js keyword">false</code> as the second argument to the <a href="docs#methods:start"><code class="js plain">start</code></a> and <a href="docs#methods:position"><code class="js plain">position</code></a> methods to set the board position instantly.
 
-=== HTML
-<div id="board" style="width: 400px"></div>
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
 <input type="button" id="setStartBtn" value="Start Position" />
 <input type="button" id="setRuyLopezBtn" value="Ruy Lopez" />
 <input type="button" id="setRookCheckmateBtn" value="Rook Checkmate" />
 
-=== JS
-var board = ChessBoard('board');
+===== JS
+var board = Chessboard('myBoard');
 
 $('#setStartBtn').on('click', function() {
   board.start(false);

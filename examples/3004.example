@@ -1,17 +1,17 @@
 ===== Name
 Move Pieces
 
-=== Description
+===== Description
 Use the <a href="docs#methods:move"><code class="js plain">move</code></a> method to make one or more moves on the board.
 
-=== HTML
-<div id="board" style="width: 400px"></div>
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
 <input type="button" id="startPositionBtn" value="Start Position" />
 <input type="button" id="move1Btn" value="e2-e4" />
 <input type="button" id="move2Btn" value="d2-d4, g8-f6" />
 
-=== JS
-var board = ChessBoard('board', 'start');
+===== JS
+var board = Chessboard('myBoard', 'start');
 
 $('#startPositionBtn').on('click', board.start);
 

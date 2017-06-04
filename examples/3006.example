@@ -1,14 +1,14 @@
 ===== Name
 Destroy Board
 
-=== Description
+===== Description
 Use the <a href="docs#methods:destroy"><code class="js plain">destroy</code></a> method to kill the board and remove it from the DOM.
 
-=== HTML
-<div id="board" style="width: 400px"></div>
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
 <input type="button" id="destroyBtn" value="Destroy Board" />
 
-=== JS
-var board = ChessBoard('board', 'start');
+===== JS
+var board = Chessboard('myBoard', 'start');
 
 $('#destroyBtn').on('click', board.destroy);

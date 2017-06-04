@@ -1,14 +1,14 @@
 ===== Name
 Play Random Computer
 
-=== Description
-You can integrate ChessBoardJS with the <a href="https://github.com/jhlywa/chess.js">chess.js</a> library to play against random moves.
+===== Description
+You can integrate ChessboardJS with the <a href="https://github.com/jhlywa/chess.js">chess.js</a> library to play against random moves.
 
-=== HTML
+===== HTML
 <script src="js/chess.js"></script>
-<div id="board" style="width: 400px"></div>
+<div id="myBoard" style="width: 400px"></div>
 
-=== JS
+===== JS
 var board,
   game = new Chess();
 
@@ -60,4 +60,4 @@ var cfg = {
   onDrop: onDrop,
   onSnapEnd: onSnapEnd
 };
-board = ChessBoard('board', cfg);
+board = Chessboard('myBoard', cfg);

@@ -1,17 +1,17 @@
 ===== Name
 Only Allow Legal Moves
 
-=== Description
-You can integrate ChessBoardJS with the <a href="https://github.com/jhlywa/chess.js">chess.js</a> library to only allow legal moves.
+===== Description
+You can integrate ChessboardJS with the <a href="https://github.com/jhlywa/chess.js">chess.js</a> library to only allow legal moves.
 
-=== HTML
+===== HTML
 <script src="js/chess.js"></script>
-<div id="board" style="width: 400px"></div>
+<div id="myBoard" style="width: 400px"></div>
 <p>Status: <span id="status"></span></p>
 <p>FEN: <span id="fen"></span></p>
 <p>PGN: <span id="pgn"></span></p>
 
-=== JS
+===== JS
 var board,
   game = new Chess(),
   statusEl = $('#status'),
@@ -88,6 +88,6 @@ var cfg = {
   onDrop: onDrop,
   onSnapEnd: onSnapEnd
 };
-board = ChessBoard('board', cfg);
+board = Chessboard('myBoard', cfg);
 
 updateStatus();

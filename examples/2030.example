@@ -1,13 +1,13 @@
 ===== Name
 Piece Theme Function
 
-=== Description
+===== Description
 <a href="docs#config:pieceTheme"><code class="js plain">pieceTheme</code></a> can be a function.
 
-=== HTML
-<div id="board" style="width: 400px"></div>
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
 
-=== JS
+===== JS
 function pieceTheme(piece) {
   // wikipedia theme for white pieces
   if (piece.search(/w/) !== -1) {
@@ -22,4 +22,4 @@ var cfg = {
   pieceTheme: pieceTheme,
   position: 'start'
 };
-var board = ChessBoard('board', cfg);
+var board = Chessboard('myBoard', cfg);

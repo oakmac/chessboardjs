@@ -2,10 +2,10 @@
 Empty Board
 
 ===== Description
-ChessBoard initializes to an empty board with no second argument.
+Chessboard.js initializes to an empty board with no second argument.
 
 ===== HTML
-<div id="board" style="width: 400px"></div>
+<div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var board = ChessBoard('board');
+var board = Chessboard('myBoard')
