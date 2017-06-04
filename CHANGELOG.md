@@ -5,10 +5,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Orientation methods now return current orientation. [Issue #64]
 - Drop support for IE8
-- Do not check for `window.JSON`
+- Do not check for `window.JSON` (Error #1004)
 - Rename `ChessBoard` to `Chessboard` (`ChessBoard` is still supported, however)
 - id query selectors are now supported as the first argument to `Chessboard()`
-- Remove Error #1001
 - Remove Error #1002
 
 ## [0.3.0] - 2013-08-10
