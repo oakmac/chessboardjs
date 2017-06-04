@@ -1,3 +1,4 @@
-www/.htaccess
-www/.config.php
+# git diff files
 *.diff
+
+node_modules/
