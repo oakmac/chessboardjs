@@ -13,12 +13,12 @@
   }
 
   function highlightGroupHeader (groupIndex) {
-    $('div#examples_list_container h4').removeClass('active')
+    $('#examples_list_container h4').removeClass('active')
     $('h4#group_header_' + groupIndex).addClass('active')
   }
 
   function highlightExample (id) {
-    $('div#examples_list_container li').removeClass('active')
+    $('#examples_list_container li').removeClass('active')
     $('li#example_' + id).addClass('active')
   }
 

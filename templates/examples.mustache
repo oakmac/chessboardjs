@@ -2,107 +2,14 @@
 <html>
 {{{head}}}
 <body>
+{{{header}}}
 
-<div class="contain-to-grid">
-    <div class="top-bar">
-        <ul>
-            <li class="name"><h1><a href="">chessboard.js</a></h1></li>
-        </ul>
-        <ul class="right">
-            <li class="divider"></li>
-            <li><a href="">Home</a></li>
-            <li class="divider"></li>
-            <li class="active"><a href="examples">Examples</a></li>
-            <li class="divider"></li>
-            <li><a href="docs">Docs</a></li>
-            <li class="divider"></li>
-            <li><a href="download">Download</a></li>
-            <li class="divider"></li>
-        </ul>
+<main>
+    <div class="body-width-115f6 flex-c31d5 examples-c30bc">
+        <nav class="example-nav-0e953">{{{nav}}}</nav>
+        <div class="examples-body-9af4d" id="exampleBodyContainer"></div>
     </div>
-</div>
-
-<div class="row" id="body_container">
-<div class="twelve columns">
-
-<div class="row">
-
-<div class="three columns">
-  <div id="examples_list_container">
-    <h4 id="group_header_1">Basic Usage</h4>
-    <ul id="group_container_1" style="display:none">
-      <li id="example_1000">Empty Board</li>
-      <li id="example_1001">Start Position</li>
-      <li id="example_1002">FEN String</li>
-      <li id="example_1003">Position Object</li>
-      <li id="example_1004">Multiple Boards</li>
-    </ul>
-    <h4 id="group_header_2">Config</h4>
-    <ul id="group_container_2" style="display:none">
-      <li id="example_2000">Start Position</li>
-      <li id="example_2044">Position FEN</li>
-      <li id="example_2063">Position Object</li>
-      <li id="example_2001">Orientation</li>
-      <li id="example_2002">Notation</li>
-      <li id="example_2003">Draggable Snapback</li>
-      <li id="example_2082">Draggable Trash</li>
-      <li id="example_2004">Piece Theme String</li>
-      <li id="example_2030">Piece Theme Function</li>
-      <li id="example_2005">Animation Speed</li>
-      <li id="example_2006">Spare Pieces</li>
-    </ul>
-    <h4 id="group_header_3">Methods</h4>
-    <ul id="group_container_3" style="display:none">
-      <li id="example_3000">Get Position</li>
-      <li id="example_3001">Set Position</li>
-      <li id="example_3002">Set Position Instantly</li>
-      <li id="example_3003">Clear Board</li>
-      <li id="example_3004">Move Pieces</li>
-      <li id="example_3005">Orientation</li>
-      <li id="example_3006">Destroy Board</li>
-      <li id="example_3007">Resize</li>
-    </ul>
-    <h4 id="group_header_4">Events</h4>
-    <ul id="group_container_4" style="display:none">
-      <li id="example_4000">onChange</li>
-      <li id="example_4001">onDragStart</li>
-      <li id="example_4002">onDragStart Prevent Drag</li>
-      <li id="example_4003">onDragMove</li>
-      <li id="example_4004">onDrop</li>
-      <li id="example_4005">onDrop Snapback</li>
-      <li id="example_4006">onDrop Trash</li>
-      <li id="example_4011">onSnapbackEnd</li>
-      <li id="example_4012">onMoveEnd</li>
-    </ul>
-    <h4 id="group_header_5">Integration</h4>
-    <ul id="group_container_5" style="display:none">
-      <li id="example_5000">Only Allow Legal Moves</li>
-      <li id="example_5001">Play Random Computer</li>
-      <li id="example_5002">Random vs Random</li>
-      <li id="example_5003">Highlight Legal Moves</li>
-      <li id="example_5004">Piece Highlighting 1</li>
-      <li id="example_5005">Piece Highlighting 2</li>
-    </ul>
-  </div><!-- end #examples_list -->
-</div><!-- end .three.columns -->
-
-<div class="nine columns">
-    <h2 id="example_name"></h2>
-    <p><a href="#" id="example_single_page_link" target="_blank">View example in new window.</a></p>
-    <p id="example_desc_container"></p>
-    <div id="example_html_container"></div>
-    <h4>JavaScript</h4>
-    <div id="example_js_container"></div>
-    <h4>HTML</h4>
-    <div id="example_show_html_container"></div>
-</div>
-
-</div><!-- end div.row -->
-
-
-
-</div><!-- end div.twelve.columns -->
-</div><!-- end div#body_container -->
+</main>
 
 {{{footer}}}
 
@@ -110,6 +17,5 @@
 <script src="js/prettify.js"></script>
 <script src="js/chessboard.js"></script>
 <script src="js/examples.js"></script>
-
 </body>
 </html>

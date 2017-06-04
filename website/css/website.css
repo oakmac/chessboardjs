@@ -1,109 +1,18 @@
 /*------------------------------------------------------------------------------
- * prettyPrint
- *----------------------------------------------------------------------------*/
-
-.pln {
-  color: #c5c8c6;
-}
-
-@media screen {
-  .str {
-    color: #b5bd68;
-  }
-  .kwd {
-    color: #b294bb;
-  }
-  .com {
-    color: #969896;
-  }
-  .typ {
-    color: #81a2be;
-  }
-  .lit {
-    color: #de935f;
-  }
-  .pun {
-    color: #c5c8c6;
-  }
-  .opn {
-    color: #c5c8c6;
-  }
-  .clo {
-    color: #c5c8c6;
-  }
-  .tag {
-    color: #cc6666;
-  }
-  .atn {
-    color: #de935f;
-  }
-  .atv {
-    color: #8abeb7;
-  }
-  .dec {
-    color: #de935f;
-  }
-  .var {
-    color: #cc6666;
-  }
-  .fun {
-    color: #81a2be;
-  }
-}
-@media print,projection {
-  .str {
-    color: #060;
-  }
-  .kwd {
-    color: #006;
-    font-weight: bold;
-  }
-  .com {
-    color: #600;
-    font-style: italic;
-  }
-  .typ {
-    color: #404;
-    font-weight: bold;
-  }
-  .lit {
-    color: #044;
-  }
-  .pun,
-  .opn,
-  .clo {
-    color: #440;
-  }
-  .tag {
-    color: #006;
-    font-weight: bold;
-  }
-  .atn {
-    color: #404;
-  }
-  .atv {
-    color: #060;
-  }
-}
-pre.prettyprint {
-  background: #1d1f21;
-  font-family: Menlo, Monaco, Consolas, monospace;
-  font-size: 12px;
-  line-height: 1.5;
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-ol.linenums {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-/*------------------------------------------------------------------------------
  * General
  *----------------------------------------------------------------------------*/
 
 body {
-  font-family: "Open Sans";
+  font-family: 'Open Sans', arial, sans-serif;
+}
+
+.body-width-115f6 {
+  margin: 0 auto;
+  width: 1024px;
+}
+
+.flex-c31d5 {
+  display: flex;
 }
 
 .body-width {
@@ -189,6 +98,35 @@ pre.prettyprint {
   visibility: visible;
 }
 
+header {
+  background: #222;
+}
+
+.homepage-link-98a24 {
+  color: #fff;
+  display: inline-block;
+  font-size: 22px;
+  font-weight: 400;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.homepage-link-98a24:hover {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.tld-bd9e6 {
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+header .right-05ad3 a {
+  display: inline-block;
+  padding: 15px 20px;
+}
+
 /*------------------------------------------------------------------------------
  * Footer
  *----------------------------------------------------------------------------*/
@@ -196,8 +134,8 @@ pre.prettyprint {
 footer {
   background: #333;
   color: #999;
-  font-size: 12px;
-  padding: 15px 0 30px 0;
+  font-size: 14px;
+  padding: 30px 0;
 }
 
 footer p {
@@ -213,19 +151,18 @@ footer a:hover {
   text-decoration: underline;
 }
 
-footer .left-col {
-  float: left;
-  width: 400px;
+.left-3edd4 {
+  flex: 1;
 }
 
-footer .right-col {
-  float: right;
+.right-05ad3 {
+  flex: 1;
   text-align: right;
-  width: 400px;
 }
 
-footer .right-col a {
-  padding: 0px 8px;
+footer .right-05ad3 a {
+  display: inline-block;
+  padding: 0 8px;
 }
 
 /*------------------------------------------------------------------------------
@@ -312,6 +249,22 @@ footer .right-col a {
  * Examples
  *----------------------------------------------------------------------------*/
 
+main {
+  background: #efefef;
+}
+
+.examples-c30bc {
+  background: #fff;
+}
+
+.example-nav-0e953 {
+  flex: 3;
+}
+
+.examples-body-9af4d {
+  flex: 7;
+}
+
 #examplesListContainer {
   float: left;
   padding: 40px 0;
@@ -375,4 +328,106 @@ footer .right-col a {
 
 #exampleHtmlContainer {
   margin-bottom: 40px;
+}
+
+/*------------------------------------------------------------------------------
+ * prettyPrint
+ *----------------------------------------------------------------------------*/
+
+.pln {
+  color: #c5c8c6;
+}
+
+@media screen {
+  .str {
+    color: #b5bd68;
+  }
+  .kwd {
+    color: #b294bb;
+  }
+  .com {
+    color: #969896;
+  }
+  .typ {
+    color: #81a2be;
+  }
+  .lit {
+    color: #de935f;
+  }
+  .pun {
+    color: #c5c8c6;
+  }
+  .opn {
+    color: #c5c8c6;
+  }
+  .clo {
+    color: #c5c8c6;
+  }
+  .tag {
+    color: #cc6666;
+  }
+  .atn {
+    color: #de935f;
+  }
+  .atv {
+    color: #8abeb7;
+  }
+  .dec {
+    color: #de935f;
+  }
+  .var {
+    color: #cc6666;
+  }
+  .fun {
+    color: #81a2be;
+  }
+}
+@media print,projection {
+  .str {
+    color: #060;
+  }
+  .kwd {
+    color: #006;
+    font-weight: bold;
+  }
+  .com {
+    color: #600;
+    font-style: italic;
+  }
+  .typ {
+    color: #404;
+    font-weight: bold;
+  }
+  .lit {
+    color: #044;
+  }
+  .pun,
+  .opn,
+  .clo {
+    color: #440;
+  }
+  .tag {
+    color: #006;
+    font-weight: bold;
+  }
+  .atn {
+    color: #404;
+  }
+  .atv {
+    color: #060;
+  }
+}
+
+pre.prettyprint {
+  background: #1d1f21;
+  font-family: 'Roboto Mono', Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
 }
