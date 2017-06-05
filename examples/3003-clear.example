@@ -1,0 +1,25 @@
+===== id
+3003
+
+===== Name
+Clear Board
+
+===== Description
+Use the <a href="docs#methods:clear"><code class="js plain">clear</code></a> method to remove all the pieces from the board.
+
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
+<button id="clearBoardBtn">Clear Board</button>
+<button id="startPositionBtn">Start Position</button>
+<button id="clearBoardInstantBtn">Clear Board Instant</button>
+
+===== JS
+var board = Chessboard('myBoard', 'start')
+
+$('#clearBoardBtn').on('click', board.clear)
+
+$('#startPositionBtn').on('click', board.start)
+
+$('#clearBoardInstantBtn').on('click', function () {
+  board.clear(false)
+})

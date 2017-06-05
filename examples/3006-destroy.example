@@ -9,9 +9,9 @@ Use the <a href="docs#methods:destroy"><code class="js plain">destroy</code></a>
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>
-<input type="button" id="destroyBtn" value="Destroy Board" />
+<button id="destroyBtn">Destroy Board</button>
 
 ===== JS
-var board = Chessboard('myBoard', 'start');
+var board = Chessboard('myBoard', 'start')
 
-$('#destroyBtn').on('click', board.destroy);
+$('#destroyBtn').on('click', board.destroy)

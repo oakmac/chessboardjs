@@ -15,7 +15,6 @@ function processFile (f) {
 }
 
 function processLine (line) {
-  line = line.replace('cfg', 'config')
-  line = line.replace('config);', 'config)')
+  line = line.replace('function(', 'function (')
   return line
 }

@@ -1,0 +1,101 @@
+===== id
+5005
+
+===== Name
+Piece Highlighting 2
+
+===== Description
+Use CSS to show piece highlighting.
+
+===== HTML
+<style type="text/css">
+.highlight-white {
+  box-shadow: inset 0 0 3px 3px yellow;
+}
+.highlight-black {
+  box-shadow: inset 0 0 3px 3px blue;
+}
+</style>
+<div id="myBoard" style="width: 400px"></div>
+
+===== JS
+var board = null
+var $board = $('#myBoard')
+var game = new Chess()
+var squareToHighlight = null
+var squareClass = 'square-55d63'
+
+function removeHighlights (color) {
+  $board.find('.' + squareClass)
+    .removeClass('highlight-' + color)
+}
+
+function onDragStart (source, piece, position, orientation) {
+  // do not pick up pieces if the game is over
+  if (game.game_over()) return false
+
+  // only pick up pieces for White
+  if (piece.search(/^b/) !== -1) return false
+}
+
+function makeRandomMove () {
+  var possibleMoves = game.moves({
+    verbose: true
+  })
+
+  // game over
+  if (possibleMoves.length === 0) return
+
+  var randomIdx = Math.floor(Math.random() * possibleMoves.length)
+  var move = possibleMoves[randomIdx]
+  game.move(move.san)
+
+  // highlight black's move
+  removeHighlights('black')
+  $board.find('.square-' + move.from).addClass('highlight-black')
+  squareToHighlight = move.to
+
+  // update the board to the new position
+  board.position(game.fen())
+}
+
+function onDrop (source, target) {
+  // see if the move is legal
+  var move = game.move({
+    from: source,
+    to: target,
+    promotion: 'q' // NOTE: always promote to a queen for example simplicity
+  })
+
+  // illegal move
+  if (move === null) return 'snapback'
+
+  // highlight white's move
+  removeHighlights('white')
+  $board.find('.square-' + source).addClass('highlight-white')
+  $board.find('.square-' + target).addClass('highlight-white')
+
+  // make random move for black
+  window.setTimeout(makeRandomMove, 250)
+}
+
+function onMoveEnd () {
+  $board.find('.square-' + squareToHighlight)
+    .addClass('highlight-black')
+}
+
+// update the board position after the piece snap
+// for castling, en passant, pawn promotion
+function onSnapEnd () {
+  board.position(game.fen())
+}
+
+var config = {
+  draggable: true,
+  position: 'start',
+  onDragStart: onDragStart,
+  onDrop: onDrop,
+  onMoveEnd: onMoveEnd,
+  onSnapEnd: onSnapEnd
+}
+board = Chessboard('myBoard', config)

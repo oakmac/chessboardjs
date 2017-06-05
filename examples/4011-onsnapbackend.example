@@ -11,17 +11,17 @@ The <a href="docs#config:onSnapbackEnd"><code class="js plain">onSnapbackEnd</co
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var onSnapbackEnd = function(piece, square, position, orientation) {
-  console.log("Piece: " + piece);
-  console.log("Square: " + square);
-  console.log("Position: " + Chessboard.objToFen(position));
-  console.log("Orientation: " + orientation);
-  console.log("--------------------");
-};
+function onSnapbackEnd (piece, square, position, orientation) {
+  console.log('Piece: ' + piece)
+  console.log('Square: ' + square)
+  console.log('Position: ' + Chessboard.objToFen(position))
+  console.log('Orientation: ' + orientation)
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+}
 
 var config = {
   draggable: true,
   position: 'start',
   onSnapbackEnd: onSnapbackEnd
-};
+}
 var board = Chessboard('myBoard', config)

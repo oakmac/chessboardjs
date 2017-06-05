@@ -1,0 +1,29 @@
+===== id
+4001
+
+===== Name
+onDragStart
+
+===== Description
+The <a href="docs#config:onDragStart"><code class="js plain">onDragStart</code></a> event fires every time a piece is picked up.
+
+===== HTML
+<div id="myBoard" style="width: 400px"></div>
+
+===== JS
+function onDragStart (source, piece, position, orientation) {
+  console.log('Drag started:')
+  console.log('Source: ' + source)
+  console.log('Piece: ' + piece)
+  console.log('Position: ' + Chessboard.objToFen(position))
+  console.log('Orientation: ' + orientation)
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+}
+
+var config = {
+  draggable: true,
+  position: 'start',
+  onDragStart: onDragStart,
+  sparePieces: true
+}
+var board = Chessboard('myBoard', config)

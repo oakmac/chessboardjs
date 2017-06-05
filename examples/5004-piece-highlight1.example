@@ -1,0 +1,69 @@
+===== id
+5004
+
+===== Name
+Piece Highlighting 1
+
+===== Description
+Use CSS to show piece highlighting.
+
+===== HTML
+<style type="text/css">
+.highlight-white {
+  box-shadow: inset 0 0 3px 3px yellow;
+}
+.highlight-black {
+  box-shadow: inset 0 0 3px 3px blue;
+}
+</style>
+<div id="myBoard" style="width: 400px"></div>
+
+===== JS
+var board = null
+var $board = $('#myBoard')
+var game = new Chess()
+var squareClass = 'square-55d63'
+var squareToHighlight = null
+var colorToHighlight = null
+
+function makeRandomMove () {
+  var possibleMoves = game.moves({
+    verbose: true
+  })
+
+  // exit if the game is over
+  if (game.game_over()) return
+
+  var randomIdx = Math.floor(Math.random() * possibleMoves.length)
+  var move = possibleMoves[randomIdx]
+
+  if (move.color === 'w') {
+    $board.find('.' + squareClass).removeClass('highlight-white')
+    $board.find('.square-' + move.from).addClass('highlight-white')
+    squareToHighlight = move.to
+    colorToHighlight = 'white'
+  } else {
+    $board.find('.' + squareClass).removeClass('highlight-black')
+    $board.find('.square-' + move.from).addClass('highlight-black')
+    squareToHighlight = move.to
+    colorToHighlight = 'black'
+  }
+
+  game.move(possibleMoves[randomIdx].san)
+  board.position(game.fen())
+
+  window.setTimeout(makeRandomMove, 1200)
+}
+
+function onMoveEnd () {
+  $board.find('.square-' + squareToHighlight)
+    .addClass('highlight-' + colorToHighlight)
+}
+
+var config = {
+  position: 'start',
+  onMoveEnd: onMoveEnd
+}
+board = Chessboard('myBoard', config)
+
+window.setTimeout(makeRandomMove, 500)
