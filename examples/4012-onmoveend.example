@@ -9,10 +9,10 @@ The <a href="docs#config:onMoveEnd"><code class="js plain">onMoveEnd</code></a> 
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>
-<button id="startBtn">Start Position</button>
-<button id="clearBtn">Clear</button>
 <button id="ruyLopezBtn">Ruy Lopez</button>
 <button id="moveBtn">a2-a4, h7-h5</button>
+<button id="startBtn">Start Position</button>
+<button id="clearBtn">Clear Board</button>
 
 ===== JS
 function onMoveEnd (oldPos, newPos) {
@@ -28,11 +28,11 @@ var config = {
 }
 var board = Chessboard('myBoard', config)
 
-$('#startBtn').on('click', board.start)
-$('#clearBtn').on('click', board.clear)
 $('#ruyLopezBtn').on('click', function () {
   board.position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R')
 })
 $('#moveBtn').on('click', function () {
   board.move('a2-a4', 'h7-h5')
 })
+$('#startBtn').on('click', board.start)
+$('#clearBtn').on('click', board.clear)

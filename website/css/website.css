@@ -112,24 +112,27 @@ header {
   cursor: pointer;
   display: inline-block;
   font-size: 22px;
-  font-weight: 400;
-  margin-top: 10px;
-  text-decoration: none;
-}
-
-.homepage-link-98a24:hover {
   font-weight: 600;
+  padding: 10px 20px;
+  text-decoration: none;
 }
 
 .tld-bd9e6 {
   color: #ccc;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 300;
 }
 
 header .right-05ad3 a {
+  color: #fff;
   display: inline-block;
+  font-size: 14px;
   padding: 15px 20px;
+  text-decoration: none;
+}
+
+header .right-05ad3 a:hover {
+  text-decoration: underline;
 }
 
 /*------------------------------------------------------------------------------
@@ -318,19 +321,40 @@ main {
 .examples-body-9af4d h2 {
   border-bottom: 2px solid #eee;
   font-size: 36px;
-  margin-top: 0;
+  margin: 0 0 8px 0;
   padding-bottom: 8px;
 }
 
 .examples-body-9af4d p {
   line-height: 1.6;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 20px;
+}
 
+.examples-body-9af4d button {
+  background: #2ba6cb;
+  border-radius: 3px;
+  border: 1px solid #1e728c;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 15px 5px 0 0;
+  outline: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
 }
 
 .container-4e1ee {
   margin-bottom: 40px;
+}
+
+.small-board {
+  display: inline-block;
+  margin-right: 5px;
+  width: 200px;
 }
 
 /*------------------------------------------------------------------------------
@@ -433,4 +457,17 @@ pre.prettyprint {
 ol.linenums {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+code {
+  font-family: 'Roboto Mono', Consolas, monospace;
+  font-size: 14px;
+}
+
+code.string {
+  color: blue;
+}
+
+code.keyword {
+  color: #0066cc;
 }

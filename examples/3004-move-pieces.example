@@ -9,14 +9,12 @@ Use the <a href="docs#methods:move"><code class="js plain">move</code></a> metho
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>
-<button id="startPositionBtn">Start Position</button>
 <button id="move1Btn">e2-e4</button>
 <button id="move2Btn">d2-d4, g8-f6</button>
+<button id="startPositionBtn">Start Position</button>
 
 ===== JS
 var board = Chessboard('myBoard', 'start')
-
-$('#startPositionBtn').on('click', board.start)
 
 $('#move1Btn').on('click', function () {
   board.move('e2-e4')
@@ -25,3 +23,5 @@ $('#move1Btn').on('click', function () {
 $('#move2Btn').on('click', function () {
   board.move('d2-d4', 'g8-f6')
 })
+
+$('#startPositionBtn').on('click', board.start)

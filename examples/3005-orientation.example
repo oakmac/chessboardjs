@@ -10,7 +10,8 @@ Use the <a href="docs#methods:orientation"><code class="js plain">orientation</c
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>
 <button id="showOrientationBtn">Show orientation in console</button>
-<button id="flipOrientationBtn">Flip orientation</button><br />
+<button id="flipOrientationBtn">Flip orientation</button>
+<br />
 <button id="whiteOrientationBtn">White orientation</button>
 <button id="blackOrientationBtn">Black orientation</button>
 

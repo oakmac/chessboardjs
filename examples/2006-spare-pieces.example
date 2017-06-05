@@ -9,8 +9,8 @@ Set <a href="docs#config:sparePieces"><code class="js plain">sparePieces</code><
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>
-<button id="startBtn">Start</button>
-<button id="clearBtn">Clear</button>
+<button id="startBtn">Start Position</button>
+<button id="clearBtn">Clear Board</button>
 
 ===== JS
 var board = Chessboard('myBoard', {

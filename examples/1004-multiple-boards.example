@@ -8,10 +8,9 @@ Multiple Boards
 You can have multiple boards on the same page.
 
 ===== HTML
-<div id="board1" style="width: 200px; float: left; margin-right: 10px"></div>
-<div id="board2" style="width: 200px; float: left; margin-right: 10px"></div>
-<div id="board3" style="width: 200px; float: left"></div>
-<div style="clear:both"></div>
+<div id="board1" class="small-board"></div>
+<div id="board2" class="small-board"></div>
+<div id="board3" class="small-board"></div>
 
 ===== JS
 var board1 = Chessboard('board1', {

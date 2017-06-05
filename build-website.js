@@ -23,7 +23,7 @@ const latestChessboardcss = fs.readFileSync('src/chessboard.css', encoding)
 // grab the examples
 const examplesArr = kidif('examples/*.example')
 const examplesObj = examplesArr.reduce(function (examplesObj, example, idx) {
-  examplesObj[ example.id ] = example
+  examplesObj[example.id] = example
   return examplesObj
 }, {})
 
