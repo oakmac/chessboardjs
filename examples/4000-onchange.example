@@ -5,7 +5,7 @@
 onChange
 
 ===== Description
-The <a href="docs#config:onChange"><code class="js plain">onChange</code></a> event fires when the board position changes.
+The <a href="docs.html#config:onChange"><code class="js plain">onChange</code></a> event fires when the board position changes.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

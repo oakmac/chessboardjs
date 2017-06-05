@@ -5,7 +5,7 @@
 onSnapbackEnd
 
 ===== Description
-The <a href="docs#config:onSnapbackEnd"><code class="js plain">onSnapbackEnd</code></a> event fires after a piece has snapped back to it's original square.
+The <a href="docs.html#config:onSnapbackEnd"><code class="js plain">onSnapbackEnd</code></a> event fires after a piece has snapped back to it's original square.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

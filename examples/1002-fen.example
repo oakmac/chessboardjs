@@ -5,7 +5,7 @@
 FEN String
 
 ===== Description
-Pass a <a href="docs#fen_string">FEN String</a> as the second argument to
+Pass a <a href="docs.html#fen_string">FEN String</a> as the second argument to
 initialize the board to a specific position.
 
 ===== HTML

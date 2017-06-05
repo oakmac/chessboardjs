@@ -5,7 +5,7 @@
 onDragMove
 
 ===== Description
-The <a href="docs#config:onDragMove"><code class="js plain">onDragMove</code></a> event fires every time a piece changes location.
+The <a href="docs.html#config:onDragMove"><code class="js plain">onDragMove</code></a> event fires every time a piece changes location.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

@@ -5,7 +5,7 @@
 onDrop Snapback
 
 ===== Description
-If <code class="js string">'snapback'</code> is returned from the <a href="docs#config:onDrop"><code class="js plain">onDrop</code></a> function, the dragged piece will return to it's source square.
+If <code class="js string">'snapback'</code> is returned from the <a href="docs.html#config:onDrop"><code class="js plain">onDrop</code></a> function, the dragged piece will return to it's source square.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

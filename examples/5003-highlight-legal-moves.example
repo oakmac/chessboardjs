@@ -5,7 +5,7 @@
 Highlight Legal Moves
 
 ===== Description
-Use the <code class="js plain"><a href="docs#config:onMouseoverSquare">onMouseoverSquare</a></code> and <code class="js plain"><a href="docs#config:onMouseoutSquare">onMouseoutSquare</a></code> events to highlight legal squares.
+Use the <code class="js plain"><a href="docs.html#config:onMouseoverSquare">onMouseoverSquare</a></code> and <code class="js plain"><a href="docs#config:onMouseoutSquare">onMouseoutSquare</a></code> events to highlight legal squares.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

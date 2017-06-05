@@ -5,7 +5,7 @@
 Piece Theme String
 
 ===== Description
-Use the <a href="docs#config:pieceTheme"><code class="js plain">pieceTheme</code></a> property to set the source of piece images.
+Use the <a href="docs.html#config:pieceTheme"><code class="js plain">pieceTheme</code></a> property to set the source of piece images.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

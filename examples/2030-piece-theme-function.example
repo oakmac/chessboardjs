@@ -5,7 +5,7 @@
 Piece Theme Function
 
 ===== Description
-<a href="docs#config:pieceTheme"><code class="js plain">pieceTheme</code></a> can be a function.
+<a href="docs.html#config:pieceTheme"><code class="js plain">pieceTheme</code></a> can be a function.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

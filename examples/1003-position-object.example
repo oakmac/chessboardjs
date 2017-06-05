@@ -5,7 +5,7 @@
 Position Object
 
 ===== Description
-Pass a <a href="docs#position_object">Position Object</a> as the second argument to initialize the board to a specific position.
+Pass a <a href="docs.html#position_object">Position Object</a> as the second argument to initialize the board to a specific position.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

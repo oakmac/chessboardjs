@@ -5,7 +5,7 @@
 onDragStart
 
 ===== Description
-The <a href="docs#config:onDragStart"><code class="js plain">onDragStart</code></a> event fires every time a piece is picked up.
+The <a href="docs.html#config:onDragStart"><code class="js plain">onDragStart</code></a> event fires every time a piece is picked up.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

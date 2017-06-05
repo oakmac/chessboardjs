@@ -5,7 +5,7 @@
 Position FEN
 
 ===== Description
-You can set the <a href="docs#config:position"><code class="js plain">position</code></a> property to a <a href="http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation">FEN</a> string.
+You can set the <a href="docs.html#config:position"><code class="js plain">position</code></a> property to a <a href="http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation">FEN</a> string.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>

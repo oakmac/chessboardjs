@@ -15,6 +15,6 @@ function processFile (f) {
 }
 
 function processLine (line) {
-  line = line.replace('function(', 'function (')
+  line = line.replace('docs#', 'docs.html#')
   return line
 }
