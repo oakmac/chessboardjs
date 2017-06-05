@@ -211,18 +211,13 @@ footer .right-05ad3 a {
 
 #hero a {
   background: #ffdc10;
+  border-radius: 6px;
   color: #333;
   display: block;
   margin: 50px auto 0 auto;
   padding: 12px 24px;
-  width: 160px;
   text-decoration: none;
-
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  -ms-border-radius: 6px;
-  -o-border-radius: 6px;
-  border-radius: 6px;
+  width: 160px;
 }
 
 .nav-bar a {
@@ -324,7 +319,7 @@ main {
   border-bottom: 2px solid #eee;
   font-size: 36px;
   margin-top: 0;
-  padding-bottom: 5px;
+  padding-bottom: 8px;
 }
 
 .examples-body-9af4d p {

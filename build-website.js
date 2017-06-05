@@ -1,9 +1,14 @@
+// -----------------------------------------------------------------------------
+// This files builds the .html files in the website/ folder
+// -----------------------------------------------------------------------------
+
 const fs = require('fs')
 const kidif = require('kidif')
 const mustache = require('mustache')
 
 const encoding = {encoding: 'utf8'}
 
+// grab some mustache templates
 const docsTemplate = fs.readFileSync('templates/docs.mustache', encoding)
 const downloadTemplate = fs.readFileSync('templates/download.mustache', encoding)
 const examplesTemplate = fs.readFileSync('templates/examples.mustache', encoding)
@@ -15,8 +20,8 @@ const footerTemplate = fs.readFileSync('templates/_footer.mustache', encoding)
 const latestChessboardjs = fs.readFileSync('src/chessboard.js', encoding)
 const latestChessboardcss = fs.readFileSync('src/chessboard.css', encoding)
 
+// grab the examples
 const examplesArr = kidif('examples/*.example')
-
 const examplesObj = examplesArr.reduce(function (examplesObj, example, idx) {
   examplesObj[ example.id ] = example
   return examplesObj
@@ -52,9 +57,10 @@ function writeSrcFiles () {
 
 function writeHomepage () {
   const headHTML = mustache.render(headTemplate, {pageTitle: 'Homepage'})
+
   const html = mustache.render(homepageTemplate, {
-    head: headHTML,
-    footer: footerTemplate
+    footer: footerTemplate,
+    head: headHTML
   })
   fs.writeFileSync('website/index.html', html, encoding)
 }
@@ -65,10 +71,10 @@ function writeExamplesPage () {
 
   const html = mustache.render(examplesTemplate, {
     examplesJavaScript: buildExamplesJS(),
+    footer: footerTemplate,
     head: headHTML,
     header: headerHTML,
-    nav: buildExamplesNavHTML(),
-    footer: footerTemplate
+    nav: buildExamplesNavHTML()
   })
   fs.writeFileSync('website/examples.html', html, encoding)
 }
