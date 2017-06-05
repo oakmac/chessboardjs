@@ -117,6 +117,10 @@ header {
   text-decoration: none;
 }
 
+.homepage-link-98a24:hover {
+  background: #000;
+}
+
 .tld-bd9e6 {
   color: #ccc;
   font-size: 16px;
@@ -132,6 +136,7 @@ header .right-05ad3 a {
 }
 
 header .right-05ad3 a:hover {
+  background: #000;
   text-decoration: underline;
 }
 
@@ -166,6 +171,10 @@ footer a:hover {
 .right-05ad3 {
   flex: 1;
   text-align: right;
+}
+
+footer .left-3edd4 {
+  padding-left: 20px;
 }
 
 footer .right-05ad3 a {
@@ -253,7 +262,7 @@ footer .right-05ad3 a {
  *----------------------------------------------------------------------------*/
 
 main {
-  background: #efefef;
+  background: #f2f2f2;
 }
 
 .examples-c30bc {
@@ -261,12 +270,12 @@ main {
 }
 
 .example-nav-0e953 {
-  flex: 3;
+  flex: 25;
   padding: 20px;
 }
 
 .examples-body-9af4d {
-  flex: 7;
+  flex: 75;
   padding: 20px;
 }
 
@@ -323,6 +332,10 @@ main {
   font-size: 36px;
   margin: 0 0 8px 0;
   padding-bottom: 8px;
+}
+
+.examples-body-9af4d h4 {
+  font-size: 16px;
 }
 
 .examples-body-9af4d p {

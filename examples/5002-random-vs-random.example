@@ -11,6 +11,9 @@ Who will win in this riveting game of <code class="js plain">Math.random()</code
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
+// NOTE: this example uses the chess.js library:
+// https://github.com/jhlywa/chess.js
+
 var board = null
 var game = new Chess()
 

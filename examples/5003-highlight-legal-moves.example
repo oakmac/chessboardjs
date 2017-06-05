@@ -11,6 +11,9 @@ Use the <code class="js plain"><a href="docs.html#config:onMouseoverSquare">onMo
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
+// NOTE: this example uses the chess.js library:
+// https://github.com/jhlywa/chess.js
+
 var board = null
 var game = new Chess()
 var whiteSquareGrey = '#a9a9a9'

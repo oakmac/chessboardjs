@@ -19,6 +19,9 @@ Use CSS to show piece highlighting.
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
+// NOTE: this example uses the chess.js library:
+// https://github.com/jhlywa/chess.js
+
 var board = null
 var $board = $('#myBoard')
 var game = new Chess()
