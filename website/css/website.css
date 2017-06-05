@@ -347,6 +347,12 @@ main {
   text-decoration: none;
 }
 
+.examples-body-9af4d label {
+  display: block;
+  font-weight: 600;
+  margin: 10px 0 2px 0;
+}
+
 .container-4e1ee {
   margin-bottom: 40px;
 }

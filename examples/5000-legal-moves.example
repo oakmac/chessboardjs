@@ -9,9 +9,12 @@ You can integrate ChessboardJS with the <a href="https://github.com/jhlywa/chess
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>
-<p>Status: <span id="status"></span></p>
-<p>FEN: <span id="fen"></span></p>
-<p>PGN: <span id="pgn"></span></p>
+<label>Status:</label>
+<div id="status"></div>
+<label>FEN:</label>
+<div id="fen"></div>
+<label>PGN:</label>
+<div id="pgn"></div>
 
 ===== JS
 var board = null
