@@ -105,8 +105,12 @@
   }
 
   if (RUN_ASSERTS) {
-    console.assert(interpolateTemplate('{a}{a}', {a: 'z'}) === 'zz')
-    console.assert(interpolateTemplate('{a}{a}{b}', {a: 'z', b: 'y'}) === 'zzy')
+    console.assert(interpolateTemplate('abc', {a: 'x'}) === 'abc')
+    console.assert(interpolateTemplate('{a}bc', {}) === '{a}bc')
+    console.assert(interpolateTemplate('{a}bc', {p: 'q'}) === '{a}bc')
+    console.assert(interpolateTemplate('{a}bc', {a: 'x'}) === 'xbc')
+    console.assert(interpolateTemplate('{a}bc{a}bc', {a: 'x'}) === 'xbcxbc')
+    console.assert(interpolateTemplate('{a}{a}{b}', {a: 'x', b: 'y'}) === 'xxy')
   }
 
   // ---------------------------------------------------------------------------
