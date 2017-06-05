@@ -16,14 +16,10 @@ var game = new Chess()
 
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
-  if (game.game_over()) {
-    return false
-  }
+  if (game.game_over()) return false
 
   // only pick up pieces for White
-  if (piece.search(/^b/) !== -1) {
-    return false
-  }
+  if (piece.search(/^b/) !== -1) return false
 }
 
 function makeRandomMove () {

@@ -18,9 +18,7 @@ function makeRandomMove () {
   var possibleMoves = game.moves()
 
   // exit if the game is over
-  if (game.game_over()) {
-    return
-  }
+  if (game.game_over()) return
 
   var randomIdx = Math.floor(Math.random() * possibleMoves.length)
   game.move(possibleMoves[randomIdx])
