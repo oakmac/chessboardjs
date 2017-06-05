@@ -21,10 +21,10 @@ var onDrop = function(source, target, piece, newPos, oldPos, orientation) {
   console.log("--------------------");
 };
 
-var cfg = {
+var config = {
   draggable: true,
   position: 'start',
   onDrop: onDrop,
   sparePieces: true
 };
-var board = Chessboard('myBoard', cfg);
+var board = Chessboard('myBoard', config)

@@ -11,8 +11,8 @@ Use the <a href="docs#config:showNotation"><code class="js plain">showNotation</
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var cfg = {
+var config = {
   showNotation: false,
   position: 'start'
-};
-var board = Chessboard('myBoard', cfg);
+}
+var board = Chessboard('myBoard', config)

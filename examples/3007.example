@@ -12,5 +12,5 @@ Use the <a href="docs#methods:resize"><code class="js plain">resize</code></a> m
 
 ===== JS
 // NOTE: click "View example in new window." to see the full effect of this example
-var board = Chessboard('myBoard', 'start');
-$(window).resize(board.resize);
+var board = Chessboard('myBoard', 'start')
+$(window).resize(board.resize)

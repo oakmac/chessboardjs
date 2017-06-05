@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 {{{head}}}
-<body>
+<body class="homepage">
 
 <div id="heroWrapper">
     <div id="hero" class="body-width">
@@ -67,12 +67,12 @@ $('#clearBtn').on('click', board2.clear)
 {{{footer}}}
 
 <script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/prettify.js"></script>
+<script src="js/prettify.min.js"></script>
 <script src="js/chessboard.js"></script>
 <script>
-;(function() {
-  function isTouchDevice() {
-    return ('ontouchstart' in document.documentElement);
+;(function () {
+  function isTouchDevice () {
+    return ('ontouchstart' in document.documentElement)
   }
 
   function init () {
@@ -91,7 +91,7 @@ $('#clearBtn').on('click', board2.clear)
     $('#clearBtn').on('click', board2.clear)
 
     // prevent "browser drag" of the black king
-    $('#hero img').on('mousedown', function(evt) { evt.preventDefault() })
+    $('#hero img').on('mousedown', function (evt) { evt.preventDefault() })
 
     // prevent hover problems on touch devices
     if (isTouchDevice()) {

@@ -21,11 +21,11 @@ var onDragStart = function(source, piece, position, orientation) {
   }
 };
 
-var cfg = {
+var config = {
   draggable: true,
   position: 'start',
   onDragStart: onDragStart
 };
-var board = Chessboard('myBoard', cfg);
+var board = Chessboard('myBoard', config)
 
 $('#flipOrientationBtn').on('click', board.flip);

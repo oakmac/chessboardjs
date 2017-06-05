@@ -5,25 +5,26 @@
 onChange
 
 ===== Description
-The <a href="docs#config:onChange"><code class="js plain">onChange</code></a> event fires when the board position changes.
+The <a href="docs#config:onChange"><code class="js plain">onChange</code></a>
+event fires when the board position changes.
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>
-<input type="button" id="startPositionBtn" value="Start Position" />
+<button id="startPositionBtn">Start Position</button>
 
 ===== JS
-var onChange = function(oldPos, newPos) {
-  console.log("Position changed:");
-  console.log("Old position: " + Chessboard.objToFen(oldPos));
-  console.log("New position: " + Chessboard.objToFen(newPos));
-  console.log("--------------------");
-};
+function onChange (oldPos, newPos) {
+  console.log('Position changed:')
+  console.log('Old position: ' + Chessboard.objToFen(oldPos))
+  console.log('New position: ' + Chessboard.objToFen(newPos))
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+}
 
-var cfg = {
+var config = {
   draggable: true,
   position: 'start',
   onChange: onChange
-};
-var board = Chessboard('myBoard', cfg);
+}
+var board = Chessboard('myBoard', config)
 
-$('#startPositionBtn').on('click', board.start);
+$('#startPositionBtn').on('click', board.start)

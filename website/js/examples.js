@@ -29,7 +29,7 @@
       // TODO: need to add single example link here
       // '<p><a href=""></a></p>' +
       '<p>' + example.description + '</p>' +
-      '<div>' + example.html + '</div>' +
+      '<div class="container-4e1ee">' + example.html + '</div>' +
       '<h4>JavaScript</h4>' +
       '<pre class="prettyprint">' + htmlEscape(example.jsStr) + '</pre>' +
       '<h4>HTML</h4>' +

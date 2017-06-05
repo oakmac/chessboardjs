@@ -22,11 +22,11 @@ var onMoveEnd = function(oldPos, newPos) {
   console.log("--------------------");
 };
 
-var cfg = {
+var config = {
   position: 'start',
   onMoveEnd: onMoveEnd
 };
-var board = Chessboard('myBoard', cfg);
+var board = Chessboard('myBoard', config)
 
 $('#startBtn').on('click', board.start);
 $('#clearBtn').on('click', board.clear);

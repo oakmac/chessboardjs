@@ -11,7 +11,7 @@ Set the <a href="docs#config:position"><code class="js plain">position</code></a
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var cfg = {
+var config = {
   position: 'start'
-};
-var board = Chessboard('myBoard', cfg);
+}
+var board = Chessboard('myBoard', config)

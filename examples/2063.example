@@ -11,11 +11,11 @@ You can set the <a href="docs#config:position"><code class="js plain">position</
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var cfg = {
+var config = {
   position: {
     d4: 'wP',
     d6: 'bK',
     e4: 'wK'
   }
 };
-var board = Chessboard('myBoard', cfg);
+var board = Chessboard('myBoard', config)

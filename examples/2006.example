@@ -9,15 +9,15 @@ Set <a href="docs#config:sparePieces"><code class="js plain">sparePieces</code><
 
 ===== HTML
 <div id="myBoard" style="width: 400px"></div>
-<input type="button" id="startBtn" value="Start" />
-<input type="button" id="clearBtn" value="Clear" />
+<button id="startBtn">Start</button>
+<button id="clearBtn">Clear</button>
 
 ===== JS
 var board = Chessboard('myBoard', {
   draggable: true,
   dropOffBoard: 'trash',
   sparePieces: true
-});
+})
 
-$('#startBtn').on('click', board.start);
-$('#clearBtn').on('click', board.clear);
+$('#startBtn').on('click', board.start)
+$('#clearBtn').on('click', board.clear)

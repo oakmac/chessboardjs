@@ -11,8 +11,8 @@ Use the <a href="docs#config:orientation"><code class="js plain">orientation</co
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var cfg = {
+var config = {
   orientation: 'black',
   position: 'start'
-};
-var board = Chessboard('myBoard', cfg);
+}
+var board = Chessboard('myBoard', config)

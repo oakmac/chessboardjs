@@ -15,6 +15,7 @@ function processFile (f) {
 }
 
 function processLine (line) {
-  line = line.replace('ChessBoard', 'Chessboard')
+  line = line.replace('cfg', 'config')
+  line = line.replace('config);', 'config)')
   return line
 }

@@ -19,9 +19,9 @@ var onSnapbackEnd = function(piece, square, position, orientation) {
   console.log("--------------------");
 };
 
-var cfg = {
+var config = {
   draggable: true,
   position: 'start',
   onSnapbackEnd: onSnapbackEnd
 };
-var board = Chessboard('myBoard', cfg);
+var board = Chessboard('myBoard', config)

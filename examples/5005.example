@@ -90,7 +90,7 @@ var onSnapEnd = function() {
   board.position(game.fen());
 };
 
-var cfg = {
+var config = {
   draggable: true,
   position: 'start',
   onDragStart: onDragStart,
@@ -98,4 +98,4 @@ var cfg = {
   onMoveEnd: onMoveEnd,
   onSnapEnd: onSnapEnd
 };
-board = Chessboard('myBoard', cfg);
+board = Chessboard('myBoard', config)

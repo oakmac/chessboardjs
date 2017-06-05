@@ -11,9 +11,9 @@ Set <a href="docs#config:dropOffBoard"><code class="js plain">dropOffBoard</code
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var cfg = {
+var config = {
   draggable: true,
   dropOffBoard: 'trash',
   position: 'start'
-};
-var board = Chessboard('myBoard', cfg);
+}
+var board = Chessboard('myBoard', config)

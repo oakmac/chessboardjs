@@ -22,10 +22,10 @@ var onDragMove = function(newLocation, oldLocation, source,
   console.log("--------------------");
 };
 
-var cfg = {
+var config = {
   draggable: true,
   position: 'start',
   onDragMove: onDragMove,
   sparePieces: true
 };
-var board = Chessboard('myBoard', cfg);
+var board = Chessboard('myBoard', config)

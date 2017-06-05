@@ -11,19 +11,19 @@ The <a href="docs#config:onDragStart"><code class="js plain">onDragStart</code><
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var onDragStart = function(source, piece, position, orientation) {
-  console.log("Drag started:");
-  console.log("Source: " + source);
-  console.log("Piece: " + piece);
-  console.log("Position: " + Chessboard.objToFen(position));
-  console.log("Orientation: " + orientation);
-  console.log("--------------------");
+function onDragStart (source, piece, position, orientation) {
+  console.log('Drag started:')
+  console.log('Source: ' + source)
+  console.log('Piece: ' + piece)
+  console.log('Position: ' + Chessboard.objToFen(position))
+  console.log('Orientation: ' + orientation)
+  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 };
 
-var cfg = {
+var config = {
   draggable: true,
   position: 'start',
   onDragStart: onDragStart,
   sparePieces: true
-};
-var board = Chessboard('myBoard', cfg);
+}
+var board = Chessboard('myBoard', config)

@@ -2,3 +2,5 @@
 *.diff
 
 node_modules/
+
+website/*.html

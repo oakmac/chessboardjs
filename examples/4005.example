@@ -18,9 +18,9 @@ var onDrop = function(source, target, piece, newPos, oldPos, orientation) {
   }
 };
 
-var cfg = {
+var config = {
   draggable: true,
   position: 'start',
   onDrop: onDrop
 };
-var board = Chessboard('myBoard', cfg);
+var board = Chessboard('myBoard', config)

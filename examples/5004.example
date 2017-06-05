@@ -67,10 +67,10 @@ var onMoveEnd = function() {
     .addClass('highlight-' + colorToHighlight);
 };
 
-var cfg = {
+var config = {
   position: 'start',
   onMoveEnd: onMoveEnd
 };
-board = Chessboard('myBoard', cfg);
+board = Chessboard('myBoard', config)
 
 window.setTimeout(makeRandomMove, 500);

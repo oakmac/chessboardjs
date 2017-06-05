@@ -11,9 +11,9 @@ Set <a href="docs#config:draggable"><code class="js plain">draggable</code></a> 
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var cfg = {
+var config = {
   draggable: true,
   dropOffBoard: 'snapback', // this is the default
   position: 'start'
-};
-var board = Chessboard('myBoard', cfg);
+}
+var board = Chessboard('myBoard', config)
