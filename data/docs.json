@@ -1,6 +1,6 @@
 {
 
-"Config Object":[
+"config":[
 "------------------------------------------------------------------------------",
 {
   "name":"draggable",
@@ -24,7 +24,7 @@
   "desc":[
     "If <code class='js string'>'snapback'</code>, pieces dropped off the board will return to their original square.",
     "If <code class='js string'>'trash'</code>, pieces dropped off the board will be removed from the board.",
-    "This property has no effect when <a href='docs#config:draggable'><code class='js plain'>draggable</code></a> is <code class='js keyword'>false</code>."
+    "This property has no effect when <a href='docs.html#config:draggable'><code class='js plain'>draggable</code></a> is <code class='js keyword'>false</code>."
   ],
   "examples":[2003,2082]
 },
@@ -33,8 +33,8 @@
   "name":"position",
   "type":[
     "<code class='js string'>'start'</code>",
-    "<a href='docs#fen_string'>FEN String</a>",
-    "<a href='docs#position_object'>Position Object</a>"
+    "<a href='docs.html#fen_string'>FEN String</a>",
+    "<a href='docs.html#position_object'>Position Object</a>"
   ],
   "req":false,
   "default":false,
@@ -53,7 +53,7 @@
     "Fires when the board position changes.",
     "The first argument to the function is the old position, the second argument is the new position.",
     "<span style='color: red; text-transform: uppercase; font-weight: bold;'>Warning:</span> do <strong>not</strong> call any position-changing methods in your <code class='js plain'>onChange</code> function or you will cause an infinite loop.",
-    "Position-changing methods are: <a href='docs#methods:clear'><code class='js plain'>clear()</code></a>, <a href='docs#methods:move'><code class='js plain'>move()</code></a>, <a href='docs#methods:position'><code class='js plain'>position()</code></a>, and <a href='docs#methods:start'><code class='js plain'>start()</code></a>."
+    "Position-changing methods are: <a href='docs.html#methods:clear'><code class='js plain'>clear()</code></a>, <a href='docs.html#methods:move'><code class='js plain'>move()</code></a>, <a href='docs.html#methods:position'><code class='js plain'>position()</code></a>, and <a href='docs.html#methods:start'><code class='js plain'>start()</code></a>."
   ],
   "examples":[4000]
 },
@@ -105,7 +105,7 @@
   "desc":[
     "Fires when the mouse leaves a square.",
     "The first argument to the function is the square that was left, the second argument is the piece on that square (or <code class='js keyword'>false</code> if there is no piece), the third argument is the current position of the board, and the fourth argument is the current orientation.",
-    "Note that <code class='js plain'>onMouseoutSquare</code> will <strong>not</strong> fire during piece drag and drop. Use <code class='js plain'><a href='docs#config:onDragMove'>onDragMove</a></code>."
+    "Note that <code class='js plain'>onMouseoutSquare</code> will <strong>not</strong> fire during piece drag and drop. Use <code class='js plain'><a href='docs.html#config:onDragMove'>onDragMove</a></code>."
   ],
   "examples":[5003]
 },
@@ -118,7 +118,7 @@
   "desc":[
     "Fires when the mouse enters a square.",
     "The first argument to the function is the square that was entered, the second argument is the piece on that square (or <code class='js keyword'>false</code> if there is no piece), the third argument is the current position of the board, and the fourth argument is the current orientation.",
-    "Note that <code class='js plain'>onMouseoverSquare</code> will <strong>not</strong> fire during piece drag and drop. Use <code class='js plain'><a href='docs#config:onDragMove'>onDragMove</a></code>."
+    "Note that <code class='js plain'>onMouseoverSquare</code> will <strong>not</strong> fire during piece drag and drop. Use <code class='js plain'><a href='docs.html#config:onDragMove'>onDragMove</a></code>."
   ],
   "examples":[5003]
 },
@@ -191,7 +191,7 @@
   "default":"<code class='js keyword'>false</code>",
   "desc":[
     "If <code class='js keyword'>true</code>, the board will have spare pieces that can be dropped onto the board.",
-    "If <code class='js plain'>sparePieces</code> is set to <code class='js keyword'>true</code>, <a href='docs#config:draggable'><code class='js plain'>draggable</code></a> gets set to <code class='js keyword'>true</code> as well."
+    "If <code class='js plain'>sparePieces</code> is set to <code class='js keyword'>true</code>, <a href='docs.html#config:draggable'><code class='js plain'>draggable</code></a> gets set to <code class='js keyword'>true</code> as well."
   ],
   "examples":2006
 },
@@ -202,8 +202,8 @@
   "req":false,
   "default":false,
   "desc":[
-    "<code class='js plain'>showErrors</code> is an optional parameter to control how ChessBoard reports errors.",
-    "Every error in ChessBoard has a <a href='docs#errors'>unique code</a> to help diagnose problems and search for solutions.",
+    "<code class='js plain'>showErrors</code> is an optional parameter to control how Chessboard reports errors.",
+    "Every error in Chessboard has a <a href='docs.html#errors'>unique code</a> to help diagnose problems and search for solutions.",
     "If <code class='js plain'>showErrors</code> is <code class='js keyword'>false</code> then errors will be ignored.",
     "If <code class='js plain'>showErrors</code> is <code class='js string'>'console'</code> then errors will be sent to <code class='js plain'>console.log()</code>.",
     "If <code class='js plain'>showErrors</code> is <code class='js string'>'alert'</code> then errors will be sent to <code class='js plain'>window.alert()</code>.",
@@ -232,7 +232,7 @@
   "default":"<code class='js number'>200</code>",
   "desc":[
     "Animation speed for when pieces appear on a square.",
-    "Note that the \"appear\" animation only occurs when <a href='docs#config:sparePieces'><code class='js plain'>sparePieces</code></a> is <code class='js keyword'>false</code>."
+    "Note that the \"appear\" animation only occurs when <a href='docs.html#config:sparePieces'><code class='js plain'>sparePieces</code></a> is <code class='js keyword'>false</code>."
   ],
   "examples":[]
 },
@@ -289,7 +289,7 @@
 
 
 
-"Methods":[
+"methods":[
 "------------------------------------------------------------------------------",
 {
   "name":"clear(useAnimation)",
@@ -299,7 +299,7 @@
   "desc":[
     "Removes all the pieces on the board.",
     "If <code class='js plain'>useAnimation</code> is <code class='js keyword'>false</code>, removes pieces instantly.",
-    "Alias of <a href='docs#methods:position'><code class='js plain'>position({})</code></a> and <a href='docs#methods:position'><code class='js plain'>position({},</code> <code class='js keyword'>false</code><code class='js plain'>)</code></a>"
+    "Alias of <a href='docs.html#methods:position'><code class='js plain'>position({})</code></a> and <a href='docs.html#methods:position'><code class='js plain'>position({},</code> <code class='js keyword'>false</code><code class='js plain'>)</code></a>"
   ],
   "examples":[3003]
 },
@@ -314,7 +314,7 @@
   "name":"fen()",
   "desc":[
     "Returns the current position as a FEN string.",
-    "Alias of <a href='docs#methods:position'><code class='js plain'>position(</code><code class='js string'>'fen'</code><code class='js plain'>)</code></a>"
+    "Alias of <a href='docs.html#methods:position'><code class='js plain'>position(</code><code class='js string'>'fen'</code><code class='js plain'>)</code></a>"
   ],
   "examples":[3000]
 },
@@ -323,7 +323,7 @@
   "name":"flip()",
   "desc":[
     "Flips the board orientation.",
-    "Alias of <a href='docs#methods:orientation'><code class='js plain'>orientation(</code><code class='js string'>'flip'</code><code class='js plain'>)</code></a>"
+    "Alias of <a href='docs.html#methods:orientation'><code class='js plain'>orientation(</code><code class='js string'>'flip'</code><code class='js plain'>)</code></a>"
   ],
   "examples":[3005]
 },
@@ -403,7 +403,7 @@
   "desc":[
     "Sets the board to the start position.",
     "If <code class='js plain'>useAnimation</code> is <code class='js keyword'>false</code>, sets the position instantly.",
-    "Alias of <a href='docs#methods:position'><code class='js plain'>position(</code><code class='js string'>'start'</code><code class='js plain'>)</code></a> and <a href='docs#methods:position'><code class='js plain'>position(</code><code class='js string'>'start'</code><code class='js plain'>, </code><code class='js keyword'>false</code><code class='js plain'>)</code></a>"
+    "Alias of <a href='docs.html#methods:position'><code class='js plain'>position(</code><code class='js string'>'start'</code><code class='js plain'>)</code></a> and <a href='docs.html#methods:position'><code class='js plain'>position(</code><code class='js string'>'start'</code><code class='js plain'>, </code><code class='js keyword'>false</code><code class='js plain'>)</code></a>"
   ],
   "examples":[3001]
 },
@@ -419,34 +419,34 @@
 
 
 
-"Errors":[
+"errors":[
 {
   "id":1001,
-  "desc":"The first argument to ChessBoard() cannot be an empty string.",
-  "fix":"The first argument to the ChessBoard() constructor should be the id of a DOM element or a reference to a single DOM element."
+  "desc":"The first argument to Chessboard() cannot be an empty string.",
+  "fix":"The first argument to the Chessboard() constructor should be the id of a DOM element or a reference to a single DOM element."
 },
 {
   "id":1002,
   "desc":"Element with id \"<id>\" does not exist in the DOM.",
   "fix":[
-    "ChessBoard could not find your element with <code class='js plain'>document.getElementById</code>.",
-    "Please note that if you pass a string as the first argument to the ChessBoard() constructor it should be the value of a DOM id, not a CSS selector (ie: <code class='js string'>\"board\"</code>, not <code class='js string'>\"#board\"</code>)."
+    "Chessboard could not find your element with <code class='js plain'>document.getElementById</code>.",
+    "Please note that if you pass a string as the first argument to the Chessboard() constructor it should be the value of a DOM id, not a CSS selector (ie: <code class='js string'>\"board\"</code>, not <code class='js string'>\"#board\"</code>)."
   ]
 },
 {
   "id":1003,
-  "desc":"The first argument to ChessBoard() must be an ID or a single DOM node.",
-  "fix":"The first argument to the ChessBoard() constructor should be the id of a DOM element or a reference to a single DOM element."
+  "desc":"The first argument to Chessboard() must be an ID or a single DOM node.",
+  "fix":"The first argument to the Chessboard() constructor should be the id of a DOM element or a reference to a single DOM element."
 },
 {
   "id":1004,
   "desc":"JSON does not exist. Please include a JSON polyfill.",
-  "fix":"ChessBoard requires a JSON implementation. Please include a <a href='http://bestiejs.github.com/json3/'>polyfill</a> for older browsers."
+  "fix":"Chessboard requires a JSON implementation. Please include a <a href='http://bestiejs.github.com/json3/'>polyfill</a> for older browsers."
 },
 {
   "id":1005,
   "desc":"Unable to find a valid version of jQuery. Please include jQuery 1.7.0 or higher on the page.",
-  "fix":"ChessBoard requires <a href='http://jquery.com/'>jQuery</a> version 1.7.0 or higher."
+  "fix":"Chessboard requires <a href='http://jquery.com/'>jQuery</a> version 1.7.0 or higher."
 },
 {
   "id":2826,
@@ -472,10 +472,16 @@
   "id":8272,
   "desc":"Unable to build image source for cfg.pieceTheme.",
   "fix":[
-    "This is an internal ChessBoard error that you should never see.",
+    "This is an internal Chessboard error that you should never see.",
     "If you see this error please open a <a href='https://github.com/oakmac/chessboardjs/issues'>GitHub issue</a>."
   ]
 }
 ]
+
+
+
+
+
+
 
 }

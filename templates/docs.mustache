@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+{{{head}}}
+<body>
+{{{header}}}
+
+<main>
+<div class="body-width-115f6">
+
+<section>
+    <h2 id="config">Config</h2>
+    <table cellspacing="0">
+        <thead class="center">
+            <tr>
+                <th>Property / Type</th>
+                <th>Required</th>
+                <th>Default</th>
+                <th>Description</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+    <tbody>{{{configTableRows}}}</tbody>
+    </table>
+</section>
+
+<hr class="divider" />
+
+<section>
+    <h2 id="methods">Methods</h2>
+    <table cellspacing="0">
+        <thead class="center">
+            <tr>
+                <th>Method</th>
+                <th>Args</th>
+                <th>Description</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+    <tbody>{{{methodTableRows}}}</tbody>
+    </table>
+</section>
+
+<hr class="divider" />
+
+<section>
+    <h2 id="position_object">Position Object</h2>
+    <p>You can use a JavaScript object to represent a board position.</p>
+    <p>The object property names must be algebraic squares (ie: e4, b2, c6, etc) and the values must be a valid piece codes (ie: wP, bK, wQ, etc).</p>
+    <p>See an example of using an object to represent a position <a href="examples.html#1003">here</a>.</p>
+    <p>Chessboard.js exposes the <a href="examples.html#4000"><code class="js plain">Chessboard.objToFen</code></a> method to help convert between Position Objects and <a href="docs#fen_string">FEN Strings</a>.</p>
+</section>
+
+<hr class="divider" />
+
+<section>
+    <h2 id="fen_string">FEN String</h2>
+    <p>You can use <a href="http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation">Forsyth-Edwards Notation (FEN)</a> to represent a board position.</p>
+    <p>Note that FEN notation captures more information than chessboard.js requires, like who's move it is and whether or not castling is allowed. This information will be ignored; only the position information is used.</p>
+    <p>See an example of using a FEN String to represent a position <a href="examples.html#1002">here</a> and <a href="examples.html#1004">here</a>.</p>
+    <p>Chessboard.js exposes the <code class="js plain">Chessboard.fenToObj</code> method to help convert a FEN String to a <a href="docs#position_object">Position Object</a>.</p>
+</section>
+
+<hr class="divider" />
+
+<section>
+    <h2 id="errors">Errors</h2>
+    <p>Chessboard.js has an error system designed to inform you when you use the API incorrectly.</p>
+    <p>Every alert has a unique code associated with it and you can control how the errors are presented with the <a href="docs#config:showErrors">showErrors</a> config option.</p>
+    <table cellspacing="0">
+        <thead class="center">
+            <tr>
+                <th style="width: 75px">Error ID</th>
+                <th style="width: 45%">Error Text</th>
+                <th>More Information</th>
+            </tr>
+        </thead>
+        <tbody>{{{errorRows}}}</tbody>
+    </table>
+</section>
+
+</div>
+</main>
+
+{{{footer}}}
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/jquery.color-2.1.2.min.js"></script>
+<script>
+;(function () {
+  function flashRow (id) {
+    var $el = $(document.getElementById(id))
+    var bgColor = $el.css('background-color')
+    $el.css('background-color', '#ffff99')
+      .animate({backgroundColor: bgColor}, 2000)
+  }
+
+  function isRow (id) {
+    return id.search(/\:/) !== -1
+  }
+
+  function clickAnchor (evt) {
+    var id = $(this).attr('href').replace(/docs#/, '')
+    if (isRow(id)) {
+      flashRow(id)
+    }
+  }
+
+  function init () {
+    $('body').on('click', 'a', clickAnchor)
+
+    window.location.hash = window.location.hash.replace('%3a', ':')
+
+    // give it just a smidge more time to load
+    setTimeout(function () {
+      if (isRow(window.location.hash)) {
+        flashRow(window.location.hash.replace('#', ''))
+      }
+    }, 150)
+  }
+
+  $(document).ready(init)
+})()
+</script>
+</body>
+</html>
