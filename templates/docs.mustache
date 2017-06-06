@@ -47,7 +47,7 @@
     <p>You can use a JavaScript object to represent a board position.</p>
     <p>The object property names must be algebraic squares (ie: e4, b2, c6, etc) and the values must be a valid piece codes (ie: wP, bK, wQ, etc).</p>
     <p>See an example of using an object to represent a position <a href="examples.html#1003">here</a>.</p>
-    <p>Chessboard.js exposes the <a href="examples.html#4000"><code class="js plain">Chessboard.objToFen</code></a> method to help convert between Position Objects and <a href="docs#fen_string">FEN Strings</a>.</p>
+    <p>Chessboard.js exposes the <a href="examples.html#4000"><code class="js plain">Chessboard.objToFen</code></a> method to help convert between Position Objects and <a href="docs.html#fen_string">FEN Strings</a>.</p>
 </section>
 
 <hr class="divider" />
@@ -57,7 +57,7 @@
     <p>You can use <a href="http://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation">Forsyth-Edwards Notation (FEN)</a> to represent a board position.</p>
     <p>Note that FEN notation captures more information than chessboard.js requires, like who's move it is and whether or not castling is allowed. This information will be ignored; only the position information is used.</p>
     <p>See an example of using a FEN String to represent a position <a href="examples.html#1002">here</a> and <a href="examples.html#1004">here</a>.</p>
-    <p>Chessboard.js exposes the <code class="js plain">Chessboard.fenToObj</code> method to help convert a FEN String to a <a href="docs#position_object">Position Object</a>.</p>
+    <p>Chessboard.js exposes the <code class="js plain">Chessboard.fenToObj</code> method to help convert a FEN String to a <a href="docs.html#position_object">Position Object</a>.</p>
 </section>
 
 <hr class="divider" />
@@ -65,7 +65,7 @@
 <section>
     <h2 id="errors">Errors</h2>
     <p>Chessboard.js has an error system designed to inform you when you use the API incorrectly.</p>
-    <p>Every alert has a unique code associated with it and you can control how the errors are presented with the <a href="docs#config:showErrors">showErrors</a> config option.</p>
+    <p>Every alert has a unique code associated with it and you can control how the errors are presented with the <a href="docs.html#config:showErrors">showErrors</a> config option.</p>
     <table cellspacing="0">
         <thead class="center">
             <tr>
@@ -94,13 +94,13 @@
       .animate({backgroundColor: bgColor}, 2000)
   }
 
-  function isRow (id) {
+  function isTableRow (id) {
     return id.search(/\:/) !== -1
   }
 
   function clickAnchor (evt) {
-    var id = $(this).attr('href').replace(/docs#/, '')
-    if (isRow(id)) {
+    var id = $(this).attr('href').replace(/^.+#/, '')
+    if (isTableRow(id)) {
       flashRow(id)
     }
   }
@@ -112,7 +112,7 @@
 
     // give it just a smidge more time to load
     setTimeout(function () {
-      if (isRow(window.location.hash)) {
+      if (isTableRow(window.location.hash)) {
         flashRow(window.location.hash.replace('#', ''))
       }
     }, 150)

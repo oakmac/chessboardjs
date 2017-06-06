@@ -2,10 +2,10 @@
 // This files builds the .html files in the website/ folder
 // -----------------------------------------------------------------------------
 
+// libraries
 const fs = require('fs')
 const kidif = require('kidif')
 const mustache = require('mustache')
-
 const docs = require('./data/docs.json')
 
 const encoding = {encoding: 'utf8'}
@@ -19,6 +19,7 @@ const singleExampleTemplate = fs.readFileSync('templates/single-example.mustache
 const headTemplate = fs.readFileSync('templates/_head.mustache', encoding)
 const headerTemplate = fs.readFileSync('templates/_header.mustache', encoding)
 const footerTemplate = fs.readFileSync('templates/_footer.mustache', encoding)
+
 const latestChessboardjs = fs.readFileSync('src/chessboard.js', encoding)
 const latestChessboardcss = fs.readFileSync('src/chessboard.css', encoding)
 
@@ -83,7 +84,7 @@ function writeExamplesPage () {
 
 const configTableRowsHTML = docs.config.reduce(function (html, itm) {
   if (isString(itm)) return html
-  return html + buildPropRowHTML('config', itm)
+  return html + buildConfigDocsTableRowHTML('config', itm)
 }, '')
 
 const methodTableRowsHTML = docs.methods.reduce(function (html, itm) {
@@ -175,7 +176,7 @@ function buildExamplesJS () {
   return txt
 }
 
-function buildPropRowHTML (propType, prop) {
+function buildConfigDocsTableRowHTML (propType, prop) {
   let html = ''
 
   // table row

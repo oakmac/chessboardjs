@@ -453,6 +453,27 @@
     return surroundingSquares
   }
 
+  // given a position and a set of moves, return a new position
+  // with the moves executed
+  function calculatePositionFromMoves (position, moves) {
+    var newPosition = deepCopy(position)
+
+    for (var i in moves) {
+      if (!moves.hasOwnProperty(i)) continue
+
+      // skip the move if the position doesn't have a piece on the source square
+      if (!newPosition.hasOwnProperty(i)) continue
+
+      var piece = newPosition[i]
+      delete newPosition[i]
+      newPosition[moves[i]] = piece
+    }
+
+    return newPosition
+  }
+
+  // TODO: add some asserts here for calculatePositionFromMoves
+
   // ---------------------------------------------------------------------------
   // HTML
   // ---------------------------------------------------------------------------
@@ -596,7 +617,7 @@
 
     // DOM elements
     var $board = null
-    var $draggedPieceEl = null
+    var $draggedPiece = null
     var $sparePiecesTop = null
     var $sparePiecesBottom = null
 
@@ -757,7 +778,7 @@
 
           html += '<div class="{square} ' + CSS[squareColor] + ' ' +
             'square-' + square + '" ' +
-            'style="width: ' + squareSize + 'px; height: ' + squareSize + 'px" ' +
+            'style="width:' + squareSize + 'px;height:' + squareSize + 'px;" ' +
             'id="' + squareElsIds[square] + '" ' +
             'data-square="' + square + '">'
 
@@ -776,11 +797,11 @@
 
           html += '</div>' // end .square
 
-          squareColor = (squareColor === 'white' ? 'black' : 'white')
+          squareColor = (squareColor === 'white') ? 'black' : 'white'
         }
         html += '<div class="{clearfix}"></div></div>'
 
-        squareColor = (squareColor === 'white' ? 'black' : 'white')
+        squareColor = (squareColor === 'white') ? 'black' : 'white'
 
         if (orientation === 'white') {
           row = row - 1
@@ -816,10 +837,10 @@
           'class="{piece}" ' +
           'data-piece="' + piece +
           '" ' +
-          'style="width: ' +
+          'style="width:' +
           squareSize +
           'px;' +
-          'height: ' +
+          'height:' +
           squareSize +
           'px;'
       if (hidden === true) {
@@ -850,17 +871,17 @@
 
     function animateSquareToSquare (src, dest, piece, completeFn) {
       // get information about the source and destination squares
-      var srcSquareEl = $('#' + squareElsIds[src])
-      var srcSquarePosition = srcSquareEl.offset()
-      var destSquareEl = $('#' + squareElsIds[dest])
-      var destSquarePosition = destSquareEl.offset()
+      var $srcSquare = $('#' + squareElsIds[src])
+      var srcSquarePosition = $srcSquare.offset()
+      var $destSquare = $('#' + squareElsIds[dest])
+      var destSquarePosition = $destSquare.offset()
 
       // create the animated piece and absolutely position it
       // over the source square
       var animatedPieceId = uuid()
       $('body').append(buildPieceHTML(piece, true, animatedPieceId))
-      var animatedPieceEl = $('#' + animatedPieceId)
-      animatedPieceEl.css({
+      var $animatedPiece = $('#' + animatedPieceId)
+      $animatedPiece.css({
         display: '',
         position: 'absolute',
         top: srcSquarePosition.top,
@@ -868,14 +889,14 @@
       })
 
       // remove original piece from source square
-      srcSquareEl.find('.' + CSS.piece).remove()
+      $srcSquare.find('.' + CSS.piece).remove()
 
       function onFinishAnimation1 () {
         // add the "real" piece to the destination square
-        destSquareEl.append(buildPieceHTML(piece))
+        $destSquare.append(buildPieceHTML(piece))
 
         // remove the animated piece
-        animatedPieceEl.remove()
+        $animatedPiece.remove()
 
         // run complete function
         if (isFunction(completeFn)) {
@@ -888,19 +909,19 @@
         duration: config.moveSpeed,
         complete: onFinishAnimation1
       }
-      animatedPieceEl.animate(destSquarePosition, opts)
+      $animatedPiece.animate(destSquarePosition, opts)
     }
 
     function animateSparePieceToSquare (piece, dest, completeFn) {
       var srcOffset = $('#' + sparePiecesElsIds[piece]).offset()
-      var destSquareEl = $('#' + squareElsIds[dest])
-      var destOffset = destSquareEl.offset()
+      var $destSquare = $('#' + squareElsIds[dest])
+      var destOffset = $destSquare.offset()
 
       // create the animate piece
       var pieceId = uuid()
       $('body').append(buildPieceHTML(piece, true, pieceId))
-      var animatedPieceEl = $('#' + pieceId)
-      animatedPieceEl.css({
+      var $animatedPiece = $('#' + pieceId)
+      $animatedPiece.css({
         display: '',
         position: 'absolute',
         left: srcOffset.left,
@@ -910,11 +931,11 @@
       // on complete
       function onFinishAnimation2 () {
         // add the "real" piece to the destination square
-        destSquareEl.find('.' + CSS.piece).remove()
-        destSquareEl.append(buildPieceHTML(piece))
+        $destSquare.find('.' + CSS.piece).remove()
+        $destSquare.append(buildPieceHTML(piece))
 
         // remove the animated piece
-        animatedPieceEl.remove()
+        $animatedPiece.remove()
 
         // run complete function
         if (isFunction(completeFn)) {
@@ -927,7 +948,7 @@
         duration: config.moveSpeed,
         complete: onFinishAnimation2
       }
-      animatedPieceEl.animate(destOffset, opts)
+      $animatedPiece.animate(destOffset, opts)
     }
 
     // execute an array of animations
@@ -955,29 +976,21 @@
         if (animation.type === 'clear') {
           $('#' + squareElsIds[animation.square] + ' .' + CSS.piece)
             .fadeOut(config.trashSpeed, onFinishAnimation3)
-        }
 
-        // add a piece (no spare pieces)
-        if (animation.type === 'add' && !config.sparePieces) {
+        // add a piece with no spare pieces - fade the piece onto the square
+        } else if (animation.type === 'add' && !config.sparePieces) {
           $('#' + squareElsIds[animation.square])
             .append(buildPieceHTML(animation.piece, true))
             .find('.' + CSS.piece)
             .fadeIn(config.appearSpeed, onFinishAnimation3)
-        }
 
-        // add a piece from a spare piece
-        if (animation.type === 'add' && config.sparePieces) {
-          animateSparePieceToSquare(animation.piece,
-                                    animation.square,
-                                    onFinishAnimation3)
-        }
+        // add a piece with spare pieces - animate from the spares
+        } else if (animation.type === 'add' && config.sparePieces) {
+          animateSparePieceToSquare(animation.piece, animation.square, onFinishAnimation3)
 
-        // move a piece
-        if (animation.type === 'move') {
-          animateSquareToSquare(animation.source,
-                                animation.destination,
-                                animation.piece,
-                                onFinishAnimation3)
+        // move a piece from squareA to squareB
+        } else if (animation.type === 'move') {
+          animateSquareToSquare(animation.source, animation.destination, animation.piece, onFinishAnimation3)
         }
       }
     }
@@ -1021,7 +1034,7 @@
         }
       }
 
-      // add pieces to pos2
+      // "add" animations
       for (i in pos2) {
         if (!pos2.hasOwnProperty(i)) continue
 
@@ -1034,7 +1047,7 @@
         delete pos2[i]
       }
 
-      // clear pieces from pos1
+      // "clear" animations
       for (i in pos1) {
         if (!pos1.hasOwnProperty(i)) continue
 
@@ -1083,25 +1096,6 @@
           $sparePiecesBottom.html(buildSparePiecesHTML('black'))
         }
       }
-    }
-
-    // given a position and a set of moves, return a new position
-    // with the moves executed
-    function calculatePositionFromMoves (position, moves) {
-      position = deepCopy(position)
-
-      for (var i in moves) {
-        if (!moves.hasOwnProperty(i)) continue
-
-        // skip the move if the position doesn't have a piece on the source square
-        if (!position.hasOwnProperty(i)) continue
-
-        var piece = position[i]
-        delete position[i]
-        position[moves[i]] = piece
-      }
-
-      return position
     }
 
     function setCurrentPosition (position) {
@@ -1167,7 +1161,7 @@
       // animation complete
       function complete () {
         drawPositionInstant()
-        $draggedPieceEl.css('display', 'none')
+        $draggedPiece.css('display', 'none')
 
         // run their onSnapbackEnd function
         if (isFunction(config.onSnapbackEnd)) {
@@ -1188,7 +1182,7 @@
         duration: config.snapbackSpeed,
         complete: complete
       }
-      $draggedPieceEl.animate(sourceSquarePosition, opts)
+      $draggedPiece.animate(sourceSquarePosition, opts)
 
       // set state
       isDragging = false
@@ -1206,7 +1200,7 @@
       drawPositionInstant()
 
       // hide the dragged piece
-      $draggedPieceEl.fadeOut(config.trashSpeed)
+      $draggedPiece.fadeOut(config.trashSpeed)
 
       // set state
       isDragging = false
@@ -1227,7 +1221,7 @@
       // animation complete
       function onAnimationComplete () {
         drawPositionInstant()
-        $draggedPieceEl.css('display', 'none')
+        $draggedPiece.css('display', 'none')
 
         // execute their onSnapEnd function
         if (isFunction(config.onSnapEnd)) {
@@ -1240,7 +1234,7 @@
         duration: config.snapSpeed,
         complete: onAnimationComplete
       }
-      $draggedPieceEl.animate(targetSquarePosition, opts)
+      $draggedPiece.animate(targetSquarePosition, opts)
 
       // set state
       isDragging = false
@@ -1270,7 +1264,7 @@
       captureSquareOffsets()
 
       // create the dragged piece
-      $draggedPieceEl.attr('src', buildPieceImgSrc(piece)).css({
+      $draggedPiece.attr('src', buildPieceImgSrc(piece)).css({
         display: '',
         position: 'absolute',
         left: x - squareSize / 2,
@@ -1288,7 +1282,7 @@
 
     function updateDraggedPiece (x, y) {
       // put the dragged piece over the mouse cursor
-      $draggedPieceEl.css({
+      $draggedPiece.css({
         left: x - squareSize / 2,
         top: y - squareSize / 2
       })
@@ -1400,7 +1394,7 @@
     widget.destroy = function () {
       // remove markup
       $container.html('')
-      $draggedPieceEl.remove()
+      $draggedPiece.remove()
 
       // remove event handlers
       $container.unbind()
@@ -1417,8 +1411,10 @@
     }
 
     // move pieces
+    // TODO: this method should be variadic as well as accept an array of moves
     widget.move = function () {
       // no need to throw an error here; just do nothing
+      // TODO: this should return the current position
       if (arguments.length === 0) return
 
       var useAnimation = true
@@ -1527,7 +1523,7 @@
       $board.css('width', squareSize * 8 + 'px')
 
       // set drag piece size
-      $draggedPieceEl.css({
+      $draggedPiece.css({
         height: squareSize,
         width: squareSize
       })
@@ -1610,47 +1606,46 @@
         )
     }
 
-    function mousemoveWindow (e) {
+    function mousemoveWindow (evt) {
       // do nothing if we are not dragging a piece
       if (!isDragging) return
 
-      updateDraggedPiece(e.pageX, e.pageY)
+      updateDraggedPiece(evt.pageX, evt.pageY)
     }
 
-    function touchmoveWindow (e) {
+    function touchmoveWindow (evt) {
       // do nothing if we are not dragging a piece
       if (!isDragging) return
 
       // prevent screen from scrolling
-      e.preventDefault()
+      evt.preventDefault()
 
-      updateDraggedPiece(
-          e.originalEvent.changedTouches[0].pageX,
-          e.originalEvent.changedTouches[0].pageY
-        )
+      updateDraggedPiece(evt.originalEvent.changedTouches[0].pageX,
+                         evt.originalEvent.changedTouches[0].pageY)
     }
 
-    function mouseupWindow (e) {
+    function mouseupWindow (evt) {
       // do nothing if we are not dragging a piece
       if (!isDragging) return
 
       // get the location
-      var location = isXYOnSquare(e.pageX, e.pageY)
+      var location = isXYOnSquare(evt.pageX, evt.pageY)
 
       stopDraggedPiece(location)
     }
 
-    function touchendWindow (e) {
+    function touchendWindow (evt) {
       // do nothing if we are not dragging a piece
       if (!isDragging) return
 
       // get the location
-      var location = isXYOnSquare(e.originalEvent.changedTouches[0].pageX, e.originalEvent.changedTouches[0].pageY)
+      var location = isXYOnSquare(evt.originalEvent.changedTouches[0].pageX,
+                                  evt.originalEvent.changedTouches[0].pageY)
 
       stopDraggedPiece(location)
     }
 
-    function mouseenterSquare (e) {
+    function mouseenterSquare (evt) {
       // do not fire this event if we are dragging a piece
       // NOTE: this should never happen, but it's a safeguard
       if (isDragging) return
@@ -1659,7 +1654,7 @@
       if (!isFunction(config.onMouseoverSquare)) return
 
       // get the square
-      var square = $(e.currentTarget).attr('data-square')
+      var square = $(evt.currentTarget).attr('data-square')
 
       // NOTE: this should never happen; defensive
       if (!validSquare(square)) return
@@ -1674,7 +1669,7 @@
       config.onMouseoverSquare(square, piece, deepCopy(currentPosition), currentOrientation)
     }
 
-    function mouseleaveSquare (e) {
+    function mouseleaveSquare (evt) {
       // do not fire this event if we are dragging a piece
       // NOTE: this should never happen, but it's a safeguard
       if (isDragging !== false) return
@@ -1683,7 +1678,7 @@
       if (!isFunction(config.onMouseoutSquare)) return
 
       // get the square
-      var square = $(e.currentTarget).attr('data-square')
+      var square = $(evt.currentTarget).attr('data-square')
 
       // NOTE: this should never happen; defensive
       if (!validSquare(square)) return
@@ -1698,10 +1693,11 @@
       config.onMouseoutSquare(square, piece, deepCopy(currentPosition), currentOrientation)
     }
 
-    // ------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     // Initialization
-    // -----------------------------------------------------------------------
+    // -------------------------------------------------------------------------
 
+    // TODO: we need to debounce several of these
     function addEvents () {
       // prevent browser "image drag"
       $('body').on('mousedown mousemove', '.' + CSS.piece, stopDefault)
@@ -1756,7 +1752,10 @@
       // create the drag piece
       var draggedPieceId = uuid()
       $('body').append(buildPieceHTML('wP', true, draggedPieceId))
-      $draggedPieceEl = $('#' + draggedPieceId)
+      $draggedPiece = $('#' + draggedPieceId)
+
+      // TODO: need to remove this dragged piece element if the board is no
+      // longer in the DOM
 
       // get the border size
       boardBorderSize = parseInt($board.css('borderLeftWidth'), 10)

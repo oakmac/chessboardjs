@@ -289,6 +289,10 @@
 
 
 
+
+
+
+
 "methods":[
 "------------------------------------------------------------------------------",
 {
@@ -426,22 +430,9 @@
   "fix":"The first argument to the Chessboard() constructor should be the id of a DOM element or a reference to a single DOM element."
 },
 {
-  "id":1002,
-  "desc":"Element with id \"<id>\" does not exist in the DOM.",
-  "fix":[
-    "Chessboard could not find your element with <code class='js plain'>document.getElementById</code>.",
-    "Please note that if you pass a string as the first argument to the Chessboard() constructor it should be the value of a DOM id, not a CSS selector (ie: <code class='js string'>\"board\"</code>, not <code class='js string'>\"#board\"</code>)."
-  ]
-},
-{
   "id":1003,
   "desc":"The first argument to Chessboard() must be an ID or a single DOM node.",
   "fix":"The first argument to the Chessboard() constructor should be the id of a DOM element or a reference to a single DOM element."
-},
-{
-  "id":1004,
-  "desc":"JSON does not exist. Please include a JSON polyfill.",
-  "fix":"Chessboard requires a JSON implementation. Please include a <a href='http://bestiejs.github.com/json3/'>polyfill</a> for older browsers."
 },
 {
   "id":1005,
