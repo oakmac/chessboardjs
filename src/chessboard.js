@@ -19,6 +19,7 @@
   // ---------------------------------------------------------------------------
 
   var COLUMNS = 'abcdefgh'.split('')
+  var DEFAULT_DRAG_THROTTLE_RATE = 20
   var ELLIPSIS = '…'
   var MINIMUM_JQUERY_VERSION = '1.8.3'
   var RUN_ASSERTS = true
@@ -56,6 +57,45 @@
   // ---------------------------------------------------------------------------
   // Misc Util Functions
   // ---------------------------------------------------------------------------
+
+  function throttle (f, interval, scope) {
+    var timeout = 0
+    var shouldFire = false
+    var args = []
+
+    var handleTimeout = function () {
+      timeout = 0
+      if (shouldFire) {
+        shouldFire = false
+        fire()
+      }
+    }
+
+    var fire = function () {
+      timeout = window.setTimeout(handleTimeout, interval)
+      f.apply(scope, args)
+    }
+
+    return function (_args) {
+      args = arguments
+      if (!timeout) {
+        fire()
+      } else {
+        shouldFire = true
+      }
+    }
+  }
+
+  // function debounce (f, interval, scope) {
+  //   var timeout = 0
+  //   return function (_args) {
+  //     window.clearTimeout(timeout)
+  //     var args = arguments
+  //     timeout = window.setTimeout(function () {
+  //       f.apply(scope, args)
+  //     }, interval)
+  //   }
+  // }
 
   function uuid () {
     return 'xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/x/g, function (c) {
@@ -135,6 +175,11 @@
     if (speed === 'fast' || speed === 'slow') return true
     if (!isInteger(speed)) return false
     return speed >= 0
+  }
+
+  function validThrottleRate (rate) {
+    return isInteger(rate) &&
+           rate >= 1
   }
 
   function validMove (move) {
@@ -547,6 +592,9 @@
     if (!validAnimationSpeed(config.snapbackSpeed)) config.snapbackSpeed = DEFAULT_SNAPBACK_SPEED
     if (!validAnimationSpeed(config.snapSpeed)) config.snapSpeed = DEFAULT_SNAP_SPEED
     if (!validAnimationSpeed(config.trashSpeed)) config.trashSpeed = DEFAULT_TRASH_SPEED
+
+    // throttle rate
+    if (!validThrottleRate(config.dragThrottleRate)) config.dragThrottleRate = DEFAULT_DRAG_THROTTLE_RATE
 
     return config
   }
@@ -1613,6 +1661,8 @@
       updateDraggedPiece(evt.pageX, evt.pageY)
     }
 
+    var throttledMousemoveWindow = throttle(mousemoveWindow, config.dragThrottleRate)
+
     function touchmoveWindow (evt) {
       // do nothing if we are not dragging a piece
       if (!isDragging) return
@@ -1623,6 +1673,8 @@
       updateDraggedPiece(evt.originalEvent.changedTouches[0].pageX,
                          evt.originalEvent.changedTouches[0].pageY)
     }
+
+    var throttledTouchmoveWindow = throttle(touchmoveWindow, config.dragThrottleRate)
 
     function mouseupWindow (evt) {
       // do nothing if we are not dragging a piece
@@ -1697,7 +1749,6 @@
     // Initialization
     // -------------------------------------------------------------------------
 
-    // TODO: we need to debounce several of these
     function addEvents () {
       // prevent browser "image drag"
       $('body').on('mousedown mousemove', '.' + CSS.piece, stopDefault)
@@ -1718,11 +1769,11 @@
         document.ondragstart = function () { return false }
 
         $('body')
-          .on('mousemove', mousemoveWindow)
+          .on('mousemove', throttledMousemoveWindow)
           .on('mouseup', mouseupWindow)
       } else {
         $(window)
-          .on('mousemove', mousemoveWindow)
+          .on('mousemove', throttledMousemoveWindow)
           .on('mouseup', mouseupWindow)
       }
 
@@ -1731,7 +1782,7 @@
         $board.on('touchstart', '.' + CSS.square, touchstartSquare)
         $container.on('touchstart', '.' + CSS.sparePieces + ' .' + CSS.piece, touchstartSparePiece)
         $(window)
-          .on('touchmove', touchmoveWindow)
+          .on('touchmove', throttledTouchmoveWindow)
           .on('touchend', touchendWindow)
       }
     }
