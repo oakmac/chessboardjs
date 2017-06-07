@@ -292,12 +292,6 @@
     return 'ontouchstart' in document.documentElement
   }
 
-  function isMSIE () {
-    return navigator &&
-           navigator.userAgent &&
-           navigator.userAgent.search(/MSIE/) !== -1
-  }
-
   function validJQueryVersion () {
     return typeof window.$ &&
            $.fn &&
@@ -880,20 +874,15 @@
       if (isString(id) && id !== '') {
         html += 'id="' + id + '" '
       }
-      html +=
-          'alt="" ' +
-          'class="{piece}" ' +
-          'data-piece="' + piece +
-          '" ' +
-          'style="width:' +
-          squareSize +
-          'px;' +
-          'height:' +
-          squareSize +
-          'px;'
-      if (hidden === true) {
+      html += 'alt="" ' +
+        'class="{piece}" ' +
+        'data-piece="' + piece + '" ' +
+        'style="width:' + squareSize + 'px;' + 'height:' + squareSize + 'px;'
+
+      if (hidden) {
         html += 'display:none;'
       }
+
       html += '" />'
 
       return interpolateTemplate(html, CSS)
@@ -1655,10 +1644,9 @@
     }
 
     function mousemoveWindow (evt) {
-      // do nothing if we are not dragging a piece
-      if (!isDragging) return
-
-      updateDraggedPiece(evt.pageX, evt.pageY)
+      if (isDragging) {
+        updateDraggedPiece(evt.pageX, evt.pageY)
+      }
     }
 
     var throttledMousemoveWindow = throttle(mousemoveWindow, config.dragThrottleRate)
@@ -1724,7 +1712,7 @@
     function mouseleaveSquare (evt) {
       // do not fire this event if we are dragging a piece
       // NOTE: this should never happen, but it's a safeguard
-      if (isDragging !== false) return
+      if (isDragging) return
 
       // exit if they did not provide an onMouseoutSquare function
       if (!isFunction(config.onMouseoutSquare)) return
@@ -1750,7 +1738,7 @@
     // -------------------------------------------------------------------------
 
     function addEvents () {
-      // prevent browser "image drag"
+      // prevent "image drag"
       $('body').on('mousedown mousemove', '.' + CSS.piece, stopDefault)
 
       // mouse drag pieces
@@ -1762,26 +1750,17 @@
         .on('mouseenter', '.' + CSS.square, mouseenterSquare)
         .on('mouseleave', '.' + CSS.square, mouseleaveSquare)
 
-      // IE doesn't like the events on the window object, but other browsers
-      // perform better that way
-      if (isMSIE()) {
-        // IE-specific prevent browser "image drag"
-        document.ondragstart = function () { return false }
-
-        $('body')
-          .on('mousemove', throttledMousemoveWindow)
-          .on('mouseup', mouseupWindow)
-      } else {
-        $(window)
-          .on('mousemove', throttledMousemoveWindow)
-          .on('mouseup', mouseupWindow)
-      }
+      // piece drag
+      var $window = $(window)
+      $window
+        .on('mousemove', throttledMousemoveWindow)
+        .on('mouseup', mouseupWindow)
 
       // touch drag pieces
       if (isTouchDevice()) {
         $board.on('touchstart', '.' + CSS.square, touchstartSquare)
         $container.on('touchstart', '.' + CSS.sparePieces + ' .' + CSS.piece, touchstartSparePiece)
-        $(window)
+        $window
           .on('touchmove', throttledTouchmoveWindow)
           .on('touchend', touchendWindow)
       }

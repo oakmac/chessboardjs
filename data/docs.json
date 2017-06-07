@@ -436,8 +436,8 @@
 },
 {
   "id":1005,
-  "desc":"Unable to find a valid version of jQuery. Please include jQuery 1.7.0 or higher on the page.",
-  "fix":"Chessboard requires <a href='http://jquery.com/'>jQuery</a> version 1.7.0 or higher."
+  "desc":"Unable to find a valid version of jQuery. Please include jQuery 1.8.3 or higher on the page.",
+  "fix":"Chessboard requires <a href='http://jquery.com/'>jQuery</a> version 1.8.3 or higher."
 },
 {
   "id":2826,

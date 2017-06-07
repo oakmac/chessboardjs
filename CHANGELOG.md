@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 - id query selectors are now supported as the first argument to `Chessboard()`
 - Remove Error #1002
 - Format code according to [StandardJS]
+- Bump minimum jQuery version to 1.8.3
+- Throttle piece drag functions
 
 ## [0.3.0] - 2013-08-10
 - Added `appearSpeed` animation config property
