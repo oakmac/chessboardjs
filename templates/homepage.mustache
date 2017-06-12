@@ -3,66 +3,59 @@
 {{{head}}}
 <body class="homepage">
 
-<div id="heroWrapper">
-    <div id="hero" class="body-width">
+<div class="hero-wrapper">
+    <div class="body-width-115f6 hero-inner-556fe">
         <img src="img/chesspieces/wikipedia/bK.png" alt="Black King" />
         <h1>chessboard.js</h1>
         <h3>The easiest way to embed a chess board on your site.</h3>
         <a href="releases/0.3.0/chessboardjs-0.3.0.zip">Download v0.3.0</a>
     </div>
-</div><!-- end #heroWrapper -->
-
-<div class="nav-bar body-width hover-effect" id="start">
-    <a href="#start"><span class="piece">&#9823;</span> Getting Started</a>
-    <a href="examples.html"><span class="piece">&#9819;</span> Examples</a>
-    <a href="docs.html"><span class="piece">&#9820;</span> Documentation</a>
-    <a href="download.html"><span class="piece">&#9822;</span> Download</a>
-    <div class="clearfix"></div>
 </div>
 
-<div class="vertical-bar"></div>
+<nav class="homepage-nav-b9ecc">
+    <div class="body-width-115f6 navbar-a57cc hover-effect">
+        <a href="#start"><span class="piece">&#9823;</span> Getting Started</a>
+        <a href="examples.html"><span class="piece">&#9819;</span> Examples</a>
+        <a href="docs.html"><span class="piece">&#9820;</span> Documentation</a>
+        <a href="download.html"><span class="piece">&#9822;</span> Download</a>
+    </div>
+</nav>
 
-<div class="body-width">
+<main>
 
-<div class="col">
+<section class="homepage-section-88e4a body-width-115f6">
+<div class="col-11bcf">
     <h2>As easy as two lines.</h2>
     <h4>HTML</h4>
     <pre class="prettyprint">&lt;div id="board1" style="width: 400px"&gt;&lt;/div&gt;</pre>
     <h4>JavaScript</h4>
     <pre class="prettyprint">var board1 = Chessboard('board1', 'start')</pre>
 </div>
-<div class="col">
+<div class="col-11bcf">
     <div id="board1" style="width: 400px"></div>
 </div>
-<div class="clearfix"></div>
+</section>
 
-<div class="col">
-  <h2>Customize with a powerful API.</h2>
-  <h4>HTML</h4>
+<section class="homepage-section-88e4a body-width-115f6">
+<div class="col-11bcf">
+    <h2>Customize with a powerful API.</h2>
+    <h4>HTML</h4>
 <pre class="prettyprint">
 &lt;div id="board2" style="width: 400px"&gt;&lt;/div&gt;
-&lt;button id="startBtn"&gt;Start&lt;/button&gt;
-&lt;button id="clearBtn"&gt;Clear&lt;/button&gt;
+&lt;button id="startBtn"&gt;Start Position&lt;/button&gt;
+&lt;button id="clearBtn"&gt;Clear Board&lt;/button&gt;
 </pre>
-  <h4>JavaScript</h4>
-<pre class="prettyprint">
-var board2 = Chessboard('board2', {
-  draggable: true,
-  dropOffBoard: 'trash',
-  sparePieces: true
-})
-$('#startBtn').on('click', board2.start)
-$('#clearBtn').on('click', board2.clear)
-</pre>
+    <h4>JavaScript</h4>
+<pre class="prettyprint">{{{example2}}}</pre>
 </div>
-<div class="col">
-  <div id="board2" style="width: 400px"></div>
-  <input type="button" id="startBtn" value="Start" />
-  <input type="button" id="clearBtn" value="Clear" />
+<div class="col-11bcf">
+    <div id="board2" style="width: 400px"></div>
+    <button id="startBtn">Start Position</button>
+    <button id="clearBtn">Clear Board</button>
 </div>
-<div class="clearfix"></div>
+</section>
 
-</div><!-- end .body-width -->
+</main>
 
 {{{footer}}}
 
@@ -82,20 +75,14 @@ $('#clearBtn').on('click', board2.clear)
     var board1 = Chessboard('board1', 'start')
 
     // example 2
-    var board2 = Chessboard('board2', {
-      draggable: true,
-      dropOffBoard: 'trash',
-      sparePieces: true
-    })
-    $('#startBtn').on('click', board2.start)
-    $('#clearBtn').on('click', board2.clear)
+    {{{example2}}}
 
     // prevent "browser drag" of the black king
-    $('#hero img').on('mousedown', function (evt) { evt.preventDefault() })
+    $('.hero-inner-556fe img').on('mousedown', function (evt) { evt.preventDefault() })
 
     // prevent hover problems on touch devices
     if (isTouchDevice()) {
-      $('#start').removeClass('hover-effect')
+      $('.navbar-a57cc').removeClass('hover-effect')
     }
   }
 

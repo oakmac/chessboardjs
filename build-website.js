@@ -53,6 +53,18 @@ const examplesGroups = [
   }
 ]
 
+const homepageExample1 = ''
+
+const homepageExample2 = `
+var board2 = Chessboard('board2', {
+  draggable: true,
+  dropOffBoard: 'trash',
+  sparePieces: true
+})
+
+$('#startBtn').on('click', board2.start)
+$('#clearBtn').on('click', board2.clear)`.trim()
+
 function writeSrcFiles () {
   fs.writeFileSync('website/js/chessboard.js', latestChessboardjs, encoding)
   fs.writeFileSync('website/css/chessboard.css', latestChessboardcss, encoding)
@@ -63,7 +75,8 @@ function writeHomepage () {
 
   const html = mustache.render(homepageTemplate, {
     footer: footerTemplate,
-    head: headHTML
+    head: headHTML,
+    example2: homepageExample2
   })
   fs.writeFileSync('website/index.html', html, encoding)
 }
@@ -121,6 +134,7 @@ function writeWebsite () {
 }
 
 writeWebsite()
+// setInterval(writeWebsite, 1000)
 
 // -----------------------------------------------------------------------------
 // HTML

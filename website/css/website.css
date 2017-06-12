@@ -18,6 +18,10 @@ body.homepage {
   background: #fff;
 }
 
+body.homepage main {
+  background: #fff;
+}
+
 .body-width-115f6 {
   margin: 0 auto;
   width: 1024px;
@@ -36,8 +40,28 @@ body.homepage {
   clear: both;
 }
 
-.vertical-bar {
-  border-top: 1px solid #efefef;
+.homepage-nav-b9ecc {
+  border-bottom: 1px solid #efefef;
+}
+
+.homepage-section-88e4a {
+  display: flex;
+}
+
+.col-11bcf button {
+  background: #2ba6cb;
+  border-radius: 3px;
+  border: 1px solid #1e728c;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 15px 5px 0 0;
+  outline: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
 }
 
 h2 {
@@ -193,26 +217,26 @@ footer .right-05ad3 a {
  * Homepage
  *----------------------------------------------------------------------------*/
 
-#heroWrapper {
+.hero-wrapper {
   background-image: url('../img/board-background.png');
   background-position: center top;
 }
 
-#hero {
+.hero-inner-556fe {
   height: 420px;
   margin: 0px auto;
   padding-top: 118px;
   text-align: center;
 }
 
-#hero img {
+.hero-inner-556fe img {
   display: block;
   height: 60px;
   margin: 0 auto;
   width: 60px;
 }
 
-#hero h1 {
+.hero-inner-556fe h1 {
   color: #fff;
   font-size: 44px;
   font-weight: 400;
@@ -220,7 +244,7 @@ footer .right-05ad3 a {
   padding-top: 16px;
 }
 
-#hero h3 {
+.hero-inner-556fe h3 {
   color: #fff;
   font-size: 16px;
   font-weight: 300;
@@ -228,7 +252,7 @@ footer .right-05ad3 a {
   padding-top: 8px;
 }
 
-#hero a {
+.hero-inner-556fe a {
   background: #ffdc10;
   border-radius: 6px;
   color: #333;
@@ -239,18 +263,21 @@ footer .right-05ad3 a {
   width: 160px;
 }
 
-.nav-bar a {
+.navbar-a57cc {
+  display: flex;
+}
+
+.navbar-a57cc a {
   color: #444;
   display: block;
-  float: left;
+  flex: 1;
   font-size: 18px;
   padding: 20px 0;
   text-align: center;
   text-decoration: none;
-  width: 240px;
 }
 
-.nav-bar .piece {
+.navbar-a57cc .piece {
   visibility: hidden;
 }
 
@@ -258,10 +285,9 @@ footer .right-05ad3 a {
   visibility: visible;
 }
 
-.col {
-  float: left;
+.col-11bcf {
+  flex: 1;
   padding: 40px;
-  width: 400px;
 }
 
 /*------------------------------------------------------------------------------
