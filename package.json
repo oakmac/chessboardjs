@@ -12,8 +12,8 @@
     "jquery": ">=1.8.3"
   },
   "devDependencies": {
-    "kidif": "1.1.0",
-    "mustache": "2.3.0",
+    "kidif": "^1.1.0",
+    "mustache": "^2.3.0",
     "standard": "10.0.2"
   },
   "scripts": {
