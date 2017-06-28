@@ -1307,7 +1307,8 @@
         display: '',
         position: 'absolute',
         left: x - squareSize / 2,
-        top: y - squareSize / 2
+        top: y - squareSize / 2,
+        transform: 'scale(1.2)'
       })
 
       if (source !== 'spare') {
