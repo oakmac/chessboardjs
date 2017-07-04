@@ -9,8 +9,17 @@ button,hr,input{overflow:visible}audio,canvas,progress,video{display:inline-bloc
  * General
  *----------------------------------------------------------------------------*/
 
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
   background: #333;
+  color: #333;
   font-family: 'Open Sans', arial, sans-serif;
 }
 
@@ -20,6 +29,14 @@ body.homepage {
 
 body.homepage main {
   background: #fff;
+}
+
+a {
+  color: #462bcb;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .body-width-115f6 {
@@ -150,6 +167,7 @@ header {
 
 .homepage-link-98a24:hover {
   background: #000;
+  text-decoration: none;
 }
 
 .tld-bd9e6 {
@@ -410,6 +428,77 @@ main {
 }
 
 /*------------------------------------------------------------------------------
+ * Tables
+ *----------------------------------------------------------------------------*/
+
+.table-bc66e {
+  background: #fff;
+  border: 1px solid #ddd;
+  margin: 0 0 18px 0;
+}
+
+.table-bc66e thead {
+  background: #f5f5f5;
+}
+
+.table-bc66e thead th {
+  color: #222;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 10px 9px;
+  text-align: left;
+}
+
+.table-bc66e tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.table-bc66e tbody td {
+  border: none;
+  color: #333;
+  padding: 9px 10px;
+  vertical-align: top;
+}
+
+.property-type-7ae66 {
+  line-height: 22px;
+}
+
+/*------------------------------------------------------------------------------
+ * Docs Page
+ *----------------------------------------------------------------------------*/
+
+.title-5ad05 {
+  border-bottom: 2px solid #eee;
+  font-size: 36px;
+  font-weight: 300;
+  margin: 0;
+  padding-bottom: 12px;
+}
+
+.toc-list-38a45 {
+  color: #aaa;
+  list-style-type: square;
+  margin: 30px 0 0 0;
+  padding: 0 0 0 20px;
+}
+
+.toc-list-38a45 li {
+  margin: 14px 0;
+}
+
+.docs-page-529b3 {
+  background: #fff;
+  padding: 20px;
+}
+
+.docs-page-529b3 section {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+}
+
+/*------------------------------------------------------------------------------
  * prettyPrint
  *----------------------------------------------------------------------------*/
 
@@ -522,4 +611,9 @@ code.string {
 
 code.keyword {
   color: #0066cc;
+}
+
+code.plain {
+  color: #d94d3a;
+  text-decoration-color: #d94d3a;
 }

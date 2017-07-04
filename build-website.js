@@ -134,7 +134,6 @@ function writeWebsite () {
 }
 
 writeWebsite()
-// setInterval(writeWebsite, 1000)
 
 // -----------------------------------------------------------------------------
 // HTML
@@ -199,11 +198,8 @@ function buildConfigDocsTableRowHTML (propType, prop) {
   // property and type
   html += '<td>' + buildPropertyAndTypeHTML(propType, prop.name, prop.type) + '</td>'
 
-  // required
-  html += '<td class="center">' + buildRequiredHTML(prop.req) + '</td>'
-
   // default
-  html += '<td class="center">' + buildDefaultHTML(prop.default) + '</td>'
+  html += '<td class="center"><p>' + buildDefaultHTML(prop.default) + '</p></td>'
 
   // description
   html += '<td>' + buildDescriptionHTML(prop.desc) + '</td>'
@@ -229,14 +225,14 @@ function buildMethodRowHTML (method) {
   }
 
   // name
-  html += '<td><a href="docs.html#methods:' + nameNoParens + '">' +
-    '<code class="js plain">' + method.name + '</code></a></td>'
+  html += '<td><p><a href="docs.html#methods:' + nameNoParens + '">' +
+    '<code class="js plain">' + method.name + '</code></a></p></td>'
 
   // args
   if (method.args) {
     html += '<td>'
     method.args.forEach(function (arg) {
-      html += '<p><code class="js plain">' + arg[0] + '</code> - ' + arg[1] + '</p>'
+      html += '<p>' + arg[1] + '</p>'
     })
     html += '</td>'
   } else {
@@ -257,7 +253,7 @@ function buildMethodRowHTML (method) {
 function buildPropertyAndTypeHTML (section, name, type) {
   let html = '<p><a href="docs.html#' + section + ':' + name + '">' +
     '<code class="js plain">' + name + '</code></a></p>' +
-    '<p>' + buildTypeHTML(type) + '</p>'
+    '<p class=property-type-7ae66>' + buildTypeHTML(type) + '</p>'
   return html
 }
 
@@ -269,7 +265,7 @@ function buildTypeHTML (type) {
   let html = ''
   for (var i = 0; i < type.length; i++) {
     if (i !== 0) {
-      html += '<small>or</small><br />'
+      html += ' <small>or</small><br />'
     }
     html += type[i]
   }
@@ -326,10 +322,10 @@ function buildErrorRowHTML (error) {
 
   // id
   html += '<td class="center">' +
-    '<a href="docs.html#errors:' + error.id + '">' + error.id + '</a></td>'
+    '<p><a href="docs.html#errors:' + error.id + '">' + error.id + '</a></p></td>'
 
   // desc
-  html += '<td>' + htmlEscape(error.desc) + '</td>'
+  html += '<td><p>' + error.desc + '</p></td>'
 
   // more information
   if (error.fix) {
