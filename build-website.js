@@ -20,8 +20,8 @@ const headTemplate = fs.readFileSync('templates/_head.mustache', encoding)
 const headerTemplate = fs.readFileSync('templates/_header.mustache', encoding)
 const footerTemplate = fs.readFileSync('templates/_footer.mustache', encoding)
 
-const latestChessboardjs = fs.readFileSync('src/chessboard.js', encoding)
-const latestChessboardcss = fs.readFileSync('src/chessboard.css', encoding)
+const latestChessboardJS = fs.readFileSync('src/chessboard.js', encoding)
+const latestChessboardCSS = fs.readFileSync('src/chessboard.css', encoding)
 
 // grab the examples
 const examplesArr = kidif('examples/*.example')
@@ -66,8 +66,8 @@ $('#startBtn').on('click', board2.start)
 $('#clearBtn').on('click', board2.clear)`.trim()
 
 function writeSrcFiles () {
-  fs.writeFileSync('website/js/chessboard.js', latestChessboardjs, encoding)
-  fs.writeFileSync('website/css/chessboard.css', latestChessboardcss, encoding)
+  fs.writeFileSync('website/js/chessboard.js', latestChessboardJS, encoding)
+  fs.writeFileSync('website/css/chessboard.css', latestChessboardCSS, encoding)
 }
 
 function writeHomepage () {
@@ -125,12 +125,24 @@ function writeDocsPage () {
   fs.writeFileSync('website/docs.html', html, encoding)
 }
 
+function writeDownloadPage () {
+  const headHTML = mustache.render(headTemplate, {pageTitle: 'Download'})
+  const headerHTML = mustache.render(headerTemplate, {downloadActive: true})
+
+  const html = mustache.render(downloadTemplate, {
+    footer: footerTemplate,
+    head: headHTML,
+    header: headerHTML
+  })
+  fs.writeFileSync('website/download.html', html, encoding)
+}
+
 function writeWebsite () {
   writeSrcFiles()
   writeHomepage()
   writeExamplesPage()
   writeDocsPage()
-  // writeDownload()
+  writeDownloadPage()
 }
 
 writeWebsite()
