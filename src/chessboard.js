@@ -1610,7 +1610,6 @@
       if (!currentPosition.hasOwnProperty(square)) return
 
       e.preventDefault();
-      e.stopPropagation();
       e = e.originalEvent
       beginDraggingPiece(
           square,
