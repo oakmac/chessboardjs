@@ -1609,6 +1609,7 @@
       if (!validSquare(square)) return
       if (!currentPosition.hasOwnProperty(square)) return
 
+      e.preventDefault();
       e = e.originalEvent
       beginDraggingPiece(
           square,
@@ -1632,7 +1633,6 @@
       if (!config.sparePieces) return
 
       var piece = $(this).attr('data-piece')
-
       e = e.originalEvent
       beginDraggingPiece(
           'spare',
