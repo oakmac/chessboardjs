@@ -1610,6 +1610,8 @@
       if (!currentPosition.hasOwnProperty(square)) return
 
       e = e.originalEvent
+      e.preventDefault()
+      
       beginDraggingPiece(
           square,
           currentPosition[square],
