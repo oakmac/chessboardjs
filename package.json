@@ -8,9 +8,6 @@
     "url": "git://github.com/oakmac/chessboardjs.git"
   },
   "main": "src/chessboard.js",
-  "dependencies": {
-    "jquery": "3.4.1"
-  },
   "devDependencies": {
     "kidif": "1.1.0",
     "mustache": "2.3.0",
