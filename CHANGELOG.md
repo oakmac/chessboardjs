@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+- Remove jQuery dependency
+- Remove Error #1005 (jQuery version check)
 - Orientation methods now return current orientation. [Issue #64]
 - Drop support for IE8
 - Do not check for `window.JSON` (Error #1004)

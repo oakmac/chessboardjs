@@ -143,9 +143,31 @@ function writeWebsite () {
   writeExamplesPage()
   writeDocsPage()
   writeDownloadPage()
+  // TODO: build individual example files
 }
 
-writeWebsite()
+
+
+
+let buildCount = 0
+setInterval(function () {
+  console.log('Building website #' + buildCount + '...')
+  buildCount++
+  writeWebsite()
+}, 500)
+
+// writeWebsite()
+
+
+
+
+
+
+
+
+
+
+
 
 // -----------------------------------------------------------------------------
 // HTML
