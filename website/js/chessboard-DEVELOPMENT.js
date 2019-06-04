@@ -16,7 +16,6 @@
   var COLUMNS = 'abcdefgh'.split('')
   var DEFAULT_DRAG_THROTTLE_RATE = 20
   var ELLIPSIS = '…'
-  var MINIMUM_JQUERY_VERSION = '1.8.3'
   var RUN_ASSERTS = true
   var START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
   var START_POSITION = fenToObj(START_FEN)
@@ -75,11 +74,19 @@
     return window.getComputedStyle(el)
   }
 
-    function removeNode (el) {
-      if (el.parentNode) {
-        el.parentNode.removeChild(el)
-      }
+  // appends an HTML string to parentEl
+  function appendHTML (parentEl, htmlString) {
+    var tmpEl = document.createElement('div')
+    tmpEl.innerHTML = htmlString
+    parentEl.appendChild(tmpEl.firstChild)
+    tmpEl = null
+  }
+
+  function removeNode (el) {
+    if (el.parentNode) {
+      el.parentNode.removeChild(el)
     }
+  }
 
   function throttle (f, interval, scope) {
     var timeout = 0
@@ -131,31 +138,7 @@
     return JSON.parse(JSON.stringify(thing))
   }
 
-  function parseSemVer (version) {
-    var tmp = version.split('.')
-    return {
-      major: parseInt(tmp[0], 10),
-      minor: parseInt(tmp[1], 10),
-      patch: parseInt(tmp[2], 10)
-    }
-  }
-
-  // returns true if version is >= minimum
-  function validSemanticVersion (version, minimum) {
-    version = parseSemVer(version)
-    minimum = parseSemVer(minimum)
-
-    var versionNum = (version.major * 100000 * 100000) +
-                     (version.minor * 100000) +
-                     version.patch
-    var minimumNum = (minimum.major * 100000 * 100000) +
-                     (minimum.minor * 100000) +
-                     minimum.patch
-
-    return versionNum >= minimumNum
-  }
-
-  function interpolateTemplate (str, obj) {
+  function template (str, obj) {
     for (var key in obj) {
       if (!obj.hasOwnProperty(key)) continue
       var keyTemplateStr = '{' + key + '}'
@@ -168,12 +151,12 @@
   }
 
   if (RUN_ASSERTS) {
-    console.assert(interpolateTemplate('abc', {a: 'x'}) === 'abc')
-    console.assert(interpolateTemplate('{a}bc', {}) === '{a}bc')
-    console.assert(interpolateTemplate('{a}bc', {p: 'q'}) === '{a}bc')
-    console.assert(interpolateTemplate('{a}bc', {a: 'x'}) === 'xbc')
-    console.assert(interpolateTemplate('{a}bc{a}bc', {a: 'x'}) === 'xbcxbc')
-    console.assert(interpolateTemplate('{a}{a}{b}', {a: 'x', b: 'y'}) === 'xxy')
+    console.assert(template('abc', {a: 'x'}) === 'abc')
+    console.assert(template('{a}bc', {}) === '{a}bc')
+    console.assert(template('{a}bc', {p: 'q'}) === '{a}bc')
+    console.assert(template('{a}bc', {a: 'x'}) === 'xbc')
+    console.assert(template('{a}bc{a}bc', {a: 'x'}) === 'xbcxbc')
+    console.assert(template('{a}{a}{b}', {a: 'x', b: 'y'}) === 'xxy')
   }
 
   // calls fn(itm, idx) for every itm in obj
@@ -341,18 +324,11 @@
     return 'ontouchstart' in document.documentElement
   }
 
-  function validJQueryVersion () {
-    return typeof window.$ &&
-           $.fn &&
-           $.fn.jquery &&
-           validSemanticVersion($.fn.jquery, MINIMUM_JQUERY_VERSION)
-  }
-
+  // returns true if o is a DOM element
   // https://stackoverflow.com/a/384380/2137320
-  // Returns true if it is a DOM element
   function isElement (o) {
     return (
-      typeof HTMLElement === 'object' ? o instanceof HTMLElement // DOM2
+      typeof window.HTMLElement === 'object' ? o instanceof window.HTMLElement
         : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
     )
   }
@@ -590,7 +566,7 @@
 
     html += '</div>'
 
-    return interpolateTemplate(html, CSS)
+    return template(html, CSS)
   }
 
   // ---------------------------------------------------------------------------
@@ -911,7 +887,7 @@
         }
       }
 
-      return interpolateTemplate(html, CSS)
+      return template(html, CSS)
     }
 
     function buildPieceImgSrc (piece) {
@@ -920,7 +896,7 @@
       }
 
       if (isString(config.pieceTheme)) {
-        return interpolateTemplate(config.pieceTheme, {piece: piece})
+        return template(config.pieceTheme, {piece: piece})
       }
 
       // NOTE: this should never happen
@@ -928,7 +904,11 @@
       return ''
     }
 
-    function buildPieceHTML (piece, hidden, id) {
+    function buildPieceHTML (piece, id, isHidden, source) {
+      if (!isString(source)) {
+        source = 'board'
+      }
+
       var html = '<img src="' + buildPieceImgSrc(piece) + '" '
       if (isString(id) && id !== '') {
         html += 'id="' + id + '" '
@@ -936,15 +916,16 @@
       html += 'alt="" ' +
         'class="{piece}" ' +
         'data-piece="' + piece + '" ' +
+        'data-source="' + source + '" ' +
         'style="width:' + squareSize + 'px;' + 'height:' + squareSize + 'px;'
 
-      if (hidden) {
+      if (isHidden) {
         html += 'display:none;'
       }
 
       html += '" />'
 
-      return interpolateTemplate(html, CSS)
+      return template(html, CSS)
     }
 
     function buildSparePiecesHTML (color) {
@@ -955,7 +936,7 @@
 
       var html = ''
       for (var i = 0; i < pieces.length; i++) {
-        html += buildPieceHTML(pieces[i], false, sparePiecesElsIds[pieces[i]])
+        html += buildPieceHTML(pieces[i], sparePiecesElsIds[pieces[i]], false, 'spare')
       }
 
       return html
@@ -975,7 +956,7 @@
       // create the animated piece and absolutely position it
       // over the source square
       var animatedPieceId = uuid()
-      $('body').append(buildPieceHTML(piece, true, animatedPieceId))
+      $('body').append(buildPieceHTML(piece, animatedPieceId, true, null))
       var $animatedPiece = $('#' + animatedPieceId)
       $animatedPiece.css({
         display: '',
@@ -1015,7 +996,7 @@
 
       // create the animate piece
       var pieceId = uuid()
-      $('body').append(buildPieceHTML(piece, true, pieceId))
+      $('body').append(buildPieceHTML(piece, pieceId, true))
       var $animatedPiece = $('#' + pieceId)
       $animatedPiece.css({
         display: '',
@@ -1076,7 +1057,7 @@
         // add a piece with no spare pieces - fade the piece onto the square
         } else if (animation.type === 'add' && !config.sparePieces) {
           $('#' + squareElsIds[animation.square])
-            .append(buildPieceHTML(animation.piece, true))
+            .append(buildPieceHTML(animation.piece, null, true))
             .find('.' + CSS.piece)
             .fadeIn(config.appearSpeed, onFinishAnimation3)
 
@@ -1238,14 +1219,26 @@
       for (var i in squareElsIds) {
         if (!squareElsIds.hasOwnProperty(i)) continue
 
-        squareElsOffsets[i] = $('#' + squareElsIds[i]).offset()
+        // TODO: the jQuery method is more accurate - down to half a pixel
+        // https://stackoverflow.com/questions/6777506/offsettop-vs-jquery-offset-top
+        // squareElsOffsets[i] = $('#' + squareElsIds[i]).offset()
+
+        // TODO: does this work when the page is scrolled down?
+
+        // TODO: this could be more efficient
+        // query the DOM once instead of in a loop
+        var squareEl = qs('#' + squareElsIds[i])
+        var top = squareEl.offsetTop
+        var left = squareEl.offsetLeft
+        squareElsOffsets[i] = {top: top, left: left}
       }
     }
 
     function removeSquareHighlights () {
-      boardEl
-        .find('.' + CSS.square)
-        .removeClass(CSS.highlight1 + ' ' + CSS.highlight2)
+      var squareEls = qsAll('#' + boardEl.id + ' .' + CSS.square)
+      forEachArray(squareEls, function (squareEl) {
+        squareEl.classList.remove(CSS.highlight1, CSS.highlight2)
+      })
     }
 
     function snapbackDraggedPiece () {
@@ -1340,6 +1333,8 @@
     }
 
     function beginDraggingPiece (source, piece, x, y) {
+      assert(source === 'spare' || source === 'board', 'beginDraggingPiece: invalid source')
+
       // run their custom onDragStart function
       // their custom onDragStart function can cancel drag start
       if (isFunction(config.onDragStart) &&
@@ -1362,29 +1357,29 @@
       // capture the x, y coords of all squares in memory
       captureSquareOffsets()
 
-      // create the dragged piece
-      draggedPieceEl.attr('src', buildPieceImgSrc(piece)).css({
-        display: '',
-        position: 'absolute',
-        left: x - squareSize / 2,
-        top: y - squareSize / 2
-      })
+      // put the dragged piece over the start point
+      draggedPieceEl.setAttribute('src', buildPieceImgSrc(piece))
+      draggedPieceEl.style.display = null
+      draggedPieceEl.style.position = 'absolute'
+      draggedPieceEl.style.left = (x - squareSize / 2) + 'px'
+      draggedPieceEl.style.top = (y - squareSize / 2) + 'px'
 
-      if (source !== 'spare') {
-        // highlight the source square and hide the piece
-        $('#' + squareElsIds[source])
-          .addClass(CSS.highlight1)
-          .find('.' + CSS.piece)
-          .css('display', 'none')
-      }
+      // FIXME: bring this back
+      // if (source === 'board') {
+      //   var squareEl = qs('#' + squareElsIds[source])
+      //
+      //   // highlight the source square and hide the piece
+      //   $('#' + squareElsIds[source])
+      //     .addClass(CSS.highlight1)
+      //     .find('.' + CSS.piece)
+      //     .css('display', 'none')
+      // }
     }
 
     function updateDraggedPiece (x, y) {
       // put the dragged piece over the mouse cursor
-      draggedPieceEl.css({
-        left: x - squareSize / 2,
-        top: y - squareSize / 2
-      })
+      draggedPieceEl.style.left = (x - squareSize / 2) + 'px'
+      draggedPieceEl.style.top = (y - squareSize / 2) + 'px'
 
       // get location
       var location = isXYOnSquare(x, y)
@@ -1394,12 +1389,12 @@
 
       // remove highlight from previous square
       if (validSquare(draggedPieceLocation)) {
-        $('#' + squareElsIds[draggedPieceLocation]).removeClass(CSS.highlight2)
+        qs('#' + squareElsIds[draggedPieceLocation]).classList.remove(CSS.highlight2)
       }
 
       // add highlight to new square
       if (validSquare(location)) {
-        $('#' + squareElsIds[location]).addClass(CSS.highlight2)
+        qs('#' + squareElsIds[location]).classList.add(CSS.highlight2)
       }
 
       // run onDragMove
@@ -1497,9 +1492,9 @@
 
       // remove event handlers
 
-      // TODO: removeEventListener here
+      // FIXME: removeEventListener here
       // containerEl.unbind()
-      containerEl.removeEventListener('foo', fn1)
+      // containerEl.removeEventListener('foo', fn1)
     }
 
     // shorthand method to get the current FEN
@@ -1624,18 +1619,16 @@
       // set board width
       boardEl.style.width = (squareSize * 8) + 'px'
 
-      // FIXME: add this back in
-      // // set drag piece size
-      // draggedPieceEl.style.height = squareSize
-      // draggedPieceEl.style.width = squareSize
+      // set drag piece size
+      draggedPieceEl.style.height = squareSize + 'px'
+      draggedPieceEl.style.width = squareSize + 'px'
 
-      // FIXME - make this work
-      // spare pieces
-      // if (config.sparePieces) {
-      //   containerEl
-      //     .find('.' + CSS.sparePieces)
-      //     .css('paddingLeft', squareSize + boardBorderSize + 'px')
-      // }
+      // adjust the spare pieces centering
+      if (config.sparePieces) {
+        var pushLeftPx = squareSize + boardBorderSize + 'px'
+        qs('#' + containerEl.id + ' .' + CSS.sparePiecesTop).style.marginLeft = pushLeftPx
+        qs('#' + containerEl.id + ' .' + CSS.sparePiecesBottom).style.marginLeft = pushLeftPx
+      }
 
       // redraw the board
       drawBoard()
@@ -1686,6 +1679,22 @@
 
     function mousedownContainerEl (evt) {
       console.log('mousedown container el:', evt)
+    }
+
+    function mousedownBody (evt) {
+      // did they mousedown on a piece?
+      if (evt.target.classList.contains(CSS['piece'])) {
+
+        // prevent default stops native "browser drag"
+        if (isFunction(evt.preventDefault)) {
+          evt.preventDefault()
+        }
+
+        var piece = evt.target.dataset.piece
+        var source = evt.target.dataset.source
+
+        beginDraggingPiece(source, piece, evt.pageX, evt.pageY)
+      }
     }
 
     function mousedownSparePiece (evt) {
@@ -1811,14 +1820,15 @@
     }
 
     function addEvents () {
-      // prevent "image drag"
-      $('body').on('mousedown mousemove', '.' + CSS.piece, stopDefault)
+      // prevent "image drag" of pieces
+      // $('body').on('mousedown mousemove', '.' + CSS.piece, stopDefault)
+      document.body.addEventListener('mousedown', mousedownBody)
 
       // mouse drag pieces
-      boardEl.addEventListener('mousedown', mousedownBoardEl)
+      // boardEl.addEventListener('mousedown', mousedownBoardEl)
 
       //
-      containerEl.addEventListener('mousedown', mousedownContainerEl)
+      // containerEl.addEventListener('mousedown', mousedownContainerEl)
       // containerEl.on('mousedown', '.' + CSS.sparePieces + ' .' + CSS.piece, mousedownSparePiece)
 
       // FIXME
@@ -1827,11 +1837,14 @@
       //   .on('mouseenter', '.' + CSS.square, mouseenterSquare)
       //   .on('mouseleave', '.' + CSS.square, mouseleaveSquare)
 
+      // FIXME
       // piece drag
-      var $window = $(window)
-      $window
-        .on('mousemove', throttledMousemoveWindow)
-        .on('mouseup', mouseupWindow)
+      // var $window = $(window)
+      // $window
+      //   .on('mousemove', throttledMousemoveWindow)
+      //   .on('mouseup', mouseupWindow)
+      document.addEventListener('mousemove', throttledMousemoveWindow)
+      document.addEventListener('mouseup', mouseupWindow)
 
       // FIXME:
       // touch drag pieces
@@ -1849,7 +1862,7 @@
       createElIds()
 
       // build the board HTML and grab some DOM elements inside of it
-      containerEl.innerHTML = buildContainerHTML(config.sparePieces)
+      appendHTML(containerEl, buildContainerHTML(config.sparePieces))
       boardEl = qs('#' + containerEl.id + ' .' + CSS.board)
       assert(isElement(boardEl), 'boardEl not found inside containerEl')
       boardEl.id = 'board-' + uuid()
@@ -1859,19 +1872,16 @@
         sparePiecesBottomEl = qs('#' + containerEl.id + ' .' + CSS.sparePiecesBottom)
       }
 
-      // FIXME: add this back; must use dom append here instead of innerHTML
-      // create the drag piece
-      // var draggedPieceId = 'dragged-piece-' + uuid()
-      // document.body.innerHTML += buildPieceHTML('wP', true, draggedPieceId)
-      // draggedPieceEl = qs('#' + draggedPieceId)
+      // append the drag piece to the DOM
+      var draggedPieceId = 'dragged-piece-' + uuid()
+      appendHTML(document.body, buildPieceHTML('wP', draggedPieceId, true))
+      draggedPieceEl = qs('#' + draggedPieceId)
 
-      // TODO: need to remove this dragged piece element if the board is no
-      // longer in the DOM
+      // FIXME: need to remove this dragged piece element if the board is no
+      //        longer in the DOM
 
-      // FIXME - what is happening here?
       // get the border size
-      // boardBorderSize = parseInt(getStyle(boardEl).borderLeftWidth, 10)
-      boardBorderSize = 0
+      boardBorderSize = parseInt(getStyle(boardEl).borderLeftWidth, 10)
 
       // set the size and draw the board
       widget.resize()
@@ -1883,7 +1893,7 @@
 
     setInitialState()
     initDOM()
-    // addEvents()
+    addEvents()
 
     // return the widget object
     return widget

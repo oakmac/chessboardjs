@@ -150,6 +150,7 @@ function writeWebsite () {
 
 
 let buildCount = 0
+writeWebsite()
 setInterval(function () {
   console.log('Building website #' + buildCount + '...')
   buildCount++
