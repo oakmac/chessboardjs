@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------------------
 
 // libraries
-const fs = require('fs')
+const fs = require('fs-plus')
 const kidif = require('kidif')
 const mustache = require('mustache')
 const docs = require('./data/docs.json')
@@ -110,6 +110,15 @@ const errorRowsHTML = docs.errors.reduce(function (html, itm) {
   return html + buildErrorRowHTML(itm)
 }, '')
 
+function writeSingleExamplePage (example) {
+  const html = mustache.render(singleExampleTemplate, example);
+  fs.writeFileSync('website/examples/' + example.id + '.html', html, encoding)
+}
+
+function writeSingleExamplesPages () {
+  examplesArr.forEach(writeSingleExamplePage)
+}
+
 function writeDocsPage () {
   const headHTML = mustache.render(headTemplate, {pageTitle: 'Documentation'})
   const headerHTML = mustache.render(headerTemplate, {docsActive: true})
@@ -141,6 +150,7 @@ function writeWebsite () {
   writeSrcFiles()
   writeHomepage()
   writeExamplesPage()
+  writeSingleExamplesPages()
   writeDocsPage()
   writeDownloadPage()
 }
@@ -153,13 +163,13 @@ writeWebsite()
 
 function htmlEscape (str) {
   return (str + '')
-           .replace(/&/g, '&amp;')
-           .replace(/</g, '&lt;')
-           .replace(/>/g, '&gt;')
-           .replace(/"/g, '&quot;')
-           .replace(/'/g, '&#39;')
-           .replace(/\//g, '&#x2F;')
-           .replace(/`/g, '&#x60;')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/\//g, '&#x2F;')
+    .replace(/`/g, '&#x60;')
 }
 
 function buildExampleGroupHTML (idx, groupName, examplesInGroup) {

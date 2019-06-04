@@ -5,13 +5,13 @@
 
   function htmlEscape (str) {
     return (str + '')
-             .replace(/&/g, '&amp;')
-             .replace(/</g, '&lt;')
-             .replace(/>/g, '&gt;')
-             .replace(/"/g, '&quot;')
-             .replace(/'/g, '&#39;')
-             .replace(/\//g, '&#x2F;')
-             .replace(/`/g, '&#x60;')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
+      .replace(/`/g, '&#x60;')
   }
 
   function highlightGroupHeader (groupIdx) {
@@ -24,16 +24,18 @@
     $('#exampleLink-' + exampleId).addClass('active')
   }
 
-  function buildExampleBodyHTML (example) {
-    var html = '<h2>' + htmlEscape(example.name) + '</h2>' +
-      // TODO: need to add single example link here
-      // '<p><a href=""></a></p>' +
+  function buildExampleBodyHTML (example, id) {
+    var html = '<h2 class="hover-linkable">' +
+        '<a class="hover-link" href="#' + id + '"></a>' +
+        htmlEscape(example.name) +
+      '</h2>' +
       '<p>' + example.description + '</p>' +
       '<div class="container-4e1ee">' + example.html + '</div>' +
       '<h4>JavaScript</h4>' +
       '<pre class="prettyprint">' + htmlEscape(example.jsStr) + '</pre>' +
       '<h4>HTML</h4>' +
-      '<pre class="prettyprint">' + htmlEscape(example.html) + '</pre>'
+      '<pre class="prettyprint">' + htmlEscape(example.html) + '</pre>' +
+      '<p><a class="small-link-335ea" href="examples/' + id + '.html" target="_blank">View this example in new window.</a></p>'
 
     return html
   }
@@ -45,7 +47,7 @@
     highlightGroupHeader(groupIdx)
     highlightExampleLink(exampleId)
 
-    $('#exampleBodyContainer').html(buildExampleBodyHTML(EXAMPLES[exampleId]))
+    $('#exampleBodyContainer').html(buildExampleBodyHTML(EXAMPLES[exampleId], exampleId))
     EXAMPLES[exampleId].jsFn()
 
     prettyPrint()

@@ -97,6 +97,30 @@ pre.prettyprint {
   margin: 8px 0 30px 0;
 }
 
+.hover-linkable .hover-link {
+  display: none;
+}
+
+.hover-linkable:hover .hover-link {
+  background-image: url('../img/link.svg');
+  background-repeat: no-repeat;
+  background-size: 16px;
+  display: block;
+  float: left;
+  height: 16px;
+  line-height: 1;
+  margin-left: -16px;
+  margin-top: 14px;
+  padding-right: 16px;
+  width: 16px;
+}
+
+.hover-linkable:hover .hover-link.docs {
+  margin-top: 8px;
+  margin-left: -18px;
+  padding-right: 18px;
+}
+
 /*------------------------------------------------------------------------------
  * Header
  *----------------------------------------------------------------------------*/
@@ -419,6 +443,10 @@ main {
 
 .container-4e1ee {
   margin-bottom: 40px;
+}
+
+.small-link-335ea {
+  font-size: 14px;
 }
 
 .small-board {
