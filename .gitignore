@@ -1,6 +1,7 @@
 # git diff files
 *.diff
 
+dist/
 node_modules/
 
 website/*.html

@@ -1,3 +1,5 @@
+// TODO: this is unfinished / not working
+
 var fs = require('fs')
 var glob = require('glob')
 

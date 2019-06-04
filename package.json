@@ -1,24 +1,29 @@
 {
   "author": "Chris Oakman <chris@oakmac.com> (http://chrisoakman.com/)",
-  "name": "oakmac-chessboard",
+  "name": "@chrisoakman/chessboardjs",
   "description": "JavaScript chessboard widget",
+  "homepage": "https://chessboardjs.com",
+  "license": "MIT",
   "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/oakmac/chessboardjs.git"
   },
-  "main": "src/chessboard.js",
+  "browser": "lib/chessboard.js",
   "dependencies": {
-    "jquery": ">=1.8.3"
+    "jquery": ">=3.4.1"
   },
   "devDependencies": {
+    "csso": "3.5.1",
     "fs-plus": "3.1.1",
     "kidif": "1.1.0",
     "mustache": "2.3.0",
-    "standard": "10.0.2"
+    "standard": "10.0.2",
+    "uglify-js": "3.6.0"
   },
   "scripts": {
-    "test": "mocha"
-  },
-  "license": "MIT"
+    "build": "standard lib/chessboard.js && node scripts/build.js",
+    "standard": "standard --fix lib/*.js website/js/*.js",
+    "website": "node scripts/website.js"
+  }
 }

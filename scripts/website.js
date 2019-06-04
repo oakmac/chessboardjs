@@ -1,12 +1,12 @@
 // -----------------------------------------------------------------------------
-// This files builds the .html files in the website/ folder
+// This file builds the contents of the website/ folder.
 // -----------------------------------------------------------------------------
 
 // libraries
 const fs = require('fs-plus')
 const kidif = require('kidif')
 const mustache = require('mustache')
-const docs = require('./data/docs.json')
+const docs = require('../data/docs.json')
 
 const encoding = {encoding: 'utf8'}
 
@@ -20,11 +20,14 @@ const headTemplate = fs.readFileSync('templates/_head.mustache', encoding)
 const headerTemplate = fs.readFileSync('templates/_header.mustache', encoding)
 const footerTemplate = fs.readFileSync('templates/_footer.mustache', encoding)
 
-const latestChessboardJS = fs.readFileSync('src/chessboard.js', encoding)
-const latestChessboardCSS = fs.readFileSync('src/chessboard.css', encoding)
+const latestChessboardJS = fs.readFileSync('lib/chessboard.js', encoding)
+const latestChessboardCSS = fs.readFileSync('lib/chessboard.css', encoding)
 
 // grab the examples
 const examplesArr = kidif('examples/*.example')
+console.assert(examplesArr, 'Could not load the Example files')
+console.assert(examplesArr.length > 1, 'Zero examples loaded')
+
 const examplesObj = examplesArr.reduce(function (examplesObj, example, idx) {
   examplesObj[example.id] = example
   return examplesObj
