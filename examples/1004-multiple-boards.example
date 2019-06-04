@@ -7,6 +7,13 @@ Multiple Boards
 ===== Description
 You can have multiple boards on the same page.
 
+===== CSS
+.small-board {
+  display: inline-block;
+  margin-right: 5px;
+  width: 200px;
+}
+
 ===== HTML
 <div id="board1" class="small-board"></div>
 <div id="board2" class="small-board"></div>

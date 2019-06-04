@@ -110,8 +110,15 @@ const errorRowsHTML = docs.errors.reduce(function (html, itm) {
   return html + buildErrorRowHTML(itm)
 }, '')
 
+function isIntegrationExample (example) {
+  return (example.id + '').startsWith('5')
+}
+
 function writeSingleExamplePage (example) {
-  const html = mustache.render(singleExampleTemplate, example);
+  if (isIntegrationExample(example)) {
+    example.includeChessJS = true
+  }
+  const html = mustache.render(singleExampleTemplate, example)
   fs.writeFileSync('website/examples/' + example.id + '.html', html, encoding)
 }
 
