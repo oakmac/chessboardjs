@@ -4,4 +4,4 @@ scripts/
 templates/
 website/
 .editorconfig
-*.diff
+changes.diff

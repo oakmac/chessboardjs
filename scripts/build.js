@@ -9,36 +9,38 @@ const uglify = require('uglify-js')
 
 const encoding = {encoding: 'utf8'}
 
+const package = JSON.parse(fs.readFileSync('package.json', encoding))
+const version = package.version
+const year = new Date().getFullYear()
 const cssSrc = fs.readFileSync('lib/chessboard.css', encoding)
+                 .replace('@VERSION', version)
 const jsSrc = fs.readFileSync('lib/chessboard.js', encoding)
-const minifiedCss = csso.minify(cssSrc).css
+                .replace('@VERSION', version)
+                .replace('RUN_ASSERTS = true', 'RUN_ASSERTS = false')
+
+// TODO: need to remove the RUN_ASSERTS calls from the non-minified file
+
+const minifiedCSS = csso.minify(cssSrc).css
 const uglifyResult = uglify.minify(jsSrc)
 const minifiedJS = uglifyResult.code
 
+// quick sanity checks
 console.assert(!uglifyResult.error, 'error minifying JS!')
+console.assert(typeof minifiedCSS === 'string' && minifiedCSS !== '', 'error minifying CSS!')
 
-// TODO: add license to the top of minified JS
-
-// TODO: assert that the CSS is valid
+// add license to the top of minified files
+const minifiedJSWithBanner = banner() + minifiedJS
 
 // create a fresh dist/ folder
 fs.removeSync('dist')
 fs.makeTreeSync('dist')
 
-// TODO: replace @version variable
-// TODO: minify JS
-// TODO: minify CSS
-
 // copy lib files to dist/
-fs.writeFileSync('dist/chessboard.css', cssSrc, encoding)
-fs.writeFileSync('dist/chessboard.min.css', minifiedCss, encoding)
-fs.writeFileSync('dist/chessboard.js', jsSrc, encoding)
-fs.writeFileSync('dist/chessboard.min.js', minifiedJS, encoding)
+fs.writeFileSync('dist/chessboard-' + version + '.css', cssSrc, encoding)
+fs.writeFileSync('dist/chessboard-' + version + '.min.css', minifiedCSS, encoding)
+fs.writeFileSync('dist/chessboard-' + version + '.js', jsSrc, encoding)
+fs.writeFileSync('dist/chessboard-' + version + '.min.js', minifiedJSWithBanner, encoding)
 
-
-// TODO:
-// - copy the JS file to dist/
-// - copy the CSS file to dist/
-// - modify the JS file for version, copyright year, RUN_ASSERTS
-// - minify the JS file
-// - minify the CSS file
+function banner () {
+  return '/*! chessboard.js v' + version + ' | (c) ' + year + ' Chris Oakman | MIT License chessboardjs.com/license */\n'
+}
