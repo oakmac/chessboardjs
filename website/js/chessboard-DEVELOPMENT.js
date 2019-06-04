@@ -1299,6 +1299,8 @@
     }
 
     function dropDraggedPieceOnSquare (square) {
+      assert(validSquare(square), 'dropDraggedPieceOnSquare invalid square')
+
       removeSquareHighlights()
 
       // update position
