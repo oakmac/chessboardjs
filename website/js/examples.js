@@ -35,7 +35,7 @@
       '<pre class="prettyprint">' + htmlEscape(example.jsStr) + '</pre>' +
       '<h4>HTML</h4>' +
       '<pre class="prettyprint">' + htmlEscape(example.html) + '</pre>' +
-      '<p><a class="small-link-335ea" href="examples/' + id + '.html" target="_blank">View this example in new window.</a></p>'
+      '<p><a class="small-link-335ea" href="examples/' + id + '" target="_blank">View this example in new window.</a></p>'
 
     return html
   }

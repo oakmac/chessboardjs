@@ -1,0 +1,9 @@
+RewriteEngine On
+
+## Force https
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://chessboardjs.com/$1 [R=301,L]
+
+## Allow URLs that do not include the ".html" extension
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule (.*) $1.html [L]

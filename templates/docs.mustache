@@ -117,7 +117,9 @@
   function init () {
     $('body').on('click', 'a', clickAnchor)
 
-    window.location.hash = window.location.hash.replace('%3a', ':')
+    if (window.location.hash.search('%3a') !== -1) {
+      window.location.hash = window.location.hash.replace('%3a', ':')
+    }
 
     // give it just a smidge more time to load
     setTimeout(function () {
