@@ -65,7 +65,7 @@ a:hover {
   display: flex;
 }
 
-.col-11bcf button {
+.col-11bcf button, .blue-button {
   background: #2ba6cb;
   border-radius: 3px;
   border: 1px solid #1e728c;
@@ -79,6 +79,11 @@ a:hover {
   padding: 10px 15px;
   text-align: center;
   text-decoration: none;
+}
+
+.blue-button.large {
+  font-size: 18px;
+  padding: 15px 30px;
 }
 
 h2 {
@@ -265,7 +270,7 @@ footer .right-05ad3 a {
 }
 
 .hero-inner-556fe {
-  height: 420px;
+  height: 535px;
   margin: 0px auto;
   padding-top: 118px;
   text-align: center;
@@ -282,8 +287,8 @@ footer .right-05ad3 a {
   color: #fff;
   font-size: 44px;
   font-weight: 400;
-  margin: 0;
-  padding-top: 16px;
+  margin: 28px 0 0 0;
+  padding: 0;
 }
 
 .hero-inner-556fe h3 {
@@ -299,10 +304,10 @@ footer .right-05ad3 a {
   border-radius: 6px;
   color: #333;
   display: block;
-  margin: 50px auto 0 auto;
+  margin: 45px auto 0 auto;
   padding: 12px 24px;
   text-decoration: none;
-  width: 160px;
+  width: 200px;
 }
 
 .navbar-a57cc {
@@ -524,6 +529,29 @@ main {
   border-bottom: 1px solid #ddd;
   padding-bottom: 30px;
   margin-bottom: 30px;
+}
+
+.page-529b3 section:last-child {
+  border-bottom: 0;
+}
+
+/*------------------------------------------------------------------------------
+ * Downloads Page
+ *----------------------------------------------------------------------------*/
+
+.big-version {
+  color: #000;
+  font-size: 24px;
+}
+
+.big-version small {
+  color: #6f6f6f;
+  font-size: 60%;
+}
+
+.download-link {
+  margin: 0;
+  padding: 0;
 }
 
 /*------------------------------------------------------------------------------
