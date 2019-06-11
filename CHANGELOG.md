@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [1.0.0] - 2019-06-11
 - Orientation methods now return current orientation. [Issue #64]
 - Drop support for IE8
 - Do not check for `window.JSON` (Error #1004)
