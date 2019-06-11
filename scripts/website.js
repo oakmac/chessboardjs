@@ -26,6 +26,7 @@ const downloadTemplate = fs.readFileSync('templates/download.mustache', encoding
 const examplesTemplate = fs.readFileSync('templates/examples.mustache', encoding)
 const homepageTemplate = fs.readFileSync('templates/homepage.mustache', encoding)
 const singleExampleTemplate = fs.readFileSync('templates/single-example.mustache', encoding)
+const licensePageTemplate = fs.readFileSync('templates/license.mustache', encoding)
 const headTemplate = fs.readFileSync('templates/_head.mustache', encoding)
 const headerTemplate = fs.readFileSync('templates/_header.mustache', encoding)
 const footerTemplate = fs.readFileSync('templates/_footer.mustache', encoding)
@@ -169,6 +170,11 @@ function writeDownloadPage () {
   fs.writeFileSync('website/download.html', html, encoding)
 }
 
+function writeLicensePage () {
+  const html = mustache.render(licensePageTemplate)
+  fs.writeFileSync('website/license.html', html, encoding)
+}
+
 function writeWebsite () {
   writeSrcFiles()
   writeHomepage()
@@ -176,6 +182,7 @@ function writeWebsite () {
   writeSingleExamplesPages()
   writeDocsPage()
   writeDownloadPage()
+  writeLicensePage()
 }
 
 writeWebsite()
