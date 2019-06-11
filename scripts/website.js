@@ -12,6 +12,13 @@ const encoding = {encoding: 'utf8'}
 
 // toggle development version
 const useDevFile = false
+const jsCDNLink = '<script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>'
+const cssCDNLink = 'https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css'
+
+let chessboardJsScript = jsCDNLink
+if (useDevFile) {
+  chessboardJsScript = '<script src="js/chessboard.js"></script>'
+}
 
 // grab some mustache templates
 const docsTemplate = fs.readFileSync('templates/docs.mustache', encoding)
@@ -80,9 +87,10 @@ function writeHomepage () {
   const headHTML = mustache.render(headTemplate, {pageTitle: 'Homepage'})
 
   const html = mustache.render(homepageTemplate, {
+    chessboardJsScript: chessboardJsScript,
+    example2: homepageExample2,
     footer: footerTemplate,
-    head: headHTML,
-    example2: homepageExample2
+    head: headHTML
   })
   fs.writeFileSync('website/index.html', html, encoding)
 }
@@ -92,6 +100,7 @@ function writeExamplesPage () {
   const headerHTML = mustache.render(headerTemplate, {examplesActive: true})
 
   const html = mustache.render(examplesTemplate, {
+    chessboardJsScript: chessboardJsScript,
     examplesJavaScript: buildExamplesJS(),
     footer: footerTemplate,
     head: headHTML,
@@ -124,6 +133,7 @@ function writeSingleExamplePage (example) {
   if (isIntegrationExample(example)) {
     example.includeChessJS = true
   }
+  example.chessboardJsScript = chessboardJsScript
   const html = mustache.render(singleExampleTemplate, example)
   fs.writeFileSync('website/examples/' + example.id + '.html', html, encoding)
 }

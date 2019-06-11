@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git://github.com/oakmac/chessboardjs.git"
   },
-  "browser": "lib/chessboard.js",
+  "files": ["dist/"],
   "dependencies": {
     "jquery": ">=3.4.1"
   },
