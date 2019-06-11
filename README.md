@@ -62,12 +62,21 @@ independent of those other problems.
 - Docs - <http://chessboardjs.com/docs>
 - Examples - <http://chessboardjs.com/examples>
 
+## Developer Tools
+
+```sh
+# create a build in the build/ directory
+npm run build
+
+# re-build the website
+npm run website
+```
+
 ## License
 
-chessboard.js is released under the terms of the [MIT License].
+[MIT License](LICENSE.md)
 
 [jQuery]:https://jquery.com/
 [chessboardjs.com]:http://chessboardjs.com
 [chess.js]:https://github.com/jhlywa/chess.js
 [Example 5000]:http://chessboardjs.com/examples#5000
-[MIT License]:LICENSE.md

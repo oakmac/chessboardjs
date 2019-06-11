@@ -4,7 +4,7 @@
   "description": "JavaScript chessboard widget",
   "homepage": "https://chessboardjs.com",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/oakmac/chessboardjs.git"

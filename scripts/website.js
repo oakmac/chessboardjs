@@ -10,6 +10,9 @@ const docs = require('../data/docs.json')
 
 const encoding = {encoding: 'utf8'}
 
+// toggle development version
+const useDevFile = false
+
 // grab some mustache templates
 const docsTemplate = fs.readFileSync('templates/docs.mustache', encoding)
 const downloadTemplate = fs.readFileSync('templates/download.mustache', encoding)
