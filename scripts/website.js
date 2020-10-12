@@ -11,7 +11,7 @@ const docs = require('../data/docs.json')
 const encoding = {encoding: 'utf8'}
 
 // toggle development version
-const useDevFile = false
+const useDevFile = true
 const jsCDNLink = '<script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>'
 const cssCDNLink = 'https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css'
 
