@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2022-07-13
+- Available as an npm module (both ES6 and CommonJS) with instructions
+- Specify number of spares available to be placed
+- Bug fixes and optimizations
+- Works better on mobile
+- Default piece images from CDN
+- Internal position is updated before firing onChange
+- Dragged piece can be magnified
+- Accessibility improvements (alt tag)
+- Can preload piece images
+
 ## [1.0.0] - 2019-06-11
 - Orientation methods now return current orientation. [Issue #64]
 - Drop support for IE8
