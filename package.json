@@ -7,7 +7,7 @@
   "description": "JavaScript chessboard widget",
   "homepage": "https://chessboardjs.com",
   "license": "MIT",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "exports": {
     "import": "./dist/chessboard-1.0.0.min.mjs",
     "require": "./dist/chessboard-1.0.0.min.cjs"
