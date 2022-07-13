@@ -55,23 +55,23 @@ fs.makeTreeSync('dist')
 // copy lib files to dist/
 fs.writeFileSync('dist/chessboard-' + version + '.css', cssSrc, encoding)
 fs.writeFileSync(
-  'dist/chessboard-' + version + '.min.css',
+  'dist/chessboard.min.css',
   minifiedCSS,
   encoding,
 )
 
 fs.writeFileSync(
-  'dist/chessboard-' + version + '.min.mjs',
+  'dist/chessboard.min.mjs',
   mjs,
   encoding,
 )
 fs.writeFileSync(
-  'dist/chessboard-' + version + '.min.cjs',
+  'dist/chessboard.min.cjs',
   cjs,
   encoding,
 )
 fs.writeFileSync(
-  'dist/chessboard-' + version + '.min.js',
+  'dist/chessboard.min.js',
   banner() + browserjs,
   encoding,
 )

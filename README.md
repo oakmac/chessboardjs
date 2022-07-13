@@ -16,6 +16,14 @@ import { Chessboard, fenToObj, objToFen } from "@discape/chessboardjs";
 const { Chessboard, fenToObj, objToFen } = require("@discape/chessboardjs");
 ```
 
+Be sure to include the css:
+
+```html
+<link rel="stylesheet"
+      href="https://unpkg.com/@discape/chessboardjs/dist/chessboard.min.css"
+      crossorigin="anonymous">
+```
+
 ## What is chessboard.js?
 
 chessboard.js is a standalone JavaScript Chess Board. It is designed to be "just
