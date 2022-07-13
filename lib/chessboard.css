@@ -54,8 +54,7 @@
 }
 
 .piece-wrapper {
-  position: relative;
-  display: inline-block;
+  z-index: 2;
 }
 
 .spare-count {
@@ -63,11 +62,10 @@
   padding: 0 4px;
   border-radius: 37%;
   font-size: 12px;
-  position: absolute;
+  position: relative;
   z-index: 1;
   background: #fff;
-  right: 0;
-  bottom: 1px;
+  left: -18px;
 }
 
 .spare-pieces-7492f {
