@@ -62,10 +62,11 @@
   padding: 0 4px;
   border-radius: 37%;
   font-size: 12px;
-  position: relative;
+  position: absolute;
   z-index: 1;
   background: #fff;
-  left: -18px;
+  right: 0;
+  bottom: 1px;
 }
 
 .spare-pieces-7492f {
