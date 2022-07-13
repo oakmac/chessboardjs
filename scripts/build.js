@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// This file creates a build in the dist/ folder
+// This file creates a build in the dist/build/ folder
 // -----------------------------------------------------------------------------
 
 // libraries
@@ -64,21 +64,22 @@ console.assert(
   'error minifying CSS!',
 )
 
-// create a fresh dist/ folder
-fs.removeSync('dist')
-fs.makeTreeSync('dist')
+// create a fresh dist/build/ folder
+fs.removeSync('dist/build')
+fs.makeTreeSync('dist/build')
 
-// copy lib files to dist/
-fs.writeFileSync('dist/chessboard.css', cssSrc, encoding)
-fs.writeFileSync('dist/chessboard.min.css', minifiedCSS, encoding)
+// copy lib files to dist/build/
+fs.writeFileSync('dist/build/chessboard.css', cssSrc, encoding)
+fs.writeFileSync('dist/build/chessboard.min.css', minifiedCSS, encoding)
 
-fs.writeFileSync('dist/chessboard.min.mjs', mjsmin, encoding)
-fs.writeFileSync('dist/chessboard.min.cjs', cjsmin, encoding)
-fs.writeFileSync('dist/chessboard.min.js', banner() + browserjsmin, encoding)
+fs.writeFileSync('dist/build/chessboard.min.mjs', mjsmin, encoding)
+fs.writeFileSync('dist/build/chessboard.min.cjs', cjsmin, encoding)
+fs.writeFileSync('dist/build/chessboard.min.js', banner() + browserjsmin, encoding)
 
-fs.writeFileSync('dist/chessboard.mjs', mjs, encoding)
-fs.writeFileSync('dist/chessboard.cjs', cjs, encoding)
-fs.writeFileSync('dist/chessboard.js', banner() + browserjs, encoding)
+fs.writeFileSync('dist/build/chessboard.mjs', mjs, encoding)
+fs.writeFileSync('dist/build/chessboard.cjs', cjs, encoding)
+fs.writeFileSync('dist/build/chessboard.js', banner() + browserjs, encoding)
+
 
 function banner() {
   return (

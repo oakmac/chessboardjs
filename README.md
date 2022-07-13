@@ -20,7 +20,7 @@ Be sure to include the css:
 
 ```html
 <link rel="stylesheet"
-      href="https://unpkg.com/@discape/chessboardjs/dist/chessboard.min.css"
+      href="https://unpkg.com/@discape/chessboardjs/dist/build/chessboard.min.css"
       crossorigin="anonymous">
 ```
 
