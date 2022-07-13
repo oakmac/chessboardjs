@@ -25,19 +25,35 @@ const minSrc = uglifyResult.code
 console.assert(!uglifyResult.error, 'error minifying JS: ' + uglifyResult.error)
 // TODO: need to remove the RUN_ASSERTS calls from the non-minified file
 
-const mjs = fs
+const mjsmin = fs
   .readFileSync('lib/chessboard.mjs', encoding)
   .replace('INSERTSOURCE', () => minSrc)
   .replace('@VERSION', version)
-const cjs = fs
+const cjsmin = fs
   .readFileSync('lib/chessboard.cjs', encoding)
   .replace('INSERTSOURCE', () => minSrc)
   .replace('@VERSION', version)
-const browserjs = fs
+const browserjsmin = fs
   .readFileSync('lib/chessboardbrowser.js', encoding)
   .replace('INSERTSOURCE', () => minSrc)
   .replace('@VERSION', version)
+  .replace('const ', 'var ')
+  .replace('let ', ' var ')
 
+const mjs = fs
+  .readFileSync('lib/chessboard.mjs', encoding)
+  .replace('INSERTSOURCE', () => rawSrc)
+  .replace('@VERSION', version)
+const cjs = fs
+  .readFileSync('lib/chessboard.cjs', encoding)
+  .replace('INSERTSOURCE', () => rawSrc)
+  .replace('@VERSION', version)
+const browserjs = fs
+  .readFileSync('lib/chessboardbrowser.js', encoding)
+  .replace('INSERTSOURCE', () => rawSrc)
+  .replace('@VERSION', version)
+  .replace('const ', 'var ')
+  .replace('let ', ' var ')
 
 const minifiedCSS = csso.minify(cssSrc).css
 
@@ -53,28 +69,16 @@ fs.removeSync('dist')
 fs.makeTreeSync('dist')
 
 // copy lib files to dist/
-fs.writeFileSync('dist/chessboard-' + version + '.css', cssSrc, encoding)
-fs.writeFileSync(
-  'dist/chessboard.min.css',
-  minifiedCSS,
-  encoding,
-)
+fs.writeFileSync('dist/chessboard.css', cssSrc, encoding)
+fs.writeFileSync('dist/chessboard.min.css', minifiedCSS, encoding)
 
-fs.writeFileSync(
-  'dist/chessboard.min.mjs',
-  mjs,
-  encoding,
-)
-fs.writeFileSync(
-  'dist/chessboard.min.cjs',
-  cjs,
-  encoding,
-)
-fs.writeFileSync(
-  'dist/chessboard.min.js',
-  banner() + browserjs,
-  encoding,
-)
+fs.writeFileSync('dist/chessboard.min.mjs', mjsmin, encoding)
+fs.writeFileSync('dist/chessboard.min.cjs', cjsmin, encoding)
+fs.writeFileSync('dist/chessboard.min.js', banner() + browserjsmin, encoding)
+
+fs.writeFileSync('dist/chessboard.mjs', mjs, encoding)
+fs.writeFileSync('dist/chessboard.cjs', cjs, encoding)
+fs.writeFileSync('dist/chessboard.js', banner() + browserjs, encoding)
 
 function banner() {
   return (
