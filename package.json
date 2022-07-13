@@ -9,8 +9,8 @@
   "license": "MIT",
   "version": "1.1.0",
   "exports": {
-    "import": "./dist/chessboard-1.0.0.min.mjs",
-    "require": "./dist/chessboard-1.0.0.min.cjs"
+    "import": "./dist/build/chessboard.min.mjs",
+    "require": "./dist/build/chessboard.min.cjs"
   },
   "repository": {
     "type": "git",
