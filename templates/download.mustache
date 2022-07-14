@@ -18,29 +18,40 @@
 
     <section>
         <h2>NPM / Yarn Package</h2>
-        <p>chessboardjs is on <a href="https://www.npmjs.com/">npm</a> under the name <a href="https://www.npmjs.com/package/@chrisoakman/chessboardjs">@chrisoakman/chessboardjs</a></p>
+        <p>chessboardjs is on <a href="https://www.npmjs.com/">npm</a> under the name <a href="https://www.npmjs.com/package/discape/chessboardjs">@discape/chessboardjs</a></p>
         <pre class="prettyprint"># using npm
-npm install @chrisoakman/chessboardjs</pre>
+npm install @discape/chessboardjs</pre>
 
 <pre class="prettyprint"># using yarn
-yarn add @chrisoakman/chessboardjs</pre>
+yarn add @discape/chessboardjs</pre>
+
+<pre class="prettyprint"># using in code with require()
+const { Chessboard, objToFen, fenToObj } = require("@discape/chessboardjs");
+</pre>
+
+<pre class="prettyprint"># using in code with ES6 import
+import { Chessboard, objToFen, fenToObj } from "@discape/chessboardjs";
+</pre>
+<p>Remember to include the css:</p>
+        <pre class="prettyprint">&lt;link rel="stylesheet"
+      href="https://unpkg.com/@discape/chessboardjs/dist/build/chessboard.min.css"
+      crossorigin="anonymous"&gt;</pre>
     </section>
 
     <section>
         <h2>Content Delivery Network</h2>
         <p>You can use chessboardjs via the <a href="https://unpkg.com/">unpkg CDN</a> with the following links:
         <pre class="prettyprint">&lt;link rel="stylesheet"
-      href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
+      href="https://unpkg.com/@discape/chessboardjs/dist/build/chessboard.min.css"
       integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU"
       crossorigin="anonymous"&gt;</pre>
         <pre class="prettyprint">&lt;script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
         crossorigin="anonymous"&gt;&lt;/script&gt;
 
-&lt;script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
-        integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
+&lt;script src="https://unpkg.com/@discape/chessboardjs/dist/build/chessboard.min.js"
         crossorigin="anonymous"&gt;&lt;/script&gt;</pre>
-        <p style="line-height: 1.6rem;">Please note that <a href="https://jquery.com/">jQuery</a> is a required dependency of chessboard.js and must be loaded on your webpage before the <code>chessboard-1.0.0.min.js</code> file.</p>
+        <p style="line-height: 1.6rem;">Please note that <a href="https://jquery.com/">jQuery</a> is a required dependency of chessboard.js and must be loaded on your webpage before the <code>chessboard.min.js</code> file.</p>
     </section>
 
     <section>

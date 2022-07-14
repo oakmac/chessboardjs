@@ -1,15 +1,31 @@
 {
   "author": "Chris Oakman <chris@oakmac.com> (http://chrisoakman.com/)",
-  "name": "@chrisoakman/chessboardjs",
+  "contributors": [
+    "Miika Tuominen <miika.km.tuominen@gmail.com> (https://miikat.dev)"
+  ],
+  "name": "@discape/chessboardjs",
   "description": "JavaScript chessboard widget",
   "homepage": "https://chessboardjs.com",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.1.2",
+  "keywords": [
+    "chess",
+    "javascript",
+    "es6",
+    "commonjs",
+    "jquery"
+  ],
+  "exports": {
+    "import": "./dist/build/chessboard.min.mjs",
+    "require": "./dist/build/chessboard.min.cjs"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/oakmac/chessboardjs.git"
+    "url": "https://github.com/discapes/chessboardjs-npm.git"
   },
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "dependencies": {
     "jquery": ">=3.4.1"
   },
@@ -19,11 +35,12 @@
     "kidif": "1.1.0",
     "mustache": "2.3.0",
     "standard": "10.0.2",
-    "uglify-js": "3.6.0"
+    "uglify-js": "^3.16.2"
   },
   "scripts": {
-    "build": "standard lib/chessboard.js && node scripts/build.js",
-    "standard": "standard --fix lib/*.js website/js/*.js",
-    "website": "node scripts/website.js"
+    "build": "node scripts/build.js",
+    "standard": "standard --fix lib/chessboard.js website/js/*.js",
+    "website": "node scripts/website.js",
+    "test": "node scripts/test.cjs && node scripts/test.mjs"
   }
 }

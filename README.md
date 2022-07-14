@@ -4,6 +4,26 @@ chessboard.js is a JavaScript chessboard component. It depends on [jQuery] v3.4.
 
 Please see [chessboardjs.com] for documentation and examples.
 
+## Usage
+
+Installation: `npm i @discape/chessboardjs`
+
+```js
+import { Chessboard, fenToObj, objToFen } from "@discape/chessboardjs";
+```
+
+```js
+const { Chessboard, fenToObj, objToFen } = require("@discape/chessboardjs");
+```
+
+Be sure to include the css:
+
+```html
+<link rel="stylesheet"
+      href="https://unpkg.com/@discape/chessboardjs/dist/build/chessboard.min.css"
+      crossorigin="anonymous">
+```
+
 ## What is chessboard.js?
 
 chessboard.js is a standalone JavaScript Chess Board. It is designed to be "just
