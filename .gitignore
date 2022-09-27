@@ -4,6 +4,8 @@
 dist/
 node_modules/
 
+.DS_Store
+
 website/*.html
 website/css/chessboard.css
 website/js/chessboard.js

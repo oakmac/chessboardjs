@@ -26,7 +26,7 @@ var config = {
   position: 'start',
   onMoveEnd: onMoveEnd
 }
-var board = Chessboard('myBoard', config)
+var board = new Chessboard('myBoard', config)
 
 $('#ruyLopezBtn').on('click', function () {
   board.position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R')
@@ -34,5 +34,5 @@ $('#ruyLopezBtn').on('click', function () {
 $('#moveBtn').on('click', function () {
   board.move('a2-a4', 'h7-h5')
 })
-$('#startBtn').on('click', board.start)
-$('#clearBtn').on('click', board.clear)
+$('#startBtn').on('click', () => board.start())
+$('#clearBtn').on('click', () => board.clear())

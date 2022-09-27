@@ -13,11 +13,11 @@ Set <a href="docs.html#config:sparePieces"><code class="js plain">sparePieces</c
 <button id="clearBtn">Clear Board</button>
 
 ===== JS
-var board = Chessboard('myBoard', {
+var board = new Chessboard('myBoard', {
   draggable: true,
   dropOffBoard: 'trash',
   sparePieces: true
 })
 
-$('#startBtn').on('click', board.start)
-$('#clearBtn').on('click', board.clear)
+$('#startBtn').on('click', () => board.start())
+$('#clearBtn').on('click', () => board.clear())

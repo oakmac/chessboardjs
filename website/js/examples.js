@@ -1,7 +1,7 @@
-;(function () {
-  var $ = window.jQuery
-  var EXAMPLES = window.CHESSBOARD_EXAMPLES
-  var prettyPrint = window.prettyPrint
+; (function () {
+  const $ = window.jQuery
+  const EXAMPLES = window.CHESSBOARD_EXAMPLES
+  const prettyPrint = window.prettyPrint
 
   function htmlEscape (str) {
     return (str + '')
@@ -25,9 +25,9 @@
   }
 
   function buildExampleBodyHTML (example, id) {
-    var html = '<h2 class="hover-linkable">' +
-        '<a class="hover-link" href="#' + id + '"></a>' +
-        htmlEscape(example.name) +
+    const html = '<h2 class="hover-linkable">' +
+      '<a class="hover-link" href="#' + id + '"></a>' +
+      htmlEscape(example.name) +
       '</h2>' +
       '<p>' + example.description + '</p>' +
       '<div class="container-4e1ee">' + example.html + '</div>' +
@@ -41,7 +41,7 @@
   }
 
   function showExample (exampleId) {
-    var groupIdx = $('#exampleLink-' + exampleId).parent('ul').attr('id').replace('groupContainer-', '')
+    const groupIdx = $('#exampleLink-' + exampleId).parent('ul').attr('id').replace('groupContainer-', '')
 
     $('#groupContainer-' + groupIdx).css('display', '')
     highlightGroupHeader(groupIdx)
@@ -54,16 +54,16 @@
   }
 
   function clickExampleNavLink () {
-    var exampleId = $(this).attr('id').replace('exampleLink-', '')
-    if (!EXAMPLES.hasOwnProperty(exampleId)) return
+    const exampleId = $(this).attr('id').replace('exampleLink-', '')
+    if (!Object.prototype.hasOwnProperty.call(EXAMPLES, exampleId)) return
 
     window.location.hash = exampleId
     loadExampleFromHash()
   }
 
   function loadExampleFromHash () {
-    var exampleId = parseInt(window.location.hash.replace('#', ''), 10)
-    if (!EXAMPLES.hasOwnProperty(exampleId)) {
+    let exampleId = parseInt(window.location.hash.replace('#', ''), 10)
+    if (!Object.prototype.hasOwnProperty.call(EXAMPLES, exampleId)) {
       exampleId = 1000
       window.location.hash = exampleId
     }
@@ -71,8 +71,8 @@
   }
 
   function clickGroupHeader () {
-    var groupIdx = $(this).attr('id').replace('groupHeader-', '')
-    var $examplesList = $('#groupContainer-' + groupIdx)
+    const groupIdx = $(this).attr('id').replace('groupHeader-', '')
+    const $examplesList = $('#groupContainer-' + groupIdx)
     if ($examplesList.css('display') === 'none') {
       $examplesList.slideDown('fast')
     } else {

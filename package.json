@@ -9,19 +9,22 @@
     "type": "git",
     "url": "git://github.com/oakmac/chessboardjs.git"
   },
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "dependencies": {
     "jquery": ">=3.4.1"
   },
   "devDependencies": {
+    "@types/node": "18.7.23",
     "csso": "3.5.1",
-    "fs-plus": "3.1.1",
     "kidif": "1.1.0",
     "mustache": "2.3.0",
-    "standard": "10.0.2",
-    "uglify-js": "3.6.0"
+    "standard": "17.0.0",
+    "uglify-js": "3.17.2"
   },
   "scripts": {
+    "package": "npm run standard && npm run build && npm run website",
     "build": "standard lib/chessboard.js && node scripts/build.js",
     "standard": "standard --fix lib/*.js website/js/*.js",
     "website": "node scripts/website.js"

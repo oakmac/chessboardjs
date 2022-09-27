@@ -14,11 +14,11 @@ Use the <a href="docs.html#methods:clear"><code class="js plain">clear</code></a
 <button id="clearBoardInstantBtn">Clear Board Instant</button>
 
 ===== JS
-var board = Chessboard('myBoard', 'start')
+var board = new Chessboard('myBoard', 'start')
 
-$('#clearBoardBtn').on('click', board.clear)
+$('#clearBoardBtn').on('click', () => board.clear())
 
-$('#startPositionBtn').on('click', board.start)
+$('#startPositionBtn').on('click', () => board.start())
 
 $('#clearBoardInstantBtn').on('click', function () {
   board.clear(false)
