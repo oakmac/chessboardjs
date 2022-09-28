@@ -1,26 +1,24 @@
 #! /usr/bin/env node
 
+/* eslint-env node */
+
 // -----------------------------------------------------------------------------
 // This file builds the contents of the website/ folder.
 // -----------------------------------------------------------------------------
 
 // libraries
-const fs = require('fs');
-const kidif = require('kidif');
-const mustache = require('mustache');
-const docs = require('../data/docs.json');
+import fs from 'node:fs';
+import { readFile } from 'node:fs/promises';
 
-const encoding = { encoding: 'utf8' };
+import kidif from 'kidif';
+import mustache from 'mustache';
 
-// toggle development version
-const useDevFile = false;
-const jsCDNLink = '<script src="js/chessboard.js"></script>';
-const cssCDNLink = 'https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css';
 
-let chessboardJsScript = jsCDNLink;
-if (useDevFile) {
-  chessboardJsScript = '<script src="js/chessboard.js"></script>';
-}
+const docs = JSON.parse(await readFile(new URL('../../data/docs.json', import.meta.url), 'utf-8'));
+const { version } = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf-8'));
+
+const encoding = 'utf-8';
+const chessboardJsScript = `<script src="../dist/chessboard-${version}.js"></script>`;
 
 // grab some mustache templates
 const docsTemplate = fs.readFileSync('templates/docs.mustache', encoding);
@@ -33,15 +31,12 @@ const headTemplate = fs.readFileSync('templates/_head.mustache', encoding);
 const headerTemplate = fs.readFileSync('templates/_header.mustache', encoding);
 const footerTemplate = fs.readFileSync('templates/_footer.mustache', encoding);
 
-const latestChessboardJS = fs.readFileSync('lib/chessboard.js', encoding);
-const latestChessboardCSS = fs.readFileSync('lib/chessboard.css', encoding);
-
 // grab the examples
 const examplesArr = kidif('examples/*.example');
 console.assert(examplesArr, 'Could not load the Example files');
 console.assert(examplesArr.length > 1, 'Zero examples loaded');
 
-const examplesObj = examplesArr.reduce(function (examplesObj, example, idx) {
+const examplesObj = examplesArr.reduce(function (examplesObj, example) {
   examplesObj[example.id] = example;
   return examplesObj;
 }, {});
@@ -69,62 +64,56 @@ const examplesGroups = [
   }
 ];
 
-const homepageExample1 = '';
-
-const homepageExample2 = `
-var board2 = new Chessboard('board2', {
-  draggable: true,
-  dropOffBoard: 'trash',
-  sparePieces: true
-})
-
-$('#startBtn').on('click', () => board2.start())
-$('#clearBtn').on('click', () => board2.clear())`.trim();
-
-function writeSrcFiles() {
-  fs.writeFileSync('website/js/chessboard.js', latestChessboardJS, encoding);
-  fs.writeFileSync('website/css/chessboard.css', latestChessboardCSS, encoding);
-}
-
 function writeHomepage() {
-  const headHTML = mustache.render(headTemplate, { pageTitle: 'Homepage' });
+  const headHTML = mustache.render(headTemplate, { pageTitle: 'Homepage', version });
 
   const html = mustache.render(homepageTemplate, {
-    chessboardJsScript: chessboardJsScript,
-    example2: homepageExample2,
+    chessboardJsScript,
+    example2: `
+			const board2 = new Chessboard('board2', {
+				draggable: true,
+				dropOffBoard: 'trash',
+				sparePieces: true
+			})
+
+			document.getElementById('startBtn').onclick = () => board2.start()
+			document.getElementById('clearBtn').onclick = () => board2.clear()
+		`.trim(),
     footer: footerTemplate,
-    head: headHTML
+    head: headHTML,
+    version
   });
   fs.writeFileSync('website/index.html', html, encoding);
 }
 
 function writeExamplesPage() {
-  const headHTML = mustache.render(headTemplate, { pageTitle: 'Examples' });
-  const headerHTML = mustache.render(headerTemplate, { examplesActive: true });
+  const headHTML = mustache.render(headTemplate, { pageTitle: 'Examples', version });
+  const headerHTML = mustache.render(headerTemplate, { examplesActive: true, version });
 
   const html = mustache.render(examplesTemplate, {
-    chessboardJsScript: chessboardJsScript,
+    chessboardJsScript,
     examplesJavaScript: buildExamplesJS(),
     footer: footerTemplate,
     head: headHTML,
     header: headerHTML,
-    nav: buildExamplesNavHTML()
+    nav: buildExamplesNavHTML(),
+    version
   });
   fs.writeFileSync('website/examples.html', html, encoding);
 }
 
 const configTableRowsHTML = docs.config.reduce(function (html, itm) {
-  if (isString(itm)) return html;
+  if (typeof itm === 'string') return html;
   return html + buildConfigDocsTableRowHTML('config', itm);
 }, '');
 
 const methodTableRowsHTML = docs.methods.reduce(function (html, itm) {
-  if (isString(itm)) return html;
+  if (typeof itm === 'string') return html;
   return html + buildMethodRowHTML(itm);
 }, '');
 
 const errorRowsHTML = docs.errors.reduce(function (html, itm) {
-  if (isString(itm)) return html;
+  if (typeof itm === 'string') return html;
   return html + buildErrorRowHTML(itm);
 }, '');
 
@@ -137,7 +126,7 @@ function writeSingleExamplePage(example) {
     example.includeChessJS = true;
   }
   example.chessboardJsScript = chessboardJsScript;
-  const html = mustache.render(singleExampleTemplate, example);
+  const html = mustache.render(singleExampleTemplate, { version, ...example });
   if (!fs.existsSync('website/examples')) {
     fs.mkdirSync('website/examples');
   }
@@ -149,8 +138,8 @@ function writeSingleExamplesPages() {
 }
 
 function writeDocsPage() {
-  const headHTML = mustache.render(headTemplate, { pageTitle: 'Documentation' });
-  const headerHTML = mustache.render(headerTemplate, { docsActive: true });
+  const headHTML = mustache.render(headTemplate, { pageTitle: 'Documentation', version });
+  const headerHTML = mustache.render(headerTemplate, { docsActive: true, version });
 
   const html = mustache.render(docsTemplate, {
     configTableRows: configTableRowsHTML,
@@ -158,30 +147,31 @@ function writeDocsPage() {
     footer: footerTemplate,
     head: headHTML,
     header: headerHTML,
-    methodTableRows: methodTableRowsHTML
+    methodTableRows: methodTableRowsHTML,
+    version,
   });
   fs.writeFileSync('website/docs.html', html, encoding);
 }
 
 function writeDownloadPage() {
-  const headHTML = mustache.render(headTemplate, { pageTitle: 'Download' });
-  const headerHTML = mustache.render(headerTemplate, { downloadActive: true });
+  const headHTML = mustache.render(headTemplate, { pageTitle: 'Download', version });
+  const headerHTML = mustache.render(headerTemplate, { downloadActive: true, version });
 
   const html = mustache.render(downloadTemplate, {
     footer: footerTemplate,
     head: headHTML,
-    header: headerHTML
+    header: headerHTML,
+    version
   });
   fs.writeFileSync('website/download.html', html, encoding);
 }
 
 function writeLicensePage() {
-  const html = mustache.render(licensePageTemplate);
+  const html = mustache.render(licensePageTemplate, { version });
   fs.writeFileSync('website/license.html', html, encoding);
 }
 
 function writeWebsite() {
-  writeSrcFiles();
   writeHomepage();
   writeExamplesPage();
   writeSingleExamplesPages();
@@ -195,17 +185,6 @@ writeWebsite();
 // -----------------------------------------------------------------------------
 // HTML
 // -----------------------------------------------------------------------------
-
-function htmlEscape(str) {
-  return (str + '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-    .replace(/\//g, '&#x2F;')
-    .replace(/`/g, '&#x60;');
-}
 
 function buildExampleGroupHTML(idx, groupName, examplesInGroup) {
   const groupNum = idx + 1;
@@ -330,12 +309,6 @@ function buildTypeHTML(type) {
   return html;
 }
 
-function buildRequiredHTML(req) {
-  if (!req) return 'no';
-  if (req === true) return 'yes';
-  return req;
-}
-
 function buildDescriptionHTML(desc) {
   if (!Array.isArray(desc)) {
     desc = [desc];
@@ -402,8 +375,4 @@ function buildErrorRowHTML(error) {
   html += '</tr>';
 
   return html;
-}
-
-function isString(s) {
-  return typeof s === 'string';
 }
