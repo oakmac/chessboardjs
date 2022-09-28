@@ -26,4 +26,4 @@ function clickShowPositionBtn () {
   console.log(board.fen())
 }
 
-$('#showPositionBtn').on('click', clickShowPositionBtn)
+document.getElementById('showPositionBtn').onclick = (evt) => clickShowPositionBtn(evt)

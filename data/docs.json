@@ -435,11 +435,6 @@
   "fix":"The first argument to the <code class='js plain'>Chessboard()</code> constructor should be the id of a DOM element or a reference to a single DOM element."
 },
 {
-  "id":1005,
-  "desc":"Unable to find a valid version of jQuery. Please include jQuery 1.8.3 or higher on the page.",
-  "fix":"Chessboard requires <a href='http://jquery.com/'>jQuery</a> version 1.8.3 or higher."
-},
-{
   "id":2826,
   "desc":"Invalid move passed to the move method.",
   "fix":"Moves must be a string in the form of <code class='js string'>'e2-e4'</code>, <code class='js string'>'b8-c6'</code>, etc."

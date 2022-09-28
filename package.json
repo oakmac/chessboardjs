@@ -13,9 +13,6 @@
   "files": [
     "dist/"
   ],
-  "dependencies": {
-    "jquery": ">=3.4.1"
-  },
   "devDependencies": {
     "@types/node": "18.7.23",
     "gulp": "4.0.2",

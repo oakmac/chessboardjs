@@ -1,6 +1,6 @@
 # chessboard.js
 
-chessboard.js is a JavaScript chessboard component. It depends on [jQuery] v3.4.1 (or higher).
+chessboard.js is a _zero-dependency_ JavaScript chessboard component.
 
 Please see [chessboardjs.com] for documentation and examples.
 
@@ -53,7 +53,6 @@ npm run website
 
 [MIT License](LICENSE.md)
 
-[jQuery]:https://jquery.com/
 [chessboardjs.com]:https://chessboardjs.com
 [chess.js]:https://github.com/jhlywa/chess.js
 [Example 5000]:https://chessboardjs.com/examples#5000

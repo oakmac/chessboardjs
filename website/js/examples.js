@@ -1,5 +1,4 @@
 ; (function () {
-  const $ = window.jQuery
   const EXAMPLES = window.CHESSBOARD_EXAMPLES
   const prettyPrint = window.prettyPrint
 
@@ -15,13 +14,13 @@
   }
 
   function highlightGroupHeader (groupIdx) {
-    $('#examplesNav h4').removeClass('active')
-    $('#groupHeader-' + groupIdx).addClass('active')
+    document.querySelectorAll('#examplesNav h4').forEach(x => x.classList.remove('active'))
+    document.getElementById('groupHeader-' + groupIdx)?.classList.add('active')
   }
 
   function highlightExampleLink (exampleId) {
-    $('#examplesNav li').removeClass('active')
-    $('#exampleLink-' + exampleId).addClass('active')
+    document.querySelectorAll('#examplesNav li').forEach(x => x.classList.remove('active'))
+    document.getElementById('exampleLink-' + exampleId)?.classList.add('active')
   }
 
   function buildExampleBodyHTML (example, id) {
@@ -41,20 +40,20 @@
   }
 
   function showExample (exampleId) {
-    const groupIdx = $('#exampleLink-' + exampleId).parent('ul').attr('id').replace('groupContainer-', '')
+    const groupIdx = document.getElementById('#exampleLink-' + exampleId)?.closest('ul')?.getAttribute('id')?.replace('groupContainer-', '')
 
-    $('#groupContainer-' + groupIdx).css('display', '')
+    document.getElementById('groupContainer-' + groupIdx)?.style.setProperty('display', '')
     highlightGroupHeader(groupIdx)
     highlightExampleLink(exampleId)
 
-    $('#exampleBodyContainer').html(buildExampleBodyHTML(EXAMPLES[exampleId], exampleId))
+    document.getElementById('exampleBodyContainer').innerHTML = buildExampleBodyHTML(EXAMPLES[exampleId], exampleId)
     EXAMPLES[exampleId].jsFn()
 
     prettyPrint()
   }
 
-  function clickExampleNavLink () {
-    const exampleId = $(this).attr('id').replace('exampleLink-', '')
+  function clickExampleNavLink (evt) {
+    const exampleId = evt.target.getAttribute('id').replace('exampleLink-', '')
     if (!Object.prototype.hasOwnProperty.call(EXAMPLES, exampleId)) return
 
     window.location.hash = exampleId
@@ -70,21 +69,25 @@
     showExample(exampleId)
   }
 
-  function clickGroupHeader () {
-    const groupIdx = $(this).attr('id').replace('groupHeader-', '')
-    const $examplesList = $('#groupContainer-' + groupIdx)
-    if ($examplesList.css('display') === 'none') {
-      $examplesList.slideDown('fast')
+  function clickGroupHeader (evt) {
+    const groupIdx = evt.target.getAttribute('id').replace('groupHeader-', '')
+    const examplesList = document.getElementById('#groupContainer-' + groupIdx)
+    if (examplesList?.style.getPropertyValue('display') === 'none') {
+      examplesList.slideDown('fast')
     } else {
-      $examplesList.slideUp('fast')
+      examplesList.slideUp('fast')
     }
   }
 
-  function init () {
-    $('#examplesNav').on('click', 'li', clickExampleNavLink)
-    $('#examplesNav').on('click', 'h4', clickGroupHeader)
-    loadExampleFromHash()
+  const examplesNav = document.getElementById('examplesNav')
+  examplesNav.onclick = (evt) => {
+    if (evt.target) {
+      if (evt.target.matches('li')) {
+        clickExampleNavLink(evt)
+      } else if (evt.target.matches('h4')) {
+        clickGroupHeader(evt)
+      }
+    }
   }
-
-  $(document).ready(init)
+  loadExampleFromHash()
 })()

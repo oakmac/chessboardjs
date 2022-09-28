@@ -20,11 +20,11 @@ var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
 
 function removeGreySquares () {
-  $('#myBoard .square-55d63').css('background', '')
+  document.getElementById('myBoard .square-55d63').css('background', '')
 }
 
 function greySquare (square) {
-  var $square = $('#myBoard .square-' + square)
+  var $square = document.getElementById('myBoard .square-' + square)
 
   var background = whiteSquareGrey
   if ($square.hasClass('black-3c85d')) {

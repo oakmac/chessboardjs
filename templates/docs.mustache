@@ -92,30 +92,27 @@
 
 {{{footer}}}
 
-<script src="js/jquery-3.4.1.min.js"></script>
-<script src="js/jquery.color-2.1.2.min.js"></script>
 <script>
 ;(function () {
-  function flashRow (id) {
-    var $el = $(document.getElementById(id))
-    var bgColor = $el.css('background-color')
-    $el.css('background-color', '#ffff99')
-      .animate({backgroundColor: bgColor}, 2000)
-  }
-
-  function isTableRow (id) {
-    return id.search(/\:/) !== -1
-  }
-
-  function clickAnchor (evt) {
-    var id = $(this).attr('href').replace(/^.+#/, '')
-    if (isTableRow(id)) {
-      flashRow(id)
+    function flashRow (id) {
+        var $el = document.getElementById(id)
+        var bgColor = $el.style.getPropertyValue('background-color')
+        $el.style/.setProperty('background-color', '#ffff99');
+        // .animate({backgroundColor: bgColor}, 2000)
     }
-  }
 
-  function init () {
-    $('body').on('click', 'a', clickAnchor)
+    function isTableRow (id) {
+        return id.search(/\:/) !== -1
+    }
+
+    function clickAnchor (evt) {
+        const id = evt.currentTarget.getAttribute('href').replace(/^.+#/, '')
+        if (isTableRow(id)) {
+            flashRow(id)
+        }
+    }
+
+    document.body.onclick = (evt) => evt.target && evt.target.matches('a') && clickAnchor(evt)
 
     if (window.location.hash.search('%3a') !== -1) {
       window.location.hash = window.location.hash.replace('%3a', ':')
@@ -127,9 +124,6 @@
         flashRow(window.location.hash.replace('#', ''))
       }
     }, 150)
-  }
-
-  $(document).ready(init)
 })()
 </script>
 </body>

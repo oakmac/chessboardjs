@@ -59,34 +59,29 @@
 
 {{{footer}}}
 
-<script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/prettify.min.js"></script>
 {{{chessboardJsScript}}}
 <script>
 ;(function () {
-  function isTouchDevice () {
-    return ('ontouchstart' in document.documentElement)
-  }
+    function isTouchDevice () {
+        return ('ontouchstart' in document.documentElement)
+    }
 
-  function init () {
     prettyPrint()
 
     // example 1
-    var board1 = new Chessboard('board1', 'start')
+    const board1 = new Chessboard('board1', 'start')
 
     // example 2
     {{{example2}}}
 
     // prevent "browser drag" of the black king
-    $('.hero-inner-556fe img').on('mousedown', function (evt) { evt.preventDefault() })
+    document.querySelectorAll('.hero-inner-556fe img').forEach(x => x.onmousedown = (evt) => evt.preventDefault())
 
     // prevent hover problems on touch devices
     if (isTouchDevice()) {
-      $('.navbar-a57cc').removeClass('hover-effect')
+      document.querySelectorAll('.navbar-a57cc').forEach(x => x.classList.remove('hover-effect'))
     }
-  }
-
-  $(document).ready(init)
 })()
 </script>
 </body>

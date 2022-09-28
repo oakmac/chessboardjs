@@ -22,9 +22,9 @@ You can integrate chessboard.js with the <a href="https://github.com/jhlywa/ches
 
 var board = null
 var game = new Chess()
-var $status = $('#status')
-var $fen = $('#fen')
-var $pgn = $('#pgn')
+var $status = document.getElementById('status')
+var $fen = document.getElementById('fen')
+var $pgn = document.getElementById('pgn')
 
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
