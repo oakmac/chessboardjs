@@ -1,12 +1,11 @@
-import { writeFile, rm, mkdir } from 'node:fs/promises';
+import { writeFile, readFile, rm, mkdir } from 'node:fs/promises';
+
 import gulp from 'gulp';
+import sass from 'sass';
 import { rollup } from 'rollup';
 import { terser } from 'rollup-plugin-terser';
-import sass from 'sass';
 
-import packageJson from './package.json' assert { type: 'json' };
-
-const { version } = packageJson;
+const { version } = JSON.parse(await readFile('./package.json', 'utf-8'));
 const banner = `/** @preserve
 * chessboard.js v${version}
 * https://github.com/oakmac/chessboardjs/

@@ -15,21 +15,30 @@
   ],
   "devDependencies": {
     "@types/node": "18.7.23",
+    "eslint": "8.24.0",
     "gulp": "4.0.2",
     "kidif": "1.1.0",
     "mustache": "2.3.0",
     "rollup": "2.79.1",
     "rollup-plugin-terser": "7.0.2",
-    "sass": "1.55.0",
-    "standard": "17.0.0"
+    "sass": "1.55.0"
   },
   "resolutions": {
     "chokidar": "3.5.3"
   },
   "scripts": {
-    "build": "standard lib/chessboard.js && gulp",
-    "standard": "standard --fix lib/*.js website/js/*.js",
+    "lint": "eslint Gulpfile.js lib website/js/examples.js",
+    "build": "npm run lint -- --fix && gulp",
     "start": "gulp watch",
     "test": "node --test lib"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2022": true
+    },
+    "parserOptions": {
+      "sourceType": "module"
+    }
   }
 }
