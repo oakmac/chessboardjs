@@ -27,6 +27,7 @@
     "package": "npm run standard && npm run build && npm run website",
     "build": "standard lib/chessboard.js && node scripts/build.js",
     "standard": "standard --fix lib/*.js website/js/*.js",
-    "website": "node scripts/website.js"
+    "website": "node scripts/website.js",
+    "test": "node --test lib"
   }
 }
