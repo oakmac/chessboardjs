@@ -46,12 +46,36 @@ async function buildCss() {
 }
 
 async function buildWebsite() {
+  const chessboardJsScript = `<script src="../dist/chessboard-${version}.js"></script>`;
   const docs = JSON.parse(await readFile('./data/docs.json', 'utf-8'));
-  const { version } = JSON.parse(await readFile('./package.json', 'utf-8'));
+  const examples = /** @type {{ id: number, name: string, description: string, group: string, html: string, js: string, chessboardJsScript: string, includeChessJS?: boolean }[]} */(kidif('examples/*.example'));
+  const groups = ['Basic Usage', 'Config', 'Methods', 'Events', 'Integration'];
+  const examplesByGroup = /** @type {Record<string, typeof examples>} */({
+    [groups.at(0) ?? '']: [],
+    [groups.at(1) ?? '']: [],
+    [groups.at(2) ?? '']: [],
+    [groups.at(3) ?? '']: [],
+    [groups.at(4) ?? '']: [],
+  });
+
+  for (const example of examples) {
+    example.id = Number(example.id);
+    example.chessboardJsScript = chessboardJsScript;
+
+    if (!example.id) continue;
+    else if (example.id >= 5000) {
+      example.includeChessJS = true;
+      example.group = groups.at(4) ?? '';
+    }
+    else if (example.id >= 4000) example.group = groups.at(3) ?? '';
+    else if (example.id >= 3000) example.group = groups.at(2) ?? '';
+    else if (example.id >= 2000) example.group = groups.at(1) ?? '';
+    else if (example.id >= 1000) example.group = groups.at(0) ?? '';
+
+    examplesByGroup[example.group].push(example);
+  }
 
   const encoding = 'utf-8';
-  const chessboardJsScript = `<script src="../dist/chessboard-${version}.js"></script>`;
-
   const [
     headTemplate,
     docsTemplate,
@@ -74,31 +98,6 @@ async function buildWebsite() {
     readFile('templates/_footer.mustache', encoding),
   ]);
 
-  // grab the examples
-  const examples = kidif('examples/*.example');
-  const examplesGroups = [
-    {
-      name: 'Basic Usage',
-      examples: [1000, 1001, 1002, 1003, 1004]
-    },
-    {
-      name: 'Config',
-      examples: [2000, 2044, 2063, 2001, 2002, 2003, 2082, 2004, 2030, 2005, 2006]
-    },
-    {
-      name: 'Methods',
-      examples: [3000, 3001, 3002, 3003, 3004, 3005, 3006, 3007]
-    },
-    {
-      name: 'Events',
-      examples: [4000, 4001, 4002, 4003, 4004, 4005, 4006, 4011, 4012]
-    },
-    {
-      name: 'Integration',
-      examples: [5000, 5001, 5002, 5003, 5004, 5005]
-    }
-  ];
-
   await rm('./website/examples', { recursive: true, force: true });
   await mkdir('./website/examples');
 
@@ -106,19 +105,18 @@ async function buildWebsite() {
     writeFile('website/index.html', mustache.render(homepageTemplate, {
       chessboardJsScript,
       example2: `
-      const board2 = new Chessboard('board2', {
-        draggable: true,
-        dropOffBoard: 'trash',
-        sparePieces: true
-      })
-
-      document.getElementById('startBtn').onclick = () => board2.start()
-      document.getElementById('clearBtn').onclick = () => board2.clear()
-    `,
+        const board2 = new Chessboard('board2', {
+          draggable: true,
+          dropOffBoard: 'trash',
+          sparePieces: true
+        })
+        document.getElementById('startBtn').onclick = () => board2.start()
+        document.getElementById('clearBtn').onclick = () => board2.clear()
+      `.trim().replace(/^\s{8}/mg, ''),
       footer: footerTemplate,
       head: mustache.render(headTemplate, { pageTitle: 'Homepage', version }),
       version
-    }), encoding),
+    })),
 
     writeFile('website/examples.html', mustache.render(examplesTemplate, {
       chessboardJsScript,
@@ -126,23 +124,32 @@ async function buildWebsite() {
       footer: footerTemplate,
       head: mustache.render(headTemplate, { pageTitle: 'Examples', version }),
       header: mustache.render(headerTemplate, { examplesActive: true, version }),
-      nav: buildExamplesNavHTML(),
+      nav: groups.reduce((html, group, i) => {
+        const groupNum = i + 1;
+        html += `<h4 id="groupHeader-${groupNum}">${group}</h4><ul id="groupContainer-${groupNum}" style="display:none">`;
+
+        for (const example of examplesByGroup[group]) {
+          html += `<li id="exampleLink-${example.id}">${example.name}</id>`;
+        }
+
+        return (html += '</ul>');
+      }, ''),
       version
-    }), encoding),
+    })),
 
     writeFile('website/docs.html', mustache.render(docsTemplate, {
       configTableRows: docs.config.reduce(function (html, prop) {
         if (typeof prop === 'string') return html;
 
         html += `<tr id="config:${prop.name}">`; // table row
-        html += `<td>${buildPropertyAndTypeHTML('config', prop.name, prop.type)}</td>`; // property and type
+        html += `<td><p><a href="docs.html#config:${prop.name}"><code class="js plain">${prop.name}</code></a></p><p class=property-type-7ae66>${buildTypeHTML(prop.type)}</p></td>`; // property and type
         html += `<td class="center"><p>${prop.default || '<small>n/a</small>'}</p></td>`; // default
         html += `<td>${buildDescriptionHTML(prop.desc)}</td>`; // description
         html += `<td>${buildExamplesCellHTML(prop.examples)}</td>`; // examples
 
         return html + '</tr>';
       }, ''),
-      errorRows: docs.errors.reduce(function (html, error) {
+      errorRows: docs.errors.reduce((html, error) => {
         if (typeof error === 'string') return html;
 
         html += `<tr id="errors:${error.id}">`; // table row
@@ -158,7 +165,7 @@ async function buildWebsite() {
 
         return html + '</tr>';
       }, ''),
-      methodTableRows: docs.methods.reduce(function (html, method) {
+      methodTableRows: docs.methods.reduce((html, method) => {
         if (typeof method === 'string') return html;
 
         const nameNoParens = method.name.replace(/\(.+$/, '');
@@ -175,46 +182,25 @@ async function buildWebsite() {
       head: mustache.render(headTemplate, { pageTitle: 'Documentation', version }),
       header: mustache.render(headerTemplate, { docsActive: true, version }),
       version,
-    }), encoding),
+    })),
 
     writeFile('website/download.html', mustache.render(downloadTemplate, {
       footer: footerTemplate,
       head: mustache.render(headTemplate, { pageTitle: 'Download', version }),
       header: mustache.render(headerTemplate, { downloadActive: true, version }),
       version
-    }), encoding),
+    })),
 
-    writeFile('website/license.html', mustache.render(licensePageTemplate, { version }), encoding),
+    writeFile('website/license.html', mustache.render(licensePageTemplate, { version })),
 
     Promise.all(examples.map(example => {
-      if ((example.id + '').startsWith('5')) {
-        example.includeChessJS = true;
-      }
-      example.chessboardJsScript = chessboardJsScript;
-      return writeFile(`website/examples/${example.id}.html`, mustache.render(singleExampleTemplate, { version, ...example }), encoding);
+      return writeFile(`website/examples/${example.id}.html`, mustache.render(singleExampleTemplate, { version, ...example }));
     })),
   ]);
 
   // -----------------------------------------------------------------------------
   // HTML
   // -----------------------------------------------------------------------------
-
-  function buildExamplesNavHTML() {
-    let html = '';
-    examplesGroups.forEach(function (group, idx) {
-      const groupNum = idx + 1;
-      html += '<h4 id="groupHeader-' + groupNum + '">' + group.name + '</h4>' +
-        '<ul id="groupContainer-' + groupNum + '" style="display:none">';
-
-      group.examples.forEach(function (exampleId) {
-        const example = examples.find(x => x.id === exampleId) ?? {};
-        html += '<li id="exampleLink-' + exampleId + '">' + example.name + '</id>';
-      });
-
-      html += '</ul>';
-    });
-    return html;
-  }
 
   function buildExamplesJS() {
     let txt = 'window.CHESSBOARD_EXAMPLES = {}\n\n';
@@ -230,13 +216,6 @@ async function buildWebsite() {
     });
 
     return txt;
-  }
-
-  function buildPropertyAndTypeHTML(section, name, type) {
-    let html = '<p><a href="docs.html#' + section + ':' + name + '">' +
-      '<code class="js plain">' + name + '</code></a></p>' +
-      '<p class=property-type-7ae66>' + buildTypeHTML(type) + '</p>';
-    return html;
   }
 
   function buildTypeHTML(type) {
