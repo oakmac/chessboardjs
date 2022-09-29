@@ -24,4 +24,4 @@ var config = {
   position: 'start',
   onSnapbackEnd: onSnapbackEnd
 }
-var board = Chessboard('myBoard', config)
+var board = new Chessboard('myBoard', config)

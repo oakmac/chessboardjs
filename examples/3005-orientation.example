@@ -17,7 +17,7 @@ Use the <a href="docs.html#methods:orientation"><code class="js plain">orientati
 
 ===== JS
 const ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
-const board = Chessboard('myBoard', ruyLopez)
+const board = new Chessboard('myBoard', ruyLopez)
 
 document.getElementById('showOrientationBtn').onclick = () => console.log('Board orientation is: ' + board.orientation())
 document.getElementById('flipOrientationBtn').onclick = () => board.flip()

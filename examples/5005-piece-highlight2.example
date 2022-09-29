@@ -101,4 +101,4 @@ var config = {
   onMoveEnd: onMoveEnd,
   onSnapEnd: onSnapEnd
 }
-board = Chessboard('myBoard', config)
+board = new Chessboard('myBoard', config)

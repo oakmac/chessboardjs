@@ -16,4 +16,4 @@ var config = {
   dropOffBoard: 'trash',
   position: 'start'
 }
-var board = Chessboard('myBoard', config)
+var board = new Chessboard('myBoard', config)

@@ -16,7 +16,7 @@ var config = {
   draggable: true,
   position: 'start'
 }
-var board = Chessboard('myBoard', config)
+var board = new Chessboard('myBoard', config)
 
 function clickShowPositionBtn () {
   console.log('Current position as an Object:')

@@ -18,4 +18,4 @@ var config = {
     e4: 'wK'
   }
 };
-var board = Chessboard('myBoard', config)
+var board = new Chessboard('myBoard', config)

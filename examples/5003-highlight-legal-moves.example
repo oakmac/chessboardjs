@@ -95,4 +95,4 @@ var config = {
   onMouseoverSquare: onMouseoverSquare,
   onSnapEnd: onSnapEnd
 }
-board = Chessboard('myBoard', config)
+board = new Chessboard('myBoard', config)

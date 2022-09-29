@@ -12,7 +12,7 @@ Prevent the drag action by returning <code class="js keyword">false</code> from 
 <button id="flipOrientationBtn">Flip Orientation</button>
 
 ===== JS
-const board = Chessboard('myBoard', {
+const board = new Chessboard('myBoard', {
   draggable: true,
   position: 'start',
   // only allow pieces to be dragged when the board is oriented in their direction

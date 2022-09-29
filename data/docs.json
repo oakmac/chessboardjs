@@ -426,13 +426,13 @@
 "errors":[
 {
   "id":1001,
-  "desc":"The first argument to <code class='js plain'>Chessboard()</code> cannot be an empty string.",
-  "fix":"The first argument to the <code class='js plain'>Chessboard()</code> constructor should be the id of a DOM element or a reference to a single DOM element."
+  "desc":"The first argument to <code class='js plain'>new Chessboard()</code> cannot be an empty string.",
+  "fix":"The first argument to the <code class='js plain'>new Chessboard()</code> constructor should be the id of a DOM element or a reference to a single DOM element."
 },
 {
   "id":1003,
-  "desc":"The first argument to <code class='js plain'>Chessboard()</code> must be an ID or a single DOM node.",
-  "fix":"The first argument to the <code class='js plain'>Chessboard()</code> constructor should be the id of a DOM element or a reference to a single DOM element."
+  "desc":"The first argument to <code class='js plain'>new Chessboard()</code> must be an ID or a single DOM node.",
+  "fix":"The first argument to the <code class='js plain'>new Chessboard()</code> constructor should be the id of a DOM element or a reference to a single DOM element."
 },
 {
   "id":2826,

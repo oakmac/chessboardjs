@@ -12,6 +12,6 @@ Use the <a href="docs.html#methods:destroy"><code class="js plain">destroy</code
 <button id="destroyBtn">Destroy Board</button>
 
 ===== JS
-const board = Chessboard('myBoard', 'start')
+const board = new Chessboard('myBoard', 'start')
 
 document.getElementById('destroyBtn').onclick = () => board.destroy()
