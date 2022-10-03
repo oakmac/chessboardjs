@@ -16,6 +16,9 @@ Use the <a href="docs.html#methods:clear"><code class="js plain">clear</code></a
 ===== JS
 const board = new Chessboard('myBoard', 'start')
 
-document.getElementById('clearBoardBtn').onclick = () => board.clear()
-document.getElementById('startPositionBtn').onclick = () => board.start()
-document.getElementById('clearBoardInstantBtn').onclick = () => board.clear(false)
+document.getElementById('clearBoardBtn')
+  .onclick = () => board.clear()
+document.getElementById('startPositionBtn')
+  .onclick = () => board.start()
+document.getElementById('clearBoardInstantBtn')
+  .onclick = () => board.clear(false)

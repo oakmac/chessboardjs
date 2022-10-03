@@ -110,8 +110,10 @@ async function buildWebsite() {
           dropOffBoard: 'trash',
           sparePieces: true
         })
-        document.getElementById('startBtn').onclick = () => board2.start()
-        document.getElementById('clearBtn').onclick = () => board2.clear()
+        document.getElementById('startBtn')
+          .onclick = () => board2.start()
+        document.getElementById('clearBtn')
+          .onclick = () => board2.clear()
       `.trim().replace(/^\s{8}/mg, ''),
       footer: footerTemplate,
       head: mustache.render(headTemplate, { pageTitle: 'Homepage', version }),

@@ -19,5 +19,7 @@ const board = new Chessboard('myBoard', {
   sparePieces: true
 })
 
-document.getElementById('startBtn').onclick = () => board.start()
-document.getElementById('clearBtn').onclick = () => board.clear()
+document.getElementById('startBtn')
+  .onclick = () => board.start()
+document.getElementById('clearBtn')
+  .onclick = () => board.clear()
