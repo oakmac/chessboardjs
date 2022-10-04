@@ -24,4 +24,4 @@ const board = new Chessboard('myBoard', {
   }
 })
 
-document.getElementById('flipOrientationBtn').onclick = board.flip()
+document.getElementById('flipOrientationBtn').onclick = () => board.flip()
