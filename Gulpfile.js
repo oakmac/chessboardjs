@@ -128,13 +128,13 @@ async function buildWebsite() {
       header: mustache.render(headerTemplate, { examplesActive: true, version }),
       nav: groups.reduce((html, group, i) => {
         const groupNum = i + 1;
-        html += `<h4 id="groupHeader-${groupNum}">${group}</h4><ul id="groupContainer-${groupNum}" style="display:none">`;
+        html += `<details id="groupHeader-${groupNum}"><summary>${group}</summary><ul id="groupContainer-${groupNum}">`;
 
         for (const example of examplesByGroup[group]) {
           html += `<li id="exampleLink-${example.id}">${example.name}</id>`;
         }
 
-        return (html += '</ul>');
+        return (html += '</ul></details>');
       }, ''),
       version
     })),

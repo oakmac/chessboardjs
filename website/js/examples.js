@@ -15,8 +15,16 @@
   }
 
   function highlightGroupHeader(groupIdx) {
-    document.querySelectorAll('#examplesNav h4').forEach(x => x.classList.remove('active'));
-    document.getElementById('groupHeader-' + groupIdx)?.classList.add('active');
+    /** @type {NodeListOf<HTMLDetailsElement>} */(document.querySelectorAll('#examplesNav details'))
+      .forEach((x) => {
+        x.open = false;
+        x.classList.remove('active');
+      });
+    const details = /** @type {HTMLDetailsElement | null} */(document.getElementById('groupHeader-' + groupIdx));
+    if (details != null) {
+      details.classList.add('active');
+      details.open = true;
+    }
   }
 
   function highlightExampleLink(exampleId) {
@@ -41,9 +49,8 @@
   }
 
   function showExample(exampleId) {
-    const groupIdx = document.getElementById('#exampleLink-' + exampleId)?.closest('ul')?.getAttribute('id')?.replace('groupContainer-', '');
+    const groupIdx = document.getElementById('exampleLink-' + exampleId)?.closest('ul')?.getAttribute('id')?.replace('groupContainer-', '');
 
-    document.getElementById('groupContainer-' + groupIdx)?.style.setProperty('display', '');
     highlightGroupHeader(groupIdx);
     highlightExampleLink(exampleId);
 
@@ -65,19 +72,9 @@
     let exampleId = parseInt(window.location.hash.replace('#', ''), 10);
     if (!Object.prototype.hasOwnProperty.call(EXAMPLES, exampleId)) {
       exampleId = 1000;
-      window.location.hash = exampleId;
+      window.location.hash = exampleId.toString();
     }
     showExample(exampleId);
-  }
-
-  function clickGroupHeader(evt) {
-    const groupIdx = evt.target.getAttribute('id').replace('groupHeader-', '');
-    const examplesList = document.getElementById('#groupContainer-' + groupIdx);
-    if (examplesList?.style.getPropertyValue('display') === 'none') {
-      examplesList.slideDown('fast');
-    } else {
-      examplesList.slideUp('fast');
-    }
   }
 
   const examplesNav = document.getElementById('examplesNav');
@@ -85,8 +82,6 @@
     if (evt.target) {
       if (evt.target.matches('li')) {
         clickExampleNavLink(evt);
-      } else if (evt.target.matches('h4')) {
-        clickGroupHeader(evt);
       }
     }
   };
