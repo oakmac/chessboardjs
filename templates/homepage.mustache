@@ -5,7 +5,7 @@
 
 <div class="hero-wrapper">
     <div class="body-width-115f6 hero-inner-556fe">
-        <img src="img/chesspieces/wikipedia/bK.svg" alt="Black King" />
+        <img id="hero-king" alt="Black King" />
         <h1>chessboard.js</h1>
         <h3>The easiest way to embed a chess board on your site.</h3>
         <a href="releases/chessboardjs-1.0.0.zip">Download v1.0.0</a>
@@ -62,11 +62,8 @@
 <script src="js/prettify.min.js"></script>
 {{{chessboardJsScript}}}
 <script>
-;(function () {
-    function isTouchDevice () {
-        return ('ontouchstart' in document.documentElement)
-    }
-
+    const heroKing = document.getElementById('hero-king');
+    heroKing.src = Chessboard.pieces.bK;
     prettyPrint()
 
     // example 1
@@ -82,7 +79,6 @@
     if (isTouchDevice()) {
       document.querySelectorAll('.navbar-a57cc').forEach(x => x.classList.remove('hover-effect'))
     }
-})()
 </script>
 </body>
 </html>
