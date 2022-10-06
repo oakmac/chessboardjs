@@ -71,14 +71,6 @@
 
     // example 2
     {{{example2}}}
-
-    // prevent "browser drag" of the black king
-    document.querySelectorAll('.hero-inner-556fe img').forEach(x => x.onmousedown = (evt) => evt.preventDefault())
-
-    // prevent hover problems on touch devices
-    if (isTouchDevice()) {
-      document.querySelectorAll('.navbar-a57cc').forEach(x => x.classList.remove('hover-effect'))
-    }
 </script>
 </body>
 </html>
