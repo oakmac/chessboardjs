@@ -33,7 +33,7 @@ function makeRandomMove () {
 
   var randomIdx = Math.floor(Math.random() * possibleMoves.length)
   game.move(possibleMoves[randomIdx])
-  board.position(game.fen())
+  board.setPosition(game.fen())
 }
 
 function onDrop (source, target) {
@@ -54,7 +54,7 @@ function onDrop (source, target) {
 // update the board position after the piece snap
 // for castling, en passant, pawn promotion
 function onSnapEnd () {
-  board.position(game.fen())
+  board.setPosition(game.fen())
 }
 
 var config = {

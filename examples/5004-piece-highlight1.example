@@ -53,7 +53,7 @@ function makeRandomMove () {
   }
 
   game.move(possibleMoves[randomIdx].san)
-  board.position(game.fen())
+  board.setPosition(game.fen())
 
   window.setTimeout(makeRandomMove, 1200)
 }

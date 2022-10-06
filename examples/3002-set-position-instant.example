@@ -16,6 +16,6 @@ Pass <code class="js keyword">false</code> as the second argument to the <a href
 ===== JS
 const board = new Chessboard('myBoard')
 
-document.getElementById('setRuyLopezBtn').onclick = () => board.position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R', false)
+document.getElementById('setRuyLopezBtn').onclick = () => board.setPosition('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R', false)
 document.getElementById('setStartBtn').onclick = () => board.start(false)
-document.getElementById('setRookCheckmateBtn').onclick = () =>  board.position({ a4: 'bK', c4: 'wK', a7: 'wR' }, false)
+document.getElementById('setRookCheckmateBtn').onclick = () =>  board.setPosition({ a4: 'bK', c4: 'wK', a7: 'wR' }, false)

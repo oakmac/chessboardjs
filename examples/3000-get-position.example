@@ -20,10 +20,10 @@ var board = new Chessboard('myBoard', config)
 
 function clickShowPositionBtn () {
   console.log('Current position as an Object:')
-  console.log(board.position())
+  console.log(board.position)
 
   console.log('Current position as a FEN string:')
-  console.log(board.fen())
+  console.log(board.fen)
 }
 
 document.getElementById('showPositionBtn').onclick = (evt) => clickShowPositionBtn(evt)

@@ -83,7 +83,7 @@ function onMouseoutSquare (square, piece) {
 }
 
 function onSnapEnd () {
-  board.position(game.fen())
+  board.setPosition(game.fen())
 }
 
 var config = {

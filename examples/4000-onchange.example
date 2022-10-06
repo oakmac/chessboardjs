@@ -27,6 +27,6 @@ const board = new Chessboard('myBoard', {
 const ruyLopezFen = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R';
 
 document.getElementById('ruyLopezBtn')
-  .onclick = () => board.position(ruyLopezFen)
+  .onclick = () => board.setPosition(ruyLopezFen)
 document.getElementById('startPositionBtn')
   .onclick = () => board.start()

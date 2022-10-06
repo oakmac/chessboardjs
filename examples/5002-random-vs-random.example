@@ -25,7 +25,7 @@ function makeRandomMove () {
 
   var randomIdx = Math.floor(Math.random() * possibleMoves.length)
   game.move(possibleMoves[randomIdx])
-  board.position(game.fen())
+  board.setPosition(game.fen())
 
   window.setTimeout(makeRandomMove, 500)
 }
