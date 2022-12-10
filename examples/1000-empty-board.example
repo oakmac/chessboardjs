@@ -11,4 +11,4 @@ Chessboard.js initializes to an empty board with no second argument.
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var board = Chessboard('myBoard')
+var board = new Chessboard('myBoard')

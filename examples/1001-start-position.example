@@ -12,4 +12,4 @@ the board to the start position.
 <div id="myBoard" style="width: 400px"></div>
 
 ===== JS
-var board = Chessboard('myBoard', 'start')
+var board = new Chessboard('myBoard', 'start')

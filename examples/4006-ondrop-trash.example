@@ -23,4 +23,4 @@ var config = {
   position: 'start',
   onDrop: onDrop
 }
-var board = Chessboard('myBoard', config)
+var board = new Chessboard('myBoard', config)

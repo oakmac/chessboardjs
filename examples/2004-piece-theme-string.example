@@ -15,4 +15,4 @@ var config = {
   pieceTheme: 'img/chesspieces/alpha/{piece}.png',
   position: 'start'
 }
-var board = Chessboard('myBoard', config)
+var board = new Chessboard('myBoard', config)

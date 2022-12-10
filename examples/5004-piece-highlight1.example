@@ -23,7 +23,7 @@ Use CSS to show piece highlighting.
 // https://github.com/jhlywa/chess.js
 
 var board = null
-var $board = $('#myBoard')
+var $board = document.getElementById('myBoard')
 var game = new Chess()
 var squareClass = 'square-55d63'
 var squareToHighlight = null
@@ -53,7 +53,7 @@ function makeRandomMove () {
   }
 
   game.move(possibleMoves[randomIdx].san)
-  board.position(game.fen())
+  board.setPosition(game.fen())
 
   window.setTimeout(makeRandomMove, 1200)
 }
@@ -67,6 +67,6 @@ var config = {
   position: 'start',
   onMoveEnd: onMoveEnd
 }
-board = Chessboard('myBoard', config)
+board = new Chessboard('myBoard', config)
 
 window.setTimeout(makeRandomMove, 500)

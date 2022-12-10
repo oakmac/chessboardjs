@@ -5,7 +5,7 @@
 
 <div class="hero-wrapper">
     <div class="body-width-115f6 hero-inner-556fe">
-        <img src="img/chesspieces/wikipedia/bK.svg" alt="Black King" />
+        <img id="hero-king" alt="Black King" />
         <h1>chessboard.js</h1>
         <h3>The easiest way to embed a chess board on your site.</h3>
         <a href="releases/chessboardjs-1.0.0.zip">Download v1.0.0</a>
@@ -29,7 +29,7 @@
     <h4>HTML</h4>
     <pre class="prettyprint">&lt;div id="board1" style="width: 400px"&gt;&lt;/div&gt;</pre>
     <h4>JavaScript</h4>
-    <pre class="prettyprint">var board1 = Chessboard('board1', 'start')</pre>
+    <pre class="prettyprint">var board1 = new Chessboard('board1', 'start')</pre>
 </div>
 <div class="col-11bcf">
     <div id="board1" style="width: 400px"></div>
@@ -59,35 +59,18 @@
 
 {{{footer}}}
 
-<script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/prettify.min.js"></script>
 {{{chessboardJsScript}}}
 <script>
-;(function () {
-  function isTouchDevice () {
-    return ('ontouchstart' in document.documentElement)
-  }
-
-  function init () {
+    const heroKing = document.getElementById('hero-king');
+    heroKing.src = Chessboard.pieces.bK;
     prettyPrint()
 
     // example 1
-    var board1 = Chessboard('board1', 'start')
+    const board1 = new Chessboard('board1', 'start')
 
     // example 2
     {{{example2}}}
-
-    // prevent "browser drag" of the black king
-    $('.hero-inner-556fe img').on('mousedown', function (evt) { evt.preventDefault() })
-
-    // prevent hover problems on touch devices
-    if (isTouchDevice()) {
-      $('.navbar-a57cc').removeClass('hover-effect')
-    }
-  }
-
-  $(document).ready(init)
-})()
 </script>
 </body>
 </html>

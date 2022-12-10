@@ -12,5 +12,5 @@ Use the <a href="docs.html#methods:resize"><code class="js plain">resize</code><
 
 ===== JS
 // NOTE: click "View example in new window." to see the full effect of this example
-var board = Chessboard('myBoard', 'start')
-$(window).resize(board.resize)
+const board = new Chessboard('myBoard', 'start')
+window.onresize = () => board.resize()

@@ -14,22 +14,8 @@ Pass <code class="js keyword">false</code> as the second argument to the <a href
 <button id="setRookCheckmateBtn">Rook Checkmate</button>
 
 ===== JS
-var board = Chessboard('myBoard')
+const board = new Chessboard('myBoard')
 
-$('#setRuyLopezBtn').on('click', function () {
-  var ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
-  board.position(ruyLopez, false)
-})
-
-$('#setStartBtn').on('click', function () {
-  board.start(false)
-})
-
-$('#setRookCheckmateBtn').on('click', function () {
-  var rookCheckmate = {
-    a4: 'bK',
-    c4: 'wK',
-    a7: 'wR'
-  }
-  board.position(rookCheckmate, false)
-})
+document.getElementById('setRuyLopezBtn').onclick = () => board.setPosition('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R', false)
+document.getElementById('setStartBtn').onclick = () => board.start(false)
+document.getElementById('setRookCheckmateBtn').onclick = () =>  board.setPosition({ a4: 'bK', c4: 'wK', a7: 'wR' }, false)

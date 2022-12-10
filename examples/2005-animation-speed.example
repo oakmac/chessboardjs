@@ -13,7 +13,7 @@ You can control animation speeds with the <a href="docs.html#config:moveSpeed"><
 <button id="startBtn">Start Position</button>
 
 ===== JS
-var board = Chessboard('myBoard', {
+const board = new Chessboard('myBoard', {
   draggable: true,
   moveSpeed: 'slow',
   snapbackSpeed: 500,
@@ -21,7 +21,9 @@ var board = Chessboard('myBoard', {
   position: 'start'
 })
 
-$('#ruyLopezBtn').on('click', function () {
-  board.position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R')
-})
-$('#startBtn').on('click', board.start)
+const ruyLopezFen = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R';
+
+document.getElementById('ruyLopezBtn')
+  .onclick = () => board.setPosition(ruyLopezFen)
+document.getElementById('startBtn')
+  .onclick = () => board.start()

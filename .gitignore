@@ -3,8 +3,8 @@
 
 dist/
 node_modules/
+website/examples/
 
 website/*.html
-website/css/chessboard.css
-website/js/chessboard.js
-website/examples/
+.DS_Store
+

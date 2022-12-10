@@ -15,24 +15,23 @@ The <a href="docs.html#config:onMoveEnd"><code class="js plain">onMoveEnd</code>
 <button id="clearBtn">Clear Board</button>
 
 ===== JS
-function onMoveEnd (oldPos, newPos) {
-  console.log('Move animation complete:')
-  console.log('Old position: ' + Chessboard.objToFen(oldPos))
-  console.log('New position: ' + Chessboard.objToFen(newPos))
-  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-}
-
-var config = {
+const board = new Chessboard('myBoard', {
   position: 'start',
-  onMoveEnd: onMoveEnd
-}
-var board = Chessboard('myBoard', config)
+  onMoveEnd(oldPos, newPos) {
+    console.log('Move animation complete:')
+    console.log('Old position: ' + Chessboard.objToFen(oldPos))
+    console.log('New position: ' + Chessboard.objToFen(newPos))
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+  }
+})
 
-$('#ruyLopezBtn').on('click', function () {
-  board.position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R')
-})
-$('#moveBtn').on('click', function () {
-  board.move('a2-a4', 'h7-h5')
-})
-$('#startBtn').on('click', board.start)
-$('#clearBtn').on('click', board.clear)
+const ruyLopezFen = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R';
+
+document.getElementById('ruyLopezBtn')
+  .onclick = () => board.setPosition(ruyLopezFen)
+document.getElementById('moveBtn')
+  .onclick = () => board.move('a2-a4', 'h7-h5')
+document.getElementById('startBtn')
+  .onclick = () => board.start()
+document.getElementById('clearBtn')
+  .onclick = () => board.clear()

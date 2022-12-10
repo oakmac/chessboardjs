@@ -13,23 +13,20 @@ The <a href="docs.html#config:onChange"><code class="js plain">onChange</code></
 <button id="startPositionBtn">Start Position</button>
 
 ===== JS
-function onChange (oldPos, newPos) {
-  console.log('Position changed:')
-  console.log('Old position: ' + Chessboard.objToFen(oldPos))
-  console.log('New position: ' + Chessboard.objToFen(newPos))
-  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-}
-
-var config = {
+const board = new Chessboard('myBoard', {
   draggable: true,
   position: 'start',
-  onChange: onChange
-}
-var board = Chessboard('myBoard', config)
-
-$('#ruyLopezBtn').on('click', function () {
-  var ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
-  board.position(ruyLopez)
+  onChange(oldPos, newPos) {
+    console.log('Position changed:')
+    console.log('Old position: ' + Chessboard.objToFen(oldPos))
+    console.log('New position: ' + Chessboard.objToFen(newPos))
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+  }
 })
 
-$('#startPositionBtn').on('click', board.start)
+const ruyLopezFen = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R';
+
+document.getElementById('ruyLopezBtn')
+  .onclick = () => board.setPosition(ruyLopezFen)
+document.getElementById('startPositionBtn')
+  .onclick = () => board.start()

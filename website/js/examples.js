@@ -1,9 +1,9 @@
-;(function () {
-  var $ = window.jQuery
-  var EXAMPLES = window.CHESSBOARD_EXAMPLES
-  var prettyPrint = window.prettyPrint
+/* eslint-env browser */
+(function () {
+  const EXAMPLES = window.CHESSBOARD_EXAMPLES;
+  const prettyPrint = window.prettyPrint;
 
-  function htmlEscape (str) {
+  function htmlEscape(str) {
     return (str + '')
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -11,23 +11,31 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;')
       .replace(/\//g, '&#x2F;')
-      .replace(/`/g, '&#x60;')
+      .replace(/`/g, '&#x60;');
   }
 
-  function highlightGroupHeader (groupIdx) {
-    $('#examplesNav h4').removeClass('active')
-    $('#groupHeader-' + groupIdx).addClass('active')
+  function highlightGroupHeader(groupIdx) {
+    /** @type {NodeListOf<HTMLDetailsElement>} */(document.querySelectorAll('#examplesNav details'))
+      .forEach((x) => {
+        x.open = false;
+        x.classList.remove('active');
+      });
+    const details = /** @type {HTMLDetailsElement | null} */(document.getElementById('groupHeader-' + groupIdx));
+    if (details != null) {
+      details.classList.add('active');
+      details.open = true;
+    }
   }
 
-  function highlightExampleLink (exampleId) {
-    $('#examplesNav li').removeClass('active')
-    $('#exampleLink-' + exampleId).addClass('active')
+  function highlightExampleLink(exampleId) {
+    document.querySelectorAll('#examplesNav li').forEach(x => x.classList.remove('active'));
+    document.getElementById('exampleLink-' + exampleId)?.classList.add('active');
   }
 
-  function buildExampleBodyHTML (example, id) {
-    var html = '<h2 class="hover-linkable">' +
-        '<a class="hover-link" href="#' + id + '"></a>' +
-        htmlEscape(example.name) +
+  function buildExampleBodyHTML(example, id) {
+    const html = '<h2 class="hover-linkable">' +
+      '<a class="hover-link" href="#' + id + '"></a>' +
+      htmlEscape(example.name) +
       '</h2>' +
       '<p>' + example.description + '</p>' +
       '<div class="container-4e1ee">' + example.html + '</div>' +
@@ -35,56 +43,47 @@
       '<pre class="prettyprint">' + htmlEscape(example.jsStr) + '</pre>' +
       '<h4>HTML</h4>' +
       '<pre class="prettyprint">' + htmlEscape(example.html) + '</pre>' +
-      '<p><a class="small-link-335ea" href="examples/' + id + '" target="_blank">View this example in new window.</a></p>'
+      '<p><a class="small-link-335ea" href="examples/' + id + '" target="_blank">View this example in new window.</a></p>';
 
-    return html
+    return html;
   }
 
-  function showExample (exampleId) {
-    var groupIdx = $('#exampleLink-' + exampleId).parent('ul').attr('id').replace('groupContainer-', '')
+  function showExample(exampleId) {
+    const groupIdx = document.getElementById('exampleLink-' + exampleId)?.closest('ul')?.getAttribute('id')?.replace('groupContainer-', '');
 
-    $('#groupContainer-' + groupIdx).css('display', '')
-    highlightGroupHeader(groupIdx)
-    highlightExampleLink(exampleId)
+    highlightGroupHeader(groupIdx);
+    highlightExampleLink(exampleId);
 
-    $('#exampleBodyContainer').html(buildExampleBodyHTML(EXAMPLES[exampleId], exampleId))
-    EXAMPLES[exampleId].jsFn()
+    document.getElementById('exampleBodyContainer').innerHTML = buildExampleBodyHTML(EXAMPLES[exampleId], exampleId);
+    EXAMPLES[exampleId].jsFn();
 
-    prettyPrint()
+    prettyPrint();
   }
 
-  function clickExampleNavLink () {
-    var exampleId = $(this).attr('id').replace('exampleLink-', '')
-    if (!EXAMPLES.hasOwnProperty(exampleId)) return
+  function clickExampleNavLink(evt) {
+    const exampleId = evt.target.getAttribute('id').replace('exampleLink-', '');
+    if (!Object.prototype.hasOwnProperty.call(EXAMPLES, exampleId)) return;
 
-    window.location.hash = exampleId
-    loadExampleFromHash()
+    window.location.hash = exampleId;
+    loadExampleFromHash();
   }
 
-  function loadExampleFromHash () {
-    var exampleId = parseInt(window.location.hash.replace('#', ''), 10)
-    if (!EXAMPLES.hasOwnProperty(exampleId)) {
-      exampleId = 1000
-      window.location.hash = exampleId
+  function loadExampleFromHash() {
+    let exampleId = parseInt(window.location.hash.replace('#', ''), 10);
+    if (!Object.prototype.hasOwnProperty.call(EXAMPLES, exampleId)) {
+      exampleId = 1000;
+      window.location.hash = exampleId.toString();
     }
-    showExample(exampleId)
+    showExample(exampleId);
   }
 
-  function clickGroupHeader () {
-    var groupIdx = $(this).attr('id').replace('groupHeader-', '')
-    var $examplesList = $('#groupContainer-' + groupIdx)
-    if ($examplesList.css('display') === 'none') {
-      $examplesList.slideDown('fast')
-    } else {
-      $examplesList.slideUp('fast')
+  const examplesNav = document.getElementById('examplesNav');
+  examplesNav.onclick = (evt) => {
+    if (evt.target) {
+      if (evt.target.matches('li')) {
+        clickExampleNavLink(evt);
+      }
     }
-  }
-
-  function init () {
-    $('#examplesNav').on('click', 'li', clickExampleNavLink)
-    $('#examplesNav').on('click', 'h4', clickGroupHeader)
-    loadExampleFromHash()
-  }
-
-  $(document).ready(init)
-})()
+  };
+  loadExampleFromHash();
+})();

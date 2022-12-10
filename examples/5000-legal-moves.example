@@ -22,9 +22,9 @@ You can integrate chessboard.js with the <a href="https://github.com/jhlywa/ches
 
 var board = null
 var game = new Chess()
-var $status = $('#status')
-var $fen = $('#fen')
-var $pgn = $('#pgn')
+var $status = document.getElementById('status')
+var $fen = document.getElementById('fen')
+var $pgn = document.getElementById('pgn')
 
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
@@ -54,7 +54,7 @@ function onDrop (source, target) {
 // update the board position after the piece snap
 // for castling, en passant, pawn promotion
 function onSnapEnd () {
-  board.position(game.fen())
+  board.setPosition(game.fen())
 }
 
 function updateStatus () {
@@ -97,6 +97,6 @@ var config = {
   onDrop: onDrop,
   onSnapEnd: onSnapEnd
 }
-board = Chessboard('myBoard', config)
+board = new Chessboard('myBoard', config)
 
 updateStatus()

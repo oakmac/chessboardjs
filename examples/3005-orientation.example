@@ -16,19 +16,10 @@ Use the <a href="docs.html#methods:orientation"><code class="js plain">orientati
 <button id="blackOrientationBtn">Black orientation</button>
 
 ===== JS
-var ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
-var board = Chessboard('myBoard', ruyLopez)
+const ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
+const board = new Chessboard('myBoard', ruyLopez)
 
-$('#showOrientationBtn').on('click', function () {
-  console.log('Board orientation is: ' + board.orientation())
-})
-
-$('#flipOrientationBtn').on('click', board.flip)
-
-$('#whiteOrientationBtn').on('click', function () {
-  board.orientation('white')
-})
-
-$('#blackOrientationBtn').on('click', function () {
-  board.orientation('black')
-})
+document.getElementById('showOrientationBtn').onclick = () => console.log('Board orientation is: ' + board.orientation())
+document.getElementById('flipOrientationBtn').onclick = () => board.flip()
+document.getElementById('whiteOrientationBtn').onclick = () => board.orientation('white')
+document.getElementById('blackOrientationBtn').onclick = () => board.orientation('black')

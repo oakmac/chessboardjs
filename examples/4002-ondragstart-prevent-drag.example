@@ -12,20 +12,16 @@ Prevent the drag action by returning <code class="js keyword">false</code> from 
 <button id="flipOrientationBtn">Flip Orientation</button>
 
 ===== JS
-// only allow pieces to be dragged when the board is oriented
-// in their direction
-function onDragStart (source, piece, position, orientation) {
-  if ((orientation === 'white' && piece.search(/^w/) === -1) ||
-      (orientation === 'black' && piece.search(/^b/) === -1)) {
-    return false
-  }
-}
-
-var config = {
+const board = new Chessboard('myBoard', {
   draggable: true,
   position: 'start',
-  onDragStart: onDragStart
-}
-var board = Chessboard('myBoard', config)
+  // only allow pieces to be dragged when the board is oriented in their direction
+  onDragStart(source, piece, position, orientation) {
+    if ((orientation === 'white' && piece.search(/^w/) === -1) ||
+        (orientation === 'black' && piece.search(/^b/) === -1)) {
+      return false
+    }
+  }
+})
 
-$('#flipOrientationBtn').on('click', board.flip)
+document.getElementById('flipOrientationBtn').onclick = () => board.flip()

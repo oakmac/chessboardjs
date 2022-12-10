@@ -23,7 +23,7 @@ Use CSS to show piece highlighting.
 // https://github.com/jhlywa/chess.js
 
 var board = null
-var $board = $('#myBoard')
+var $board = document.getElementById('myBoard')
 var game = new Chess()
 var squareToHighlight = null
 var squareClass = 'square-55d63'
@@ -59,7 +59,7 @@ function makeRandomMove () {
   squareToHighlight = move.to
 
   // update the board to the new position
-  board.position(game.fen())
+  board.setPosition(game.fen())
 }
 
 function onDrop (source, target) {
@@ -90,7 +90,7 @@ function onMoveEnd () {
 // update the board position after the piece snap
 // for castling, en passant, pawn promotion
 function onSnapEnd () {
-  board.position(game.fen())
+  board.setPosition(game.fen())
 }
 
 var config = {
@@ -101,4 +101,4 @@ var config = {
   onMoveEnd: onMoveEnd,
   onSnapEnd: onSnapEnd
 }
-board = Chessboard('myBoard', config)
+board = new Chessboard('myBoard', config)
