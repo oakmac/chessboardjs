@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Openings</h1>
+<input type="text" id="searchbar" class="searchfilter" onkeyup="searchbar()" placeholder="Search for openings..">
+<ol id="openingslist" class="openinglist">
+    {% for opening in openings %}
+    <li>
+        <a href="{{ opening.id }}" target="_blank">
+            <span class="id">{{opening.id}}.</span>
+            <span class="eco">{{ opening.eco }}</span>:
+            <span class="name">{{ opening.name }}</span>
+        </a>
+    </li>
+    {% endfor %}
+</ol>
+{% endblock %}

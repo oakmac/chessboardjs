@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Opening Detail{% endblock %}
+{% block extrascripts%} 
+<script> var pgndata = "{{ opening.pgn }}" </script>
+<script src="{% static 'js/chess.js/dist/chess.js' %}"></script>
+<script src="{% static 'js/opening_detail.js' %}"></script>
+{% endblock %}
+{% block content %}
+  <div class="opening-detail">
+    <h1>{{ opening.name }}</h1>
+    <p id="opening_data">{{ opening.pgn }}</p>
+  
+
+  </div>
+
+  <div class="chessboard-container">
+    <div id="board" style="width: 400px"></div>
+    <div><button id="Reset" onclick="reset()">Reset Button</button></div>
+    <div><button id="Undo" onclick="takeBack()">Undo Button</button></div>
+  </div>
+{% endblock %}
+
+
+

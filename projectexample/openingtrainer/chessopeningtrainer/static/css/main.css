@@ -1,0 +1,49 @@
+    .openinglist {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-collapse: collapse;
+        border: 2px solid black;
+        text-align: left;
+    }
+    
+    .openinglist li {
+        margin-bottom: 10px;
+    }
+
+
+    .openinglist li span {
+        display: table-cell;
+        padding: 5px;
+        border-left: 1px solid black;
+      }
+
+    .searchfilter {
+        width: 100%; /* Full-width */
+        font-size: 16px; /* Increase font-size */
+        padding: 12px 20px 12px 40px; /* Add some padding */
+        border: 1px solid #ddd; /* Add a grey border */
+        margin-bottom: 12px; /* Add some space below the input */
+      }
+      
+    #reset {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+      }
+
+    #undo {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }

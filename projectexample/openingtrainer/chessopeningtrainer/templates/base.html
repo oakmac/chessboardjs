@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %} Chess Opening Trainer {% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/chessboard-1.0.0.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+        
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+       {% block scripts%} 
+        <script>var exports = {};</script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="{% static 'js/chessboard-1.0.0.min.js' %}"></script>
+        
+        {% endblock %}
+        {% block extrascripts%} {% endblock %}
+    </body>
+</html>
